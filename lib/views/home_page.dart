@@ -1,3 +1,4 @@
+import 'package:document_manager/constants/go_router_location.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -13,7 +14,7 @@ class HomePage extends StatelessWidget {
       body: Center(
         child: TextButton(
           onPressed: () {
-            context.go('/timeline');
+            context.go(GoRouterLocation.timeline);
           },
           child: const Text('timelineへ'),
         ),

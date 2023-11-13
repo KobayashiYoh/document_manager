@@ -1,3 +1,4 @@
+import 'package:document_manager/constants/go_router_path.dart';
 import 'package:document_manager/views/home_page.dart';
 import 'package:document_manager/views/timeline_page.dart';
 import 'package:flutter/material.dart';
@@ -10,13 +11,13 @@ void main() {
 final GoRouter _router = GoRouter(
   routes: <RouteBase>[
     GoRoute(
-      path: '/',
+      path: GoRouterPath.home,
       builder: (BuildContext context, GoRouterState state) {
         return const HomePage();
       },
       routes: <RouteBase>[
         GoRoute(
-          path: 'timeline',
+          path: GoRouterPath.timeline,
           builder: (BuildContext context, GoRouterState state) {
             return const TimelinePage();
           },
