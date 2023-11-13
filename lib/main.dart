@@ -1,6 +1,4 @@
-import 'package:document_manager/constants/go_router_path.dart';
-import 'package:document_manager/views/home_page.dart';
-import 'package:document_manager/views/timeline_page.dart';
+import 'package:document_manager/utils/go_router_util.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -8,24 +6,7 @@ void main() {
   runApp(const MyApp());
 }
 
-final GoRouter _router = GoRouter(
-  routes: <RouteBase>[
-    GoRoute(
-      path: GoRouterPath.home,
-      builder: (BuildContext context, GoRouterState state) {
-        return const HomePage();
-      },
-      routes: <RouteBase>[
-        GoRoute(
-          path: GoRouterPath.timeline,
-          builder: (BuildContext context, GoRouterState state) {
-            return const TimelinePage();
-          },
-        ),
-      ],
-    ),
-  ],
-);
+final GoRouter _router = GoRouterUtil.router;
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
