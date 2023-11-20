@@ -13,3 +13,11 @@ class Class with _$Class {
     required List<User> students,
   }) = _Class;
 }
+
+const Class kDefaultClass = Class(
+  id: '',
+  name: '',
+  description: '',
+  teacher: kDefaultUser,
+  students: [],
+);

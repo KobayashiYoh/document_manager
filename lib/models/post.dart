@@ -14,3 +14,12 @@ class Post with _$Post {
     required List<User> readUsers,
   }) = _Post;
 }
+
+final Post kDefaultPost = Post(
+  id: '',
+  userId: '',
+  createdAt: DateTime(0),
+  message: '',
+  imageUrl: '',
+  readUsers: [],
+);

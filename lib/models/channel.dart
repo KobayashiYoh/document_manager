@@ -15,3 +15,12 @@ class Channel with _$Channel {
     required List<Post> posts,
   }) = _Channel;
 }
+
+const Channel kDefaultChannel = Channel(
+  id: '',
+  iconImageUrl: '',
+  name: '',
+  description: '',
+  users: [],
+  posts: [],
+);

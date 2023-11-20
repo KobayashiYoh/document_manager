@@ -17,3 +17,13 @@ class School with _$School {
     required List<User> users,
   }) = _School;
 }
+
+const School kDefaultSchool = School(
+  id: '',
+  iconImageUrl: '',
+  name: '',
+  description: '',
+  channels: [],
+  classes: [],
+  users: [],
+);

@@ -13,3 +13,11 @@ class User with _$User {
     required String lastName,
   }) = _User;
 }
+
+const User kDefaultUser = User(
+  id: '',
+  userType: UserType.student,
+  iconImageUrl: '',
+  firstName: '',
+  lastName: '',
+);
