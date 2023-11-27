@@ -1,0 +1,2 @@
+/// CloudFirestoreのRepositoryクラスです。
+class FirestoreRepository {}

@@ -19,6 +19,9 @@ class HomePage extends StatelessWidget {
           child: const Text('timelineへ'),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {},
+      ),
     );
   }
 }
