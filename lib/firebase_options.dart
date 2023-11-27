@@ -51,26 +51,26 @@ class DefaultFirebaseOptions {
     apiKey: DotenvUtil.apiKeyWeb,
     appId: DotenvUtil.appIdWeb,
     messagingSenderId: DotenvUtil.messagingSenderId,
-    projectId: 'resukuru-app',
-    authDomain: 'resukuru-app.firebaseapp.com',
-    storageBucket: 'resukuru-app.appspot.com',
-    measurementId: 'G-037MR61N4E',
+    projectId: 'resukuru-mobile',
+    authDomain: 'resukuru-mobile.firebaseapp.com',
+    storageBucket: 'resukuru-mobile.appspot.com',
+    measurementId: 'G-HD0RN2EM5F',
   );
 
   static final FirebaseOptions android = FirebaseOptions(
     apiKey: DotenvUtil.apiKeyAndroid,
     appId: DotenvUtil.appIdAndroid,
     messagingSenderId: DotenvUtil.messagingSenderId,
-    projectId: 'resukuru-app',
-    storageBucket: 'resukuru-app.appspot.com',
+    projectId: 'resukuru-mobile',
+    storageBucket: 'resukuru-mobile.appspot.com',
   );
 
   static final FirebaseOptions ios = FirebaseOptions(
     apiKey: DotenvUtil.apiKeyIOS,
     appId: DotenvUtil.appIdIOS,
     messagingSenderId: DotenvUtil.messagingSenderId,
-    projectId: 'resukuru-app',
-    storageBucket: 'resukuru-app.appspot.com',
+    projectId: 'resukuru-mobile',
+    storageBucket: 'resukuru-mobile.appspot.com',
     iosBundleId: 'com.example.documentManager',
   );
 }
