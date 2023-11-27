@@ -4,6 +4,7 @@ import 'package:document_manager/models/user.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'school.freezed.dart';
+part 'school.g.dart';
 
 @freezed
 class School with _$School {
@@ -16,6 +17,8 @@ class School with _$School {
     required List<Class> classes,
     required List<User> users,
   }) = _School;
+
+  factory School.fromJson(Map<String, Object?> json) => _$SchoolFromJson(json);
 }
 
 const School kDefaultSchool = School(
@@ -26,4 +29,14 @@ const School kDefaultSchool = School(
   channels: [],
   classes: [],
   users: [],
+);
+
+final School kExampleSchool = School(
+  id: 'example-school',
+  iconImageUrl: '',
+  name: 'デバッグ小学校',
+  description: 'デバッグ小学校です。',
+  channels: [kExampleChannel],
+  classes: [kExampleClass],
+  users: [kExampleParent, kExampleStudent, kExampleTeacher],
 );
