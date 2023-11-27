@@ -28,3 +28,12 @@ const Channel kDefaultChannel = Channel(
   users: [],
   posts: [],
 );
+
+final Channel kExampleChannel = Channel(
+  id: 'example-channel',
+  iconImageUrl: '',
+  name: 'デバッグ用チャンネル',
+  description: 'デバッグ用のチャンネルです。',
+  users: [kExampleTeacher, kExampleStudent, kExampleParent],
+  posts: [kExamplePost],
+);
