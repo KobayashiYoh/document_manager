@@ -30,3 +30,13 @@ const School kDefaultSchool = School(
   classes: [],
   users: [],
 );
+
+final School kExampleSchool = School(
+  id: 'example-school',
+  iconImageUrl: '',
+  name: 'デバッグ小学校',
+  description: 'デバッグ小学校です。',
+  channels: [kExampleChannel],
+  classes: [kExampleClass],
+  users: [kExampleParent, kExampleStudent, kExampleTeacher],
+);

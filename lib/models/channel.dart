@@ -12,7 +12,7 @@ class Channel with _$Channel {
     required String iconImageUrl,
     required String name,
     required String description,
-    required List<User> users,
+    required List<String> userIds,
     required List<Post> posts,
   }) = _Channel;
 
@@ -25,7 +25,7 @@ const Channel kDefaultChannel = Channel(
   iconImageUrl: '',
   name: '',
   description: '',
-  users: [],
+  userIds: [],
   posts: [],
 );
 
@@ -34,6 +34,6 @@ final Channel kExampleChannel = Channel(
   iconImageUrl: '',
   name: 'デバッグ用チャンネル',
   description: 'デバッグ用のチャンネルです。',
-  users: [kExampleTeacher, kExampleStudent, kExampleParent],
+  userIds: [kExampleTeacher.id, kExampleStudent.id, kExampleParent.id],
   posts: [kExamplePost],
 );
