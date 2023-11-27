@@ -28,11 +28,27 @@ const User kDefaultUser = User(
 );
 
 const User kExampleStudent = User(
-  id: 'example-id',
+  id: 'example-user',
   userType: UserType.student,
   iconImageUrl: '',
   firstName: '学生',
-  lastName: '太郎',
+  lastName: '佐藤',
   parentId1: 'example-mother',
   parentId2: 'example-father',
+);
+
+const User kExampleParent = User(
+  id: 'example-parent',
+  userType: UserType.parent,
+  iconImageUrl: '',
+  firstName: '保護者',
+  lastName: '佐藤',
+);
+
+const User kExampleTeacher = User(
+  id: 'example-teacher',
+  userType: UserType.teacher,
+  iconImageUrl: '',
+  firstName: '先生',
+  lastName: '田中',
 );

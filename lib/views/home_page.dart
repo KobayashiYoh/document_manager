@@ -1,5 +1,5 @@
 import 'package:document_manager/constants/go_router_location.dart';
-import 'package:document_manager/models/user.dart';
+import 'package:document_manager/models/post.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -23,7 +23,7 @@ class HomePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await FirestoreRepository.setUser(kExampleStudent);
+          await FirestoreRepository.setPost(kExamplePost);
         },
       ),
     );
