@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:document_manager/models/channel.dart';
+import 'package:document_manager/models/class.dart';
 import 'package:document_manager/models/post.dart';
 import 'package:document_manager/models/user.dart';
 
@@ -43,6 +44,17 @@ class FirestoreRepository {
       });
     } catch (e) {
       throw Exception('Failed to set channel: $e');
+    }
+  }
+
+  static Future<void> setClass(Class schoolClass) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('class')
+          .doc(schoolClass.id)
+          .set(schoolClass.toJson());
+    } catch (e) {
+      throw Exception('Failed to set class: $e');
     }
   }
 }

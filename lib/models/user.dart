@@ -28,7 +28,7 @@ const User kDefaultUser = User(
 );
 
 const User kExampleStudent = User(
-  id: 'example-user',
+  id: 'example-student',
   userType: UserType.student,
   iconImageUrl: '',
   firstName: '学生',
