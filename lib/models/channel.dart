@@ -3,6 +3,7 @@ import 'package:document_manager/models/user.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'channel.freezed.dart';
+part 'channel.g.dart';
 
 @freezed
 class Channel with _$Channel {
@@ -14,6 +15,9 @@ class Channel with _$Channel {
     required List<User> users,
     required List<Post> posts,
   }) = _Channel;
+
+  factory Channel.fromJson(Map<String, Object?> json) =>
+      _$ChannelFromJson(json);
 }
 
 const Channel kDefaultChannel = Channel(
