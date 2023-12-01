@@ -1,5 +1,5 @@
 import 'package:document_manager/constants/go_router_path.dart';
-import 'package:document_manager/views/home_page.dart';
+import 'package:document_manager/debug/debug_page.dart';
 import 'package:document_manager/views/timeline_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -11,7 +11,8 @@ class GoRouterUtil {
       GoRoute(
         path: GoRouterPath.home,
         builder: (BuildContext context, GoRouterState state) {
-          return const HomePage();
+          // return const HomePage();
+          return const DebugPage();
         },
         routes: <RouteBase>[
           GoRoute(
