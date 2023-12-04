@@ -101,7 +101,23 @@ class FirestoreRepository {
     }
   }
 
-  static Future<void> setSchool(School school) async {
+  static Future<void> setSchool({
+    required String name,
+    required String description,
+    required List<String> channelIds,
+    required List<String> classIds,
+    required List<String> userIds,
+  }) async {
+    final String uuid = const Uuid().v4();
+    final School school = School(
+      id: uuid,
+      iconImageUrl: '',
+      name: name,
+      description: description,
+      channelIds: channelIds,
+      classIds: classIds,
+      userIds: userIds,
+    );
     try {
       await FirebaseFirestore.instance
           .collection('schools')
