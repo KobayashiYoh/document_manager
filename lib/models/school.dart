@@ -13,9 +13,9 @@ class School with _$School {
     required String iconImageUrl,
     required String name,
     required String description,
-    required List<Channel> channels,
-    required List<Class> classes,
-    required List<User> users,
+    required List<String> channelIds,
+    required List<String> classIds,
+    required List<String> userIds,
   }) = _School;
 
   factory School.fromJson(Map<String, Object?> json) => _$SchoolFromJson(json);
@@ -26,9 +26,9 @@ const School kDefaultSchool = School(
   iconImageUrl: '',
   name: '',
   description: '',
-  channels: [],
-  classes: [],
-  users: [],
+  channelIds: [],
+  classIds: [],
+  userIds: [],
 );
 
 final School kExampleSchool = School(
@@ -36,7 +36,7 @@ final School kExampleSchool = School(
   iconImageUrl: '',
   name: 'デバッグ小学校',
   description: 'デバッグ小学校です。',
-  channels: [kExampleChannel],
-  classes: [kExampleClass],
-  users: [kExampleParent, kExampleStudent, kExampleTeacher],
+  channelIds: [kExampleChannel.id],
+  classIds: [kExampleClass.id],
+  userIds: [kExampleParent.id, kExampleStudent.id, kExampleTeacher.id],
 );
