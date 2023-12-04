@@ -75,12 +75,27 @@ class FirestoreRepository {
     }
   }
 
-  static Future<void> setClass(Class schoolClass) async {
+  static Future<void> setClass({
+    required String name,
+    required String description,
+    required List<String> teacherIds,
+    required List<String> studentIds,
+    required List<String> parentIds,
+  }) async {
+    final String uuid = const Uuid().v4();
+    final Class homeroomClass = Class(
+      id: uuid,
+      name: name,
+      description: description,
+      teacherIds: teacherIds,
+      studentIds: studentIds,
+      parentIds: parentIds,
+    );
     try {
       await FirebaseFirestore.instance
           .collection('classes')
-          .doc(schoolClass.id)
-          .set(schoolClass.toJson());
+          .doc(uuid)
+          .set(homeroomClass.toJson());
     } catch (e) {
       throw Exception('Failed to set class: $e');
     }
