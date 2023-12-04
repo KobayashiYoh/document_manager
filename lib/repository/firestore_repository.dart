@@ -18,6 +18,15 @@ class FirestoreRepository {
     }
   }
 
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getUsers() {
+    try {
+      final data = FirebaseFirestore.instance.collection('users').snapshots();
+      return data;
+    } catch (e) {
+      throw Exception('Failed to set user: $e');
+    }
+  }
+
   static Future<void> setPost(Post post) async {
     try {
       await FirebaseFirestore.instance
