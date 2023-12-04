@@ -4,9 +4,12 @@ import 'package:document_manager/models/class.dart';
 import 'package:document_manager/models/post.dart';
 import 'package:document_manager/models/school.dart';
 import 'package:document_manager/models/user.dart';
+import 'package:uuid/uuid.dart';
 
 /// CloudFirestoreのRepositoryクラスです。
 class FirestoreRepository {
+  static final _userId = kExampleParent.id;
+
   static Future<void> setUser(User user) async {
     try {
       await FirebaseFirestore.instance
@@ -27,11 +30,20 @@ class FirestoreRepository {
     }
   }
 
-  static Future<void> setPost(Post post) async {
+  static Future<void> setPost(String message) async {
+    final String uuid = const Uuid().v4();
+    final Post post = Post(
+      id: uuid,
+      userId: _userId,
+      createdAt: DateTime.now(),
+      message: message,
+      imageUrl: '',
+      readUserIds: [],
+    );
     try {
       await FirebaseFirestore.instance
           .collection('posts')
-          .doc(post.id)
+          .doc(uuid)
           .set(post.toJson());
     } catch (e) {
       throw Exception('Failed to set post: $e');

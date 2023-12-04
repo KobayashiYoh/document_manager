@@ -1,3 +1,4 @@
+import 'package:document_manager/debug/debug_posts_page.dart';
 import 'package:document_manager/debug/debug_users_page.dart';
 import 'package:flutter/material.dart';
 
@@ -27,6 +28,16 @@ class _DebugPageState extends State<DebugPage> {
               );
             },
             child: const Text('DebugUsersPage'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const DebugPostsPage(),
+                ),
+              );
+            },
+            child: const Text('DebugPostsPage'),
           ),
         ],
       ),
