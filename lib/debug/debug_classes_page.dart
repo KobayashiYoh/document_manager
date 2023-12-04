@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:document_manager/debug/debug_class_item.dart';
 import 'package:document_manager/models/class.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
@@ -53,9 +52,7 @@ class _DebugClassesPageState extends State<DebugClassesPage> {
             alignment: Alignment.bottomCenter,
             children: [
               StreamBuilder(
-                stream: FirebaseFirestore.instance
-                    .collection('classes')
-                    .snapshots(),
+                stream: FirestoreRepository.classSnapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.data == null) {
                     return const SizedBox.shrink();

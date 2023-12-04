@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:document_manager/debug/debug_user_item.dart';
 import 'package:document_manager/models/user.dart';
 import 'package:document_manager/models/user_type.dart';
@@ -51,8 +50,7 @@ class _DebugUsersPageState extends State<DebugUsersPage> {
             alignment: Alignment.bottomCenter,
             children: [
               StreamBuilder(
-                stream:
-                    FirebaseFirestore.instance.collection('users').snapshots(),
+                stream: FirestoreRepository.userSnapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.data == null) {
                     return const SizedBox.shrink();

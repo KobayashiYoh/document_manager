@@ -10,6 +10,10 @@ import 'package:uuid/uuid.dart';
 class FirestoreRepository {
   static final _userId = kExampleParent.id;
 
+  static Stream<QuerySnapshot<Map<String, dynamic>>> userSnapshots() {
+    return FirebaseFirestore.instance.collection('users').snapshots();
+  }
+
   static Future<void> setUser(User user) async {
     try {
       await FirebaseFirestore.instance
@@ -21,13 +25,8 @@ class FirestoreRepository {
     }
   }
 
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getUsers() {
-    try {
-      final data = FirebaseFirestore.instance.collection('users').snapshots();
-      return data;
-    } catch (e) {
-      throw Exception('Failed to set user: $e');
-    }
+  static Stream<QuerySnapshot<Map<String, dynamic>>> postSnapshots() {
+    return FirebaseFirestore.instance.collection('posts').snapshots();
   }
 
   static Future<void> setPost(String message) async {
@@ -48,6 +47,10 @@ class FirestoreRepository {
     } catch (e) {
       throw Exception('Failed to set post: $e');
     }
+  }
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> channelSnapshots() {
+    return FirebaseFirestore.instance.collection('channels').snapshots();
   }
 
   static Future<void> setChannel({
@@ -75,6 +78,10 @@ class FirestoreRepository {
     }
   }
 
+  static Stream<QuerySnapshot<Map<String, dynamic>>> classSnapshots() {
+    return FirebaseFirestore.instance.collection('classes').snapshots();
+  }
+
   static Future<void> setClass({
     required String name,
     required String description,
@@ -99,6 +106,10 @@ class FirestoreRepository {
     } catch (e) {
       throw Exception('Failed to set class: $e');
     }
+  }
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> schoolSnapshots() {
+    return FirebaseFirestore.instance.collection('schools').snapshots();
   }
 
   static Future<void> setSchool({

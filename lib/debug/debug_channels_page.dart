@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:document_manager/debug/debug_channel_item.dart';
 import 'package:document_manager/models/channel.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
@@ -52,9 +51,7 @@ class _DebugChannelsPageState extends State<DebugChannelsPage> {
             alignment: Alignment.bottomCenter,
             children: [
               StreamBuilder(
-                stream: FirebaseFirestore.instance
-                    .collection('channels')
-                    .snapshots(),
+                stream: FirestoreRepository.channelSnapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.data == null) {
                     return const SizedBox.shrink();
