@@ -50,11 +50,25 @@ class FirestoreRepository {
     }
   }
 
-  static Future<void> setChannel(Channel channel) async {
+  static Future<void> setChannel({
+    required String name,
+    required String description,
+    required List<String> userIds,
+    required List<String> postIds,
+  }) async {
+    final String uuid = const Uuid().v4();
+    final Channel channel = Channel(
+      id: uuid,
+      iconImageUrl: '',
+      name: name,
+      description: description,
+      userIds: userIds,
+      postIds: postIds,
+    );
     try {
       await FirebaseFirestore.instance
           .collection('channels')
-          .doc(channel.id)
+          .doc(uuid)
           .set(channel.toJson());
     } catch (e) {
       throw Exception('Failed to set channel: $e');
