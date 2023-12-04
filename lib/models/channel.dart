@@ -13,7 +13,7 @@ class Channel with _$Channel {
     required String name,
     required String description,
     required List<String> userIds,
-    required List<Post> posts,
+    required List<String> postIds,
   }) = _Channel;
 
   factory Channel.fromJson(Map<String, Object?> json) =>
@@ -26,7 +26,7 @@ const Channel kDefaultChannel = Channel(
   name: '',
   description: '',
   userIds: [],
-  posts: [],
+  postIds: [],
 );
 
 final Channel kExampleChannel = Channel(
@@ -35,5 +35,5 @@ final Channel kExampleChannel = Channel(
   name: 'デバッグ用チャンネル',
   description: 'デバッグ用のチャンネルです。',
   userIds: [kExampleTeacher.id, kExampleStudent.id, kExampleParent.id],
-  posts: [kExamplePost],
+  postIds: [kExamplePost.id],
 );

@@ -43,14 +43,7 @@ class FirestoreRepository {
       await FirebaseFirestore.instance
           .collection('channels')
           .doc(channel.id)
-          .set(channel.copyWith(posts: []).toJson());
-      await FirebaseFirestore.instance
-          .collection('channels')
-          .doc(channel.id)
-          .collection('list')
-          .add({
-        'posts': [for (Post post in channel.posts) post.toJson()],
-      });
+          .set(channel.toJson());
     } catch (e) {
       throw Exception('Failed to set channel: $e');
     }
@@ -72,19 +65,7 @@ class FirestoreRepository {
       await FirebaseFirestore.instance
           .collection('schools')
           .doc(school.id)
-          .set(school.copyWith(channels: [], users: [], classes: []).toJson());
-      await FirebaseFirestore.instance
-          .collection('schools')
-          .doc(school.id)
-          .collection('list')
-          .add({
-        'channels': [
-          for (Channel channel in school.channels)
-            channel.copyWith(posts: []).toJson()
-        ],
-        'users': [for (User user in school.users) user.toJson()],
-        'classes': [for (Class classroom in school.classes) classroom.toJson()],
-      });
+          .set(school.toJson());
     } catch (e) {
       throw Exception('Failed to set school: $e');
     }
