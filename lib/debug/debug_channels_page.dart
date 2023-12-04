@@ -62,7 +62,6 @@ class _DebugChannelsPageState extends State<DebugChannelsPage> {
                       final List<Channel> channels = snapshot.data!.docs
                           .map((doc) => Channel.fromJson(doc.data()))
                           .toList();
-                      print('channels.length: ${channels.length}');
                       return DebugChannelItem(channel: channels[index]);
                     },
                   );

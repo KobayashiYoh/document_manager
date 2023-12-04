@@ -63,7 +63,6 @@ class _DebugSchoolsPageState extends State<DebugSchoolsPage> {
                       final List<School> schools = snapshot.data!.docs
                           .map((doc) => School.fromJson(doc.data()))
                           .toList();
-                      print('Schools.length: ${schools.length}');
                       return DebugSchoolItem(school: schools[index]);
                     },
                   );

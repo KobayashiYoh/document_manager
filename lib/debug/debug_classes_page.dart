@@ -63,7 +63,6 @@ class _DebugClassesPageState extends State<DebugClassesPage> {
                       final List<Class> homeroomClasses = snapshot.data!.docs
                           .map((doc) => Class.fromJson(doc.data()))
                           .toList();
-                      print('homeroomClass.length: ${homeroomClasses.length}');
                       return DebugClassItem(
                         homeroomClass: homeroomClasses[index],
                       );
