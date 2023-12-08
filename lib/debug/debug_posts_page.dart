@@ -1,9 +1,12 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:document_manager/debug/debug_post_item.dart';
 import 'package:document_manager/models/post.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
+import 'package:document_manager/utils/image_util.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class DebugPostsPage extends StatefulWidget {
   const DebugPostsPage({Key? key}) : super(key: key);
@@ -14,6 +17,7 @@ class DebugPostsPage extends StatefulWidget {
 
 class _DebugPostsPageState extends State<DebugPostsPage> {
   final TextEditingController _messageController = TextEditingController();
+  XFile? _image;
 
   Future<void> _setPost() async {
     try {
@@ -67,14 +71,27 @@ class _DebugPostsPageState extends State<DebugPostsPage> {
                 height: 160.0,
                 child: Column(
                   children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: _messageController,
-                        decoration: const InputDecoration(
-                          label: Text('メッセージ'),
-                        ),
+                    TextFormField(
+                      controller: _messageController,
+                      decoration: const InputDecoration(
+                        label: Text('メッセージ'),
                       ),
                     ),
+                    IconButton(
+                      onPressed: () async {
+                        final image = await ImageUtil.pickImageFromGallery();
+                        setState(() {
+                          _image = image;
+                        });
+                      },
+                      icon: const Icon(Icons.photo_outlined),
+                    ),
+                    if (_image != null)
+                      Expanded(
+                        child: Image.file(
+                          File(_image!.path),
+                        ),
+                      ),
                   ],
                 ),
               ),
