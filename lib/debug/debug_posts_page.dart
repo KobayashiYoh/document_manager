@@ -3,10 +3,12 @@ import 'dart:io';
 
 import 'package:document_manager/debug/debug_post_item.dart';
 import 'package:document_manager/models/post.dart';
+import 'package:document_manager/repository/firebase_storage_repository.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
 import 'package:document_manager/utils/image_util.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 
 class DebugPostsPage extends StatefulWidget {
   const DebugPostsPage({Key? key}) : super(key: key);
@@ -19,13 +21,36 @@ class _DebugPostsPageState extends State<DebugPostsPage> {
   final TextEditingController _messageController = TextEditingController();
   XFile? _image;
 
-  Future<void> _setPost() async {
+  Future<void> _putImage(String postId) async {
+    final String storagePath = 'posts/$postId.png';
     try {
-      await FirestoreRepository.setPost(_messageController.text);
+      await FirebaseStorageRepository.put(File(_image!.path), storagePath);
     } catch (e) {
       rethrow;
     }
+  }
+
+  Future<void> _putPost(String id, String imageUrl) async {
+    try {
+      await FirestoreRepository.setPost(id, _messageController.text, imageUrl);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> _onPressedSendButton() async {
+    final String postId = const Uuid().v4();
+    if (_image != null) {
+      await _putImage(postId);
+    }
+    final String imageUrl = _image == null
+        ? ''
+        : 'https://firebasestorage.googleapis.com/v0/b/resukuru-mobile.appspot.com/o/posts%2F$postId.png?alt=media';
+    await _putPost(postId, imageUrl);
     _messageController.clear();
+    setState(() {
+      _image = null;
+    });
   }
 
   @override
@@ -100,7 +125,7 @@ class _DebugPostsPageState extends State<DebugPostsPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _setPost(),
+        onPressed: () => _onPressedSendButton(),
         child: const Icon(Icons.add),
       ),
     );

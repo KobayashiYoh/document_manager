@@ -29,20 +29,23 @@ class FirestoreRepository {
     return FirebaseFirestore.instance.collection('posts').snapshots();
   }
 
-  static Future<void> setPost(String message) async {
-    final String uuid = const Uuid().v4();
+  static Future<void> setPost(
+    String id,
+    String message,
+    String imageUrl,
+  ) async {
     final Post post = Post(
-      id: uuid,
+      id: id,
       userId: _userId,
       createdAt: DateTime.now(),
       message: message,
-      imageUrl: '',
+      imageUrl: imageUrl,
       readUserIds: [],
     );
     try {
       await FirebaseFirestore.instance
           .collection('posts')
-          .doc(uuid)
+          .doc(id)
           .set(post.toJson());
     } catch (e) {
       throw Exception('Failed to set post: $e');
