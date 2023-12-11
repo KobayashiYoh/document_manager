@@ -12,7 +12,11 @@ class FirestoreRepository {
   static final _userId = kExampleParent.id;
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> userSnapshots() {
-    return FirebaseFirestore.instance.collection('users').snapshots();
+    return FirebaseFirestore.instance
+        .collection('users')
+        .where('school-id', isEqualTo: _schoolId)
+        .orderBy('createdAt')
+        .snapshots();
   }
 
   static Future<void> setUser(User user) async {
@@ -26,9 +30,13 @@ class FirestoreRepository {
     }
   }
 
-  static Stream<QuerySnapshot<Map<String, dynamic>>> postSnapshots() {
+  static Stream<QuerySnapshot<Map<String, dynamic>>> postSnapshots({
+    required String channelId,
+  }) {
     return FirebaseFirestore.instance
         .collection('posts')
+        .where('school-id', isEqualTo: _schoolId)
+        .where('channel-id', isEqualTo: channelId)
         .orderBy('createdAt')
         .snapshots();
   }
@@ -59,14 +67,17 @@ class FirestoreRepository {
   }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> channelSnapshots() {
-    return FirebaseFirestore.instance.collection('channels').snapshots();
+    return FirebaseFirestore.instance
+        .collection('channels')
+        .where('school-id', isEqualTo: _schoolId)
+        .orderBy('createdAt')
+        .snapshots();
   }
 
   static Future<void> setChannel({
     required String name,
     required String description,
     required List<String> userIds,
-    required List<String> postIds,
   }) async {
     final String uuid = const Uuid().v4();
     final Channel channel = Channel(
@@ -76,7 +87,6 @@ class FirestoreRepository {
       name: name,
       description: description,
       userIds: userIds,
-      postIds: postIds,
     );
     try {
       await FirebaseFirestore.instance
@@ -89,7 +99,11 @@ class FirestoreRepository {
   }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> classSnapshots() {
-    return FirebaseFirestore.instance.collection('classes').snapshots();
+    return FirebaseFirestore.instance
+        .collection('classes')
+        .where('school-id', isEqualTo: _schoolId)
+        .orderBy('createdAt')
+        .snapshots();
   }
 
   static Future<void> setClass({
@@ -120,15 +134,15 @@ class FirestoreRepository {
   }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> schoolSnapshots() {
-    return FirebaseFirestore.instance.collection('schools').snapshots();
+    return FirebaseFirestore.instance
+        .collection('schools')
+        .orderBy('createdAt')
+        .snapshots();
   }
 
   static Future<void> setSchool({
     required String name,
     required String description,
-    required List<String> channelIds,
-    required List<String> classIds,
-    required List<String> userIds,
   }) async {
     final String uuid = const Uuid().v4();
     final School school = School(
@@ -136,9 +150,6 @@ class FirestoreRepository {
       iconImageUrl: '',
       name: name,
       description: description,
-      channelIds: channelIds,
-      classIds: classIds,
-      userIds: userIds,
     );
     try {
       await FirebaseFirestore.instance

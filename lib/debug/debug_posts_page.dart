@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:document_manager/debug/debug_post_item.dart';
+import 'package:document_manager/models/channel.dart';
 import 'package:document_manager/models/post.dart';
 import 'package:document_manager/repository/firebase_storage_repository.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
@@ -72,7 +73,9 @@ class _DebugPostsPageState extends State<DebugPostsPage> {
             alignment: Alignment.bottomCenter,
             children: [
               StreamBuilder(
-                stream: FirestoreRepository.postSnapshots(),
+                stream: FirestoreRepository.postSnapshots(
+                  channelId: kExampleChannel.id,
+                ),
                 builder: (context, snapshot) {
                   if (snapshot.data == null) {
                     return const SizedBox.shrink();
