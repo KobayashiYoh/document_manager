@@ -1,3 +1,4 @@
+import 'package:document_manager/models/school.dart';
 import 'package:document_manager/models/user_type.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -8,6 +9,7 @@ part 'user.g.dart';
 class User with _$User {
   const factory User({
     required String id,
+    required String schoolId,
     required UserType userType,
     required String iconImageUrl,
     required String firstName,
@@ -21,14 +23,16 @@ class User with _$User {
 
 const User kDefaultUser = User(
   id: '',
+  schoolId: '',
   userType: UserType.student,
   iconImageUrl: '',
   firstName: '',
   lastName: '',
 );
 
-const User kExampleStudent = User(
+final User kExampleStudent = User(
   id: 'example-student',
+  schoolId: kExampleSchool.id,
   userType: UserType.student,
   iconImageUrl: '',
   firstName: '学生',
@@ -37,16 +41,18 @@ const User kExampleStudent = User(
   parentId2: 'example-father',
 );
 
-const User kExampleParent = User(
+final User kExampleParent = User(
   id: 'example-parent',
+  schoolId: kExampleSchool.id,
   userType: UserType.parent,
   iconImageUrl: '',
   firstName: '保護者',
   lastName: '佐藤',
 );
 
-const User kExampleTeacher = User(
+final User kExampleTeacher = User(
   id: 'example-teacher',
+  schoolId: kExampleSchool.id,
   userType: UserType.teacher,
   iconImageUrl: '',
   firstName: '先生',

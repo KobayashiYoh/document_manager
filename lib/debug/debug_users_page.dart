@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:document_manager/debug/debug_user_item.dart';
+import 'package:document_manager/models/school.dart';
 import 'package:document_manager/models/user.dart';
 import 'package:document_manager/models/user_type.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
@@ -109,6 +110,7 @@ class _DebugUsersPageState extends State<DebugUsersPage> {
         onPressed: () => _setUser(
           User(
             id: _idController.text,
+            schoolId: kExampleSchool.id,
             userType: UserType.parent,
             iconImageUrl: '',
             firstName: _firstNameController.text,

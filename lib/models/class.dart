@@ -1,3 +1,4 @@
+import 'package:document_manager/models/school.dart';
 import 'package:document_manager/models/user.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -8,6 +9,7 @@ part 'class.g.dart';
 class Class with _$Class {
   const factory Class({
     required String id,
+    required String schoolId,
     required String name,
     required String description,
     required List<String> teacherIds,
@@ -20,6 +22,7 @@ class Class with _$Class {
 
 const Class kDefaultClass = Class(
   id: '',
+  schoolId: '',
   name: '',
   description: '',
   teacherIds: [],
@@ -29,6 +32,7 @@ const Class kDefaultClass = Class(
 
 final Class kExampleClass = Class(
   id: 'example-class',
+  schoolId: kExampleSchool.id,
   name: '1年1組',
   description: '1年1組のクラスです。',
   teacherIds: [kExampleTeacher.id],

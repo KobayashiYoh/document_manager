@@ -8,6 +8,7 @@ import 'package:uuid/uuid.dart';
 
 /// CloudFirestoreのRepositoryクラスです。
 class FirestoreRepository {
+  static final _schoolId = kExampleSchool.id;
   static final _userId = kExampleParent.id;
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> userSnapshots() {
@@ -26,7 +27,10 @@ class FirestoreRepository {
   }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> postSnapshots() {
-    return FirebaseFirestore.instance.collection('posts').snapshots();
+    return FirebaseFirestore.instance
+        .collection('posts')
+        .orderBy('createdAt')
+        .snapshots();
   }
 
   static Future<void> setPost(
@@ -36,6 +40,8 @@ class FirestoreRepository {
   ) async {
     final Post post = Post(
       id: id,
+      schoolId: _schoolId,
+      channelId: '',
       userId: _userId,
       createdAt: DateTime.now(),
       message: message,
@@ -65,6 +71,7 @@ class FirestoreRepository {
     final String uuid = const Uuid().v4();
     final Channel channel = Channel(
       id: uuid,
+      schoolId: _schoolId,
       iconImageUrl: '',
       name: name,
       description: description,
@@ -95,6 +102,7 @@ class FirestoreRepository {
     final String uuid = const Uuid().v4();
     final Class homeroomClass = Class(
       id: uuid,
+      schoolId: _schoolId,
       name: name,
       description: description,
       teacherIds: teacherIds,
