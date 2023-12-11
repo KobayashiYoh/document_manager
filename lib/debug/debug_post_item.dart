@@ -15,8 +15,13 @@ class DebugPostItem extends StatelessWidget {
           bottom: BorderSide(color: Colors.black12),
         ),
       ),
-      child: Text(
-          'ID: ${post.id},\nMessage: ${post.message}\ncreated-at: ${post.createdAt}\nuser-id: ${post.userId}'),
+      child: Column(
+        children: [
+          Text(
+              'ID: ${post.id},\nMessage: ${post.message}\ncreated-at: ${post.createdAt}\nuser-id: ${post.userId}'),
+          if (post.imageUrl.isNotEmpty) Image.asset(post.imageUrl),
+        ],
+      ),
     );
   }
 }
