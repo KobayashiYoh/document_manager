@@ -1,6 +1,4 @@
-import 'package:document_manager/constants/go_router_location.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -11,13 +9,21 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('home'),
       ),
-      body: Center(
-        child: TextButton(
-          onPressed: () {
-            context.go(GoRouterLocation.timeline);
-          },
-          child: const Text('timelineへ'),
-        ),
+      body: ListView(
+        children: const [
+          ListTile(
+            title: Text('1-1'),
+          ),
+          Divider(),
+          ListTile(
+            title: Text('1-2'),
+          ),
+          Divider(),
+          ListTile(
+            title: Text('1-3'),
+          ),
+          Divider(),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
