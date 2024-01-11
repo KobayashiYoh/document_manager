@@ -22,8 +22,8 @@ const School kDefaultSchool = School(
   description: '',
 );
 
-final School kExampleSchool = School(
-  id: 'example-school',
+const School kExampleSchool = School(
+  id: '7166a822-12b1-476c-bd27-90d6c8224ca4',
   iconImageUrl: '',
   name: 'デバッグ小学校',
   description: 'デバッグ小学校です。',

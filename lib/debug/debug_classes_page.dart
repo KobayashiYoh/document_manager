@@ -21,9 +21,6 @@ class _DebugClassesPageState extends State<DebugClassesPage> {
       await FirestoreRepository.setClass(
         name: _nameController.text,
         description: _descriptionController.text,
-        teacherIds: kExampleClass.teacherIds,
-        studentIds: kExampleClass.studentIds,
-        parentIds: kExampleClass.parentIds,
       );
     } catch (e) {
       rethrow;

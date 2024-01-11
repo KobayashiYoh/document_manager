@@ -51,6 +51,7 @@ class _DebugSchoolsPageState extends State<DebugSchoolsPage> {
               StreamBuilder(
                 stream: FirestoreRepository.schoolSnapshots(),
                 builder: (context, snapshot) {
+                  print('snapshot.data: ${snapshot.data}');
                   if (snapshot.data == null) {
                     return const SizedBox.shrink();
                   }

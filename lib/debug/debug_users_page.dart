@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:document_manager/debug/debug_user_item.dart';
+import 'package:document_manager/models/channel.dart';
+import 'package:document_manager/models/class.dart';
 import 'package:document_manager/models/school.dart';
 import 'package:document_manager/models/user.dart';
 import 'package:document_manager/models/user_type.dart';
@@ -111,6 +113,8 @@ class _DebugUsersPageState extends State<DebugUsersPage> {
           User(
             id: _idController.text,
             schoolId: kExampleSchool.id,
+            classId: kExampleClass.id,
+            channelIds: [kExampleChannel.id],
             userType: UserType.parent,
             iconImageUrl: '',
             firstName: _firstNameController.text,

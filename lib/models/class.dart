@@ -1,5 +1,4 @@
 import 'package:document_manager/models/school.dart';
-import 'package:document_manager/models/user.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'class.freezed.dart';
@@ -12,9 +11,6 @@ class Class with _$Class {
     required String schoolId,
     required String name,
     required String description,
-    required List<String> teacherIds,
-    required List<String> studentIds,
-    required List<String> parentIds,
   }) = _Class;
 
   factory Class.fromJson(Map<String, Object?> json) => _$ClassFromJson(json);
@@ -25,9 +21,6 @@ const Class kDefaultClass = Class(
   schoolId: '',
   name: '',
   description: '',
-  teacherIds: [],
-  studentIds: [],
-  parentIds: [],
 );
 
 final Class kExampleClass = Class(
@@ -35,7 +28,4 @@ final Class kExampleClass = Class(
   schoolId: kExampleSchool.id,
   name: '1年1組',
   description: '1年1組のクラスです。',
-  teacherIds: [kExampleTeacher.id],
-  studentIds: [kExampleStudent.id],
-  parentIds: [kExampleParent.id],
 );

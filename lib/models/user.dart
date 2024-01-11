@@ -1,3 +1,5 @@
+import 'package:document_manager/models/channel.dart';
+import 'package:document_manager/models/class.dart';
 import 'package:document_manager/models/school.dart';
 import 'package:document_manager/models/user_type.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -10,6 +12,8 @@ class User with _$User {
   const factory User({
     required String id,
     required String schoolId,
+    required String classId,
+    required List<String> channelIds,
     required UserType userType,
     required String iconImageUrl,
     required String firstName,
@@ -24,6 +28,8 @@ class User with _$User {
 const User kDefaultUser = User(
   id: '',
   schoolId: '',
+  classId: '',
+  channelIds: [],
   userType: UserType.student,
   iconImageUrl: '',
   firstName: '',
@@ -33,6 +39,8 @@ const User kDefaultUser = User(
 final User kExampleStudent = User(
   id: 'example-student',
   schoolId: kExampleSchool.id,
+  classId: kDefaultClass.id,
+  channelIds: [kDefaultChannel.id],
   userType: UserType.student,
   iconImageUrl: '',
   firstName: '学生',
@@ -44,6 +52,8 @@ final User kExampleStudent = User(
 final User kExampleParent = User(
   id: 'example-parent',
   schoolId: kExampleSchool.id,
+  classId: kDefaultClass.id,
+  channelIds: [kDefaultChannel.id],
   userType: UserType.parent,
   iconImageUrl: '',
   firstName: '保護者',
@@ -53,6 +63,8 @@ final User kExampleParent = User(
 final User kExampleTeacher = User(
   id: 'example-teacher',
   schoolId: kExampleSchool.id,
+  classId: kDefaultClass.id,
+  channelIds: [kDefaultChannel.id],
   userType: UserType.teacher,
   iconImageUrl: '',
   firstName: '先生',
