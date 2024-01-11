@@ -1,4 +1,4 @@
-import 'package:document_manager/models/post.dart';
+import 'package:document_manager/models/school.dart';
 import 'package:document_manager/models/user.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -9,11 +9,11 @@ part 'channel.g.dart';
 class Channel with _$Channel {
   const factory Channel({
     required String id,
+    required String schoolId,
     required String iconImageUrl,
     required String name,
     required String description,
     required List<String> userIds,
-    required List<String> postIds,
   }) = _Channel;
 
   factory Channel.fromJson(Map<String, Object?> json) =>
@@ -22,18 +22,18 @@ class Channel with _$Channel {
 
 const Channel kDefaultChannel = Channel(
   id: '',
+  schoolId: '',
   iconImageUrl: '',
   name: '',
   description: '',
   userIds: [],
-  postIds: [],
 );
 
 final Channel kExampleChannel = Channel(
   id: 'example-channel',
+  schoolId: kExampleSchool.id,
   iconImageUrl: '',
   name: 'デバッグ用チャンネル',
   description: 'デバッグ用のチャンネルです。',
   userIds: [kExampleTeacher.id, kExampleStudent.id, kExampleParent.id],
-  postIds: [kExamplePost.id],
 );

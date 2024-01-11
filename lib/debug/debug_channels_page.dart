@@ -22,7 +22,6 @@ class _DebugChannelsPageState extends State<DebugChannelsPage> {
         name: _nameController.text,
         description: _descriptionController.text,
         userIds: kExampleChannel.userIds,
-        postIds: kExampleChannel.postIds,
       );
     } catch (e) {
       rethrow;
