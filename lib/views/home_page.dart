@@ -1,7 +1,8 @@
-import 'package:document_manager/debug/debug_channel_item.dart';
 import 'package:document_manager/models/channel.dart';
 import 'package:document_manager/models/school.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
+import 'package:document_manager/views/chat_page.dart';
+import 'package:document_manager/widgets/channel_item.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -37,7 +38,17 @@ class _HomePageState extends State<HomePage> {
                       final List<Channel> channels = snapshot.data!.docs
                           .map((doc) => Channel.fromJson(doc.data()))
                           .toList();
-                      return DebugChannelItem(channel: channels[index]);
+                      return ChannelItem(
+                        channel: channels[index],
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ChatPage(channel: channels[index]),
+                            ),
+                          );
+                        },
+                      );
                     },
                   );
                 },
