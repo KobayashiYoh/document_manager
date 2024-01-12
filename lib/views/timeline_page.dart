@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class TimelinePage extends StatelessWidget {
   const TimelinePage({Key? key}) : super(key: key);
@@ -13,7 +12,7 @@ class TimelinePage extends StatelessWidget {
       body: Center(
         child: TextButton(
           onPressed: () {
-            context.pop();
+            Navigator.of(context).pop();
           },
           child: const Text('戻る'),
         ),

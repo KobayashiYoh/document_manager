@@ -1,10 +1,10 @@
+import 'package:document_manager/debug/debug_page.dart';
 import 'package:document_manager/models/channel.dart';
 import 'package:document_manager/models/school.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
 import 'package:document_manager/views/chat_page.dart';
 import 'package:document_manager/widgets/channel_item.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -59,7 +59,11 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.go('/debug');
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const DebugPage(),
+            ),
+          );
         },
         child: const Icon(Icons.developer_mode),
       ),
