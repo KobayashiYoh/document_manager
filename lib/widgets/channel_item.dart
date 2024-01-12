@@ -17,7 +17,7 @@ class ChannelItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
         decoration: const BoxDecoration(
           border: Border(
             bottom: BorderSide(color: Colors.black12),
@@ -34,13 +34,13 @@ class ChannelItem extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(channel.name),
+                Text(
+                  channel.name,
+                  style: const TextStyle(fontSize: 16.0),
+                ),
                 Text(
                   channel.description,
-                  style: const TextStyle(
-                    fontSize: 10.0,
-                    color: Colors.grey,
-                  ),
+                  style: const TextStyle(color: Colors.grey),
                 ),
               ],
             ),
