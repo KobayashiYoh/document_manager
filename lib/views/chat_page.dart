@@ -24,6 +24,7 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   final TextEditingController _messageController = TextEditingController();
   XFile? _image;
+  final double _inputFieldHeight = 160.0;
 
   Future<void> _putImage(String postId) async {
     final String storagePath = 'posts/$postId.png';
@@ -97,17 +98,19 @@ class _ChatPageState extends State<ChatPage> {
                         post: posts[index],
                         user: kExampleStudent,
                         isMyPost: true,
+                        margin: index == posts.length - 1
+                            ? EdgeInsets.only(bottom: _inputFieldHeight)
+                            : EdgeInsets.zero,
                       );
                     },
                   );
                 },
               ),
               Container(
-                margin: const EdgeInsets.only(bottom: 80.0),
                 decoration: const BoxDecoration(
                   color: Colors.white,
                 ),
-                height: 160.0,
+                height: _inputFieldHeight,
                 child: Column(
                   children: [
                     TextFormField(

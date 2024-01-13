@@ -9,16 +9,19 @@ class PostItem extends StatelessWidget {
     required this.post,
     required this.user,
     required this.isMyPost,
+    this.margin = EdgeInsets.zero,
   }) : super(key: key);
 
   final Post post;
   final User user;
   final bool isMyPost;
+  final EdgeInsetsGeometry? margin;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(bottom: 16.0),
+      margin: margin,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
