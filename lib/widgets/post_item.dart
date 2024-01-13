@@ -20,6 +20,7 @@ class PostItem extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(bottom: 16.0),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CircleIconImage(
             imageUrl: post.userId,
