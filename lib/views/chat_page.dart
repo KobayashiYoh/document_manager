@@ -9,20 +9,22 @@ import 'package:document_manager/repository/firestore_repository.dart';
 import 'package:document_manager/utils/image_util.dart';
 import 'package:document_manager/widgets/post_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
-class ChatPage extends StatefulWidget {
-  const ChatPage({Key? key, required this.channel}) : super(key: key);
+class ChatPage extends ConsumerStatefulWidget {
+  const ChatPage({super.key, required this.channel});
 
   final Channel channel;
 
   @override
-  State<ChatPage> createState() => _ChatPageState();
+  HomeViewState createState() => HomeViewState();
 }
 
-class _ChatPageState extends State<ChatPage> {
+class HomeViewState extends ConsumerState<ChatPage> {
   final TextEditingController _messageController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
   XFile? _image;
   final double _inputFieldHeight = 160.0;
 
@@ -65,6 +67,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void dispose() {
     _messageController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -88,7 +91,17 @@ class _ChatPageState extends State<ChatPage> {
                   if (snapshot.data == null) {
                     return const SizedBox.shrink();
                   }
+
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    _scrollController.animateTo(
+                      _scrollController.position.maxScrollExtent,
+                      duration: const Duration(microseconds: 1),
+                      curve: Curves.easeInOut,
+                    );
+                  });
+
                   return ListView.builder(
+                    controller: _scrollController,
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
                       final List<Post> posts = snapshot.data!.docs
