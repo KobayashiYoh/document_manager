@@ -1,12 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:document_manager/debug/debug_post_item.dart';
 import 'package:document_manager/models/channel.dart';
 import 'package:document_manager/models/post.dart';
+import 'package:document_manager/models/user.dart';
 import 'package:document_manager/repository/firebase_storage_repository.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
 import 'package:document_manager/utils/image_util.dart';
+import 'package:document_manager/widgets/post_item.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
@@ -92,7 +93,11 @@ class _ChatPageState extends State<ChatPage> {
                       final List<Post> posts = snapshot.data!.docs
                           .map((doc) => Post.fromJson(doc.data()))
                           .toList();
-                      return DebugPostItem(post: posts[index]);
+                      return PostItem(
+                        post: posts[index],
+                        user: kExampleStudent,
+                        isMyPost: true,
+                      );
                     },
                   );
                 },
