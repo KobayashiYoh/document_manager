@@ -35,6 +35,7 @@ class _DebugPostsPageState extends State<DebugPostsPage> {
     try {
       await FirestoreRepository.setPost(
         id,
+        kExampleChannel.id,
         _messageController.text,
         imageUrl,
       );

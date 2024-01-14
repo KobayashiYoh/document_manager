@@ -45,6 +45,7 @@ class HomeViewState extends ConsumerState<ChatPage> {
     try {
       await FirestoreRepository.setPost(
         id,
+        widget.channel.id,
         _messageController.text,
         imageUrl,
       );
@@ -93,7 +94,7 @@ class HomeViewState extends ConsumerState<ChatPage> {
             children: [
               StreamBuilder(
                 stream: FirestoreRepository.postSnapshots(
-                  channelId: kExampleChannel.id,
+                  channelId: widget.channel.id,
                 ),
                 builder: (context, snapshot) {
                   if (snapshot.data == null) {
