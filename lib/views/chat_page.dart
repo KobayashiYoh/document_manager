@@ -27,7 +27,7 @@ class HomeViewState extends ConsumerState<ChatPage> {
   final TextEditingController _messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   XFile? _image;
-  final double _inputFieldHeight = 160.0;
+  final double _inputFieldHeight = 88.0;
 
   Future<void> _putImage(String postId) async {
     final String storagePath = 'posts/$postId.png';
@@ -74,7 +74,6 @@ class HomeViewState extends ConsumerState<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    final BorderRadius inputBorderRadius = BorderRadius.circular(32.0);
     return GestureDetector(
       onTap: () => primaryFocus?.unfocus(),
       child: Scaffold(
@@ -126,51 +125,67 @@ class HomeViewState extends ConsumerState<ChatPage> {
                 },
               ),
               Container(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                height: _inputFieldHeight,
+                alignment: Alignment.center,
                 decoration: const BoxDecoration(
                   color: Colors.white,
                 ),
-                height: _inputFieldHeight,
                 child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        controller: _messageController,
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        decoration: InputDecoration(
-                          hintText: 'メッセージ',
-                          filled: true,
-                          fillColor: Colors.grey[200],
-                          border: Styles.chatOutlineInputBorder,
-                          focusedBorder: Styles.chatOutlineInputBorder,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        IconButton(
+                          onPressed: () async {
+                            // TODO: カメラから画像を選択する。
+                          },
+                          icon: const Icon(Icons.camera_alt_outlined),
                         ),
-                      ),
-                      IconButton(
-                        onPressed: () async {
-                          final image = await ImageUtil.pickImageFromGallery();
-                          setState(() {
-                            _image = image;
-                          });
-                        },
-                        icon: const Icon(Icons.photo_outlined),
-                      ),
-                      if (_image != null)
+                        IconButton(
+                          onPressed: () async {
+                            final image =
+                                await ImageUtil.pickImageFromGallery();
+                            setState(() {
+                              _image = image;
+                            });
+                          },
+                          icon: const Icon(Icons.photo_outlined),
+                        ),
+                        const SizedBox(width: 8.0),
                         Expanded(
-                          child: Image.file(
-                            File(_image!.path),
+                          child: TextFormField(
+                            controller: _messageController,
+                            keyboardType: TextInputType.multiline,
+                            maxLines: null,
+                            decoration: InputDecoration(
+                              hintText: 'メッセージ',
+                              filled: true,
+                              fillColor: Colors.grey[200],
+                              border: Styles.chatOutlineInputBorder,
+                              focusedBorder: Styles.chatOutlineInputBorder,
+                            ),
                           ),
                         ),
-                    ],
+                        const SizedBox(width: 8.0),
+                        IconButton(
+                          onPressed: _onPressedSendButton,
+                          icon: const Icon(Icons.send),
+                        ),
+                        if (_image != null)
+                          Expanded(
+                            child: Image.file(
+                              File(_image!.path),
+                            ),
+                          ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ],
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => _onPressedSendButton(),
-          child: const Icon(Icons.add),
         ),
       ),
     );
