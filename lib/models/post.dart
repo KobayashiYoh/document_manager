@@ -2,6 +2,7 @@ import 'package:document_manager/models/channel.dart';
 import 'package:document_manager/models/school.dart';
 import 'package:document_manager/models/user.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:intl/intl.dart';
 
 part 'post.freezed.dart';
 part 'post.g.dart';
@@ -46,4 +47,19 @@ final Post kExamplePost = Post(
 
 extension PostExtension on Post {
   int get readCount => readUserIds.length;
+
+  String get createdAtText {
+    final now = DateTime.now();
+    final bool isToday = createdAt.day == now.day &&
+        createdAt.month == now.month &&
+        createdAt.year == now.year;
+    final bool isThisYear = createdAt.year == now.year;
+    if (isToday) {
+      return DateFormat('HH:mm').format(createdAt);
+    } else if (isThisYear) {
+      return DateFormat('MM/dd HH:mm').format(createdAt);
+    } else {
+      return DateFormat('yyyy/MM/dd HH:mm').format(createdAt);
+    }
+  }
 }
