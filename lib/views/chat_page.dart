@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:document_manager/constants/styles.dart';
 import 'package:document_manager/models/channel.dart';
 import 'package:document_manager/models/post.dart';
 import 'package:document_manager/models/user.dart';
@@ -73,13 +74,15 @@ class HomeViewState extends ConsumerState<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.channel.name),
-      ),
-      body: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.all(16.0),
+    final BorderRadius inputBorderRadius = BorderRadius.circular(32.0);
+    return GestureDetector(
+      onTap: () => primaryFocus?.unfocus(),
+      child: Scaffold(
+        backgroundColor: Colors.grey[200],
+        appBar: AppBar(
+          title: Text(widget.channel.name),
+        ),
+        body: SafeArea(
           child: Stack(
             alignment: Alignment.bottomCenter,
             children: [
@@ -101,6 +104,7 @@ class HomeViewState extends ConsumerState<ChatPage> {
                   });
 
                   return ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     controller: _scrollController,
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
@@ -111,52 +115,63 @@ class HomeViewState extends ConsumerState<ChatPage> {
                         post: posts[index],
                         user: kExampleStudent,
                         isMyPost: true,
-                        margin: index == posts.length - 1
-                            ? EdgeInsets.only(bottom: _inputFieldHeight)
-                            : EdgeInsets.zero,
+                        margin: index == 0
+                            ? const EdgeInsets.only(top: 16.0)
+                            : index == posts.length - 1
+                                ? EdgeInsets.only(bottom: _inputFieldHeight)
+                                : EdgeInsets.zero,
                       );
                     },
                   );
                 },
               ),
               Container(
+                padding: const EdgeInsets.all(16.0),
                 decoration: const BoxDecoration(
                   color: Colors.white,
                 ),
                 height: _inputFieldHeight,
-                child: Column(
-                  children: [
-                    TextFormField(
-                      controller: _messageController,
-                      decoration: const InputDecoration(
-                        label: Text('メッセージ'),
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () async {
-                        final image = await ImageUtil.pickImageFromGallery();
-                        setState(() {
-                          _image = image;
-                        });
-                      },
-                      icon: const Icon(Icons.photo_outlined),
-                    ),
-                    if (_image != null)
-                      Expanded(
-                        child: Image.file(
-                          File(_image!.path),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: _messageController,
+                        keyboardType: TextInputType.multiline,
+                        maxLines: null,
+                        decoration: InputDecoration(
+                          hintText: 'メッセージ',
+                          filled: true,
+                          fillColor: Colors.grey[200],
+                          border: Styles.chatOutlineInputBorder,
+                          focusedBorder: Styles.chatOutlineInputBorder,
                         ),
                       ),
-                  ],
+                      IconButton(
+                        onPressed: () async {
+                          final image = await ImageUtil.pickImageFromGallery();
+                          setState(() {
+                            _image = image;
+                          });
+                        },
+                        icon: const Icon(Icons.photo_outlined),
+                      ),
+                      if (_image != null)
+                        Expanded(
+                          child: Image.file(
+                            File(_image!.path),
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
               ),
             ],
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _onPressedSendButton(),
-        child: const Icon(Icons.add),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => _onPressedSendButton(),
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }
