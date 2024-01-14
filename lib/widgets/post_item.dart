@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:document_manager/models/post.dart';
 import 'package:document_manager/models/user.dart';
 import 'package:document_manager/widgets/circle_icon_image.dart';
@@ -52,14 +53,21 @@ class PostItem extends StatelessWidget {
                     ),
                   ],
                 ),
-                Container(
-                  padding: const EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    color: Colors.green.shade100,
-                    borderRadius: BorderRadius.circular(16.0),
+                if (post.message.isNotEmpty)
+                  Container(
+                    padding: const EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: Colors.green.shade100,
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+                    child: Text(post.message),
                   ),
-                  child: Text(post.message),
-                ),
+                const SizedBox(height: 8.0),
+                if (post.imageUrl.isNotEmpty)
+                  Container(
+                    color: Colors.black,
+                    child: CachedNetworkImage(imageUrl: post.imageUrl),
+                  ),
               ],
             ),
           ),
