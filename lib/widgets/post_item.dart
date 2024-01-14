@@ -27,7 +27,7 @@ class PostItem extends StatelessWidget {
         children: [
           CircleIconImage(
             imageUrl: post.userId,
-            errorImagePath: '',
+            errorImagePath: 'assets/images/default_user.png',
           ),
           const SizedBox(width: 8.0),
           Flexible(
