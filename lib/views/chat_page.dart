@@ -27,7 +27,9 @@ class HomeViewState extends ConsumerState<ChatPage> {
   final TextEditingController _messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   XFile? _image;
+
   final double _inputFieldHeight = 88.0;
+  final double _imagePreviewHeight = 64.0;
 
   bool get disableSendButton =>
       _messageController.text.isEmpty && _image == null;
@@ -124,7 +126,9 @@ class HomeViewState extends ConsumerState<ChatPage> {
                         margin: index == 0
                             ? const EdgeInsets.only(top: 16.0)
                             : index == posts.length - 1
-                                ? EdgeInsets.only(bottom: _inputFieldHeight)
+                                ? EdgeInsets.only(
+                                    bottom:
+                                        _inputFieldHeight + _imagePreviewHeight)
                                 : EdgeInsets.zero,
                       );
                     },
@@ -133,7 +137,9 @@ class HomeViewState extends ConsumerState<ChatPage> {
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                height: _inputFieldHeight,
+                height: _image == null
+                    ? _inputFieldHeight
+                    : _inputFieldHeight + _imagePreviewHeight,
                 alignment: Alignment.center,
                 decoration: const BoxDecoration(
                   color: Colors.white,
@@ -141,49 +147,57 @@ class HomeViewState extends ConsumerState<ChatPage> {
                 child: SingleChildScrollView(
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Column(
                       children: [
-                        IconButton(
-                          onPressed: () async {
-                            // TODO: カメラから画像を選択する。
-                          },
-                          icon: const Icon(Icons.camera_alt_outlined),
-                        ),
-                        IconButton(
-                          onPressed: () async {
-                            final image =
-                                await ImageUtil.pickImageFromGallery();
-                            setState(() {
-                              _image = image;
-                            });
-                          },
-                          icon: const Icon(Icons.photo_outlined),
-                        ),
-                        const SizedBox(width: 8.0),
-                        Expanded(
-                          child: TextFormField(
-                            controller: _messageController,
-                            keyboardType: TextInputType.multiline,
-                            maxLines: null,
-                            decoration: InputDecoration(
-                              hintText: 'メッセージ',
-                              filled: true,
-                              fillColor: Colors.grey[200],
-                              border: Styles.chatOutlineInputBorder,
-                              focusedBorder: Styles.chatOutlineInputBorder,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            IconButton(
+                              onPressed: () async {
+                                // TODO: カメラから画像を選択する。
+                              },
+                              icon: const Icon(Icons.camera_alt_outlined),
                             ),
-                          ),
-                        ),
-                        const SizedBox(width: 8.0),
-                        IconButton(
-                          onPressed: _onPressedSendButton,
-                          icon: const Icon(Icons.send),
+                            IconButton(
+                              onPressed: () async {
+                                final image =
+                                    await ImageUtil.pickImageFromGallery();
+                                setState(() {
+                                  _image = image;
+                                });
+                              },
+                              icon: const Icon(Icons.photo_outlined),
+                            ),
+                            const SizedBox(width: 8.0),
+                            Expanded(
+                              child: TextFormField(
+                                controller: _messageController,
+                                keyboardType: TextInputType.multiline,
+                                maxLines: null,
+                                decoration: InputDecoration(
+                                  hintText: 'メッセージ',
+                                  filled: true,
+                                  fillColor: Colors.grey[200],
+                                  border: Styles.chatOutlineInputBorder,
+                                  focusedBorder: Styles.chatOutlineInputBorder,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 8.0),
+                            IconButton(
+                              onPressed: _onPressedSendButton,
+                              icon: const Icon(Icons.send),
+                            ),
+                          ],
                         ),
                         if (_image != null)
-                          Expanded(
-                            child: Image.file(
-                              File(_image!.path),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            child: SizedBox(
+                              height: _imagePreviewHeight,
+                              child: Image.file(
+                                File(_image!.path),
+                              ),
                             ),
                           ),
                       ],
