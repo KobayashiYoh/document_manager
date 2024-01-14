@@ -29,6 +29,9 @@ class HomeViewState extends ConsumerState<ChatPage> {
   XFile? _image;
   final double _inputFieldHeight = 88.0;
 
+  bool get disableSendButton =>
+      _messageController.text.isEmpty && _image == null;
+
   Future<void> _putImage(String postId) async {
     final String storagePath = 'posts/$postId.png';
     try {
@@ -51,6 +54,9 @@ class HomeViewState extends ConsumerState<ChatPage> {
   }
 
   Future<void> _onPressedSendButton() async {
+    if (disableSendButton) {
+      return;
+    }
     final String postId = const Uuid().v4();
     if (_image != null) {
       await _putImage(postId);
