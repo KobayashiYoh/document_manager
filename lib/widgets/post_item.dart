@@ -31,13 +31,36 @@ class PostItem extends StatelessWidget {
           ),
           const SizedBox(width: 8.0),
           Flexible(
-            child: Container(
-              padding: const EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                color: Colors.green.shade100,
-                borderRadius: BorderRadius.circular(16.0),
-              ),
-              child: Text(post.message),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      '${user.lastName} ${user.firstName}',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(width: 8.0),
+                    Text(
+                      post.createdAtText,
+                      style: const TextStyle(
+                        fontSize: 12.0,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+                Container(
+                  padding: const EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                    color: Colors.green.shade100,
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  child: Text(post.message),
+                ),
+              ],
             ),
           ),
         ],
