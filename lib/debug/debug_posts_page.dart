@@ -34,10 +34,10 @@ class _DebugPostsPageState extends State<DebugPostsPage> {
   Future<void> _putPost(String id, String imageUrl) async {
     try {
       await FirestoreRepository.setPost(
-        id,
-        kExampleChannel.id,
-        _messageController.text,
-        imageUrl,
+        postId: id,
+        channelId: kExampleChannel.id,
+        message: _messageController.text,
+        imageUrl: imageUrl,
       );
     } catch (e) {
       rethrow;

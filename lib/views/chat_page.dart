@@ -1,18 +1,14 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:document_manager/constants/styles.dart';
 import 'package:document_manager/models/channel.dart';
 import 'package:document_manager/models/post.dart';
 import 'package:document_manager/models/user.dart';
-import 'package:document_manager/repository/firebase_storage_repository.dart';
+import 'package:document_manager/providers/chat_notifier.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
-import 'package:document_manager/utils/image_util.dart';
 import 'package:document_manager/widgets/post_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:uuid/uuid.dart';
 
 class ChatPage extends ConsumerStatefulWidget {
   const ChatPage({super.key, required this.channel});
@@ -26,52 +22,25 @@ class ChatPage extends ConsumerStatefulWidget {
 class HomeViewState extends ConsumerState<ChatPage> {
   final TextEditingController _messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
-  XFile? _image;
 
   final double _inputFieldHeight = 88.0;
   final double _imagePreviewHeight = 64.0;
 
-  bool get disableSendButton =>
-      _messageController.text.isEmpty && _image == null;
-
-  Future<void> _putImage(String postId) async {
-    final String storagePath = 'posts/$postId.png';
-    try {
-      await FirebaseStorageRepository.put(File(_image!.path), storagePath);
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<void> _putPost(String id, String imageUrl) async {
-    try {
-      await FirestoreRepository.setPost(
-        id,
-        widget.channel.id,
-        _messageController.text,
-        imageUrl,
-      );
-    } catch (e) {
-      rethrow;
-    }
+  bool get disableSendButton {
+    final image = ref.read(chatProvider).image;
+    return _messageController.text.isEmpty && image == null;
   }
 
   Future<void> _onPressedSendButton() async {
     if (disableSendButton) {
       return;
     }
-    final String postId = const Uuid().v4();
-    if (_image != null) {
-      await _putImage(postId);
-    }
-    final String imageUrl = _image == null
-        ? ''
-        : 'https://firebasestorage.googleapis.com/v0/b/resukuru-mobile.appspot.com/o/posts%2F$postId.png?alt=media';
-    await _putPost(postId, imageUrl);
+    final notifier = ref.read(chatProvider.notifier);
+    await notifier.sendPost(
+      channelId: widget.channel.id,
+      message: _messageController.text,
+    );
     _messageController.clear();
-    setState(() {
-      _image = null;
-    });
   }
 
   @override
@@ -83,6 +52,8 @@ class HomeViewState extends ConsumerState<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(chatProvider);
+    final notifier = ref.read(chatProvider.notifier);
     return GestureDetector(
       onTap: () => primaryFocus?.unfocus(),
       child: Scaffold(
@@ -137,7 +108,7 @@ class HomeViewState extends ConsumerState<ChatPage> {
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                height: _image == null
+                height: state.image == null
                     ? _inputFieldHeight
                     : _inputFieldHeight + _imagePreviewHeight,
                 alignment: Alignment.center,
@@ -159,13 +130,7 @@ class HomeViewState extends ConsumerState<ChatPage> {
                               icon: const Icon(Icons.camera_alt_outlined),
                             ),
                             IconButton(
-                              onPressed: () async {
-                                final image =
-                                    await ImageUtil.pickImageFromGallery();
-                                setState(() {
-                                  _image = image;
-                                });
-                              },
+                              onPressed: notifier.onPressedImageButton,
                               icon: const Icon(Icons.photo_outlined),
                             ),
                             const SizedBox(width: 8.0),
@@ -190,13 +155,13 @@ class HomeViewState extends ConsumerState<ChatPage> {
                             ),
                           ],
                         ),
-                        if (_image != null)
+                        if (state.image != null)
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 16.0),
                             child: SizedBox(
                               height: _imagePreviewHeight,
                               child: Image.file(
-                                File(_image!.path),
+                                File(state.image!.path),
                               ),
                             ),
                           ),
