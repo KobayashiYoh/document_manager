@@ -8,7 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
-final chatProvider = StateNotifierProvider<ChatNotifier, ChatState>(
+final chatProvider = StateNotifierProvider.autoDispose<ChatNotifier, ChatState>(
   (ref) => ChatNotifier(),
 );
 
