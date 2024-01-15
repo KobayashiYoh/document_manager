@@ -32,6 +32,7 @@ class FirestoreRepository {
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> postSnapshots({
     required String channelId,
+    String? searchWord,
   }) {
     return FirebaseFirestore.instance
         .collection('posts')

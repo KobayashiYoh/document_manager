@@ -9,6 +9,8 @@ class ChatState with _$ChatState {
     required bool isLoading,
     required bool hasError,
     required XFile? image,
+    required bool showSearchBar,
+    required String searchWord,
   }) = _ChatState;
 }
 
@@ -16,4 +18,6 @@ const kDefaultChatState = ChatState(
   isLoading: false,
   hasError: false,
   image: null,
+  showSearchBar: true,
+  searchWord: '',
 );

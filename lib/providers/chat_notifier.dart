@@ -27,6 +27,14 @@ class ChatNotifier extends StateNotifier<ChatState> {
     state = state.copyWith(image: image);
   }
 
+  void setShowSearchBar(bool value) {
+    state = state.copyWith(showSearchBar: value);
+  }
+
+  void setSearchWord(String value) {
+    state = state.copyWith(searchWord: value);
+  }
+
   Future<void> onPressedImageButton() async {
     final image = await ImageUtil.pickImageFromGallery();
     setImage(image);
