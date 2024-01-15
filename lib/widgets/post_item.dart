@@ -18,6 +18,25 @@ class PostItem extends StatelessWidget {
   final bool isMyPost;
   final EdgeInsetsGeometry? margin;
 
+  void _onTapImage(BuildContext context) {
+    showGeneralDialog(
+      barrierDismissible: true,
+      barrierLabel: '',
+      context: context,
+      pageBuilder: (context, animation1, animation2) {
+        return Center(
+          child: SingleChildScrollView(
+            child: InteractiveViewer(
+              minScale: 0.1,
+              maxScale: 5,
+              child: CachedNetworkImage(imageUrl: post.imageUrl),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -64,9 +83,12 @@ class PostItem extends StatelessWidget {
                   ),
                 const SizedBox(height: 8.0),
                 if (post.imageUrl.isNotEmpty)
-                  Container(
-                    color: Colors.black,
-                    child: CachedNetworkImage(imageUrl: post.imageUrl),
+                  GestureDetector(
+                    onTap: () => _onTapImage(context),
+                    child: Container(
+                      color: Colors.black,
+                      child: CachedNetworkImage(imageUrl: post.imageUrl),
+                    ),
                   ),
               ],
             ),
