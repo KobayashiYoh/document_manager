@@ -32,6 +32,7 @@ class FirestoreRepository {
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> postSnapshots({
     required String channelId,
+    String? searchWord,
   }) {
     return FirebaseFirestore.instance
         .collection('posts')
@@ -41,14 +42,14 @@ class FirestoreRepository {
         .snapshots();
   }
 
-  static Future<void> setPost(
-    String id,
-    String channelId,
-    String message,
-    String imageUrl,
-  ) async {
+  static Future<void> setPost({
+    required String postId,
+    required String channelId,
+    required String message,
+    required String imageUrl,
+  }) async {
     final Post post = Post(
-      id: id,
+      id: postId,
       schoolId: _schoolId,
       channelId: channelId,
       userId: _userId,
@@ -60,7 +61,7 @@ class FirestoreRepository {
     try {
       await FirebaseFirestore.instance
           .collection('posts')
-          .doc(id)
+          .doc(postId)
           .set(post.toJson());
     } catch (e) {
       throw Exception('Failed to set post: $e');

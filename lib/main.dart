@@ -1,3 +1,4 @@
+import 'package:document_manager/constants/app_colors.dart';
 import 'package:document_manager/firebase_options.dart';
 import 'package:document_manager/views/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -26,15 +27,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.main),
         useMaterial3: true,
         appBarTheme: const AppBarTheme(
           foregroundColor: Colors.white,
-          backgroundColor: Color(0xFF00552E),
+          backgroundColor: AppColors.main,
         ),
         floatingActionButtonTheme: const FloatingActionButtonThemeData(
           foregroundColor: Colors.white,
-          backgroundColor: Color(0xFF00552E),
+          backgroundColor: AppColors.main,
         ),
       ),
       home: const HomePage(),
