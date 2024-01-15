@@ -26,10 +26,25 @@ class PostItem extends StatelessWidget {
       pageBuilder: (context, animation1, animation2) {
         return Center(
           child: SingleChildScrollView(
-            child: InteractiveViewer(
-              minScale: 0.1,
-              maxScale: 5,
-              child: CachedNetworkImage(imageUrl: post.imageUrl),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  style: IconButton.styleFrom(
+                    backgroundColor: const Color(0xCC333333),
+                    foregroundColor: Colors.white,
+                  ),
+                  icon: const Icon(Icons.close),
+                ),
+                InteractiveViewer(
+                  minScale: 0.1,
+                  maxScale: 5,
+                  child: CachedNetworkImage(imageUrl: post.imageUrl),
+                ),
+              ],
             ),
           ),
         );
