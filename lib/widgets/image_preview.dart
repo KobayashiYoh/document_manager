@@ -22,7 +22,7 @@ class ImagePreview extends StatelessWidget {
     return Center(
       child: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             IconButton(
               onPressed: () {
