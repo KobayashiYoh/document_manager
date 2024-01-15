@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:document_manager/models/post.dart';
 import 'package:document_manager/models/user.dart';
 import 'package:document_manager/widgets/circle_icon_image.dart';
+import 'package:document_manager/widgets/image_preview.dart';
 import 'package:flutter/material.dart';
 
 class PostItem extends StatelessWidget {
@@ -64,9 +65,12 @@ class PostItem extends StatelessWidget {
                   ),
                 const SizedBox(height: 8.0),
                 if (post.imageUrl.isNotEmpty)
-                  Container(
-                    color: Colors.black,
-                    child: CachedNetworkImage(imageUrl: post.imageUrl),
+                  GestureDetector(
+                    onTap: () => showImagePreview(context, post.imageUrl),
+                    child: Container(
+                      color: Colors.black,
+                      child: CachedNetworkImage(imageUrl: post.imageUrl),
+                    ),
                   ),
               ],
             ),
