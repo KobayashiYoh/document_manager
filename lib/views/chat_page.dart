@@ -34,9 +34,17 @@ class HomeViewState extends ConsumerState<ChatPage> {
     return _messageController.text.isEmpty && image == null;
   }
 
-  Future<void> _onSubmittedSearchField(String value) async {
+  void _onSubmittedSearchField(String value) {
     final notifier = ref.read(chatProvider.notifier);
     notifier.setSearchWord(value);
+  }
+
+  void _resetSearchWord() {
+    final notifier = ref.read(chatProvider.notifier);
+    _searchTextController.clear();
+    notifier.setSearchWord('');
+    _onSubmittedSearchField('');
+    _scrollMax();
   }
 
   Future<void> _onPressedSendButton() async {
@@ -51,12 +59,29 @@ class HomeViewState extends ConsumerState<ChatPage> {
     _messageController.clear();
   }
 
+  void _scrollMax() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(microseconds: 1),
+        curve: Curves.easeInOut,
+      );
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.value(() {
+      _resetSearchWord();
+    });
+  }
+
   @override
   void dispose() {
     _messageController.dispose();
     _searchTextController.dispose();
     _scrollController.dispose();
-    ref.read(chatProvider.notifier).setSearchWord('');
     super.dispose();
   }
 
