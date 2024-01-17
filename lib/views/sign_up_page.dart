@@ -1,3 +1,4 @@
+import 'package:document_manager/providers/sign_up_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -11,6 +12,14 @@ class SignUpPage extends ConsumerStatefulWidget {
 class SignUpPageState extends ConsumerState<SignUpPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  Future<void> _onPressedSignUp() async {
+    final notifier = ref.read(signUpProvider.notifier);
+    await notifier.signUp(
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
+  }
 
   @override
   void dispose() {
@@ -78,7 +87,7 @@ class SignUpPageState extends ConsumerState<SignUpPage> {
             ),
             const SizedBox(height: 64.0),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: _onPressedSignUp,
               child: const Text('登録'),
             ),
             SizedBox(height: keyboardHeight),
