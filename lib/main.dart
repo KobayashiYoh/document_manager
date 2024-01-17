@@ -37,6 +37,17 @@ class MyApp extends StatelessWidget {
           foregroundColor: Colors.white,
           backgroundColor: AppColors.main,
         ),
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.main,
+            foregroundColor: Colors.white,
+          ),
+        ),
       ),
       home: const SignUpPage(),
     );
