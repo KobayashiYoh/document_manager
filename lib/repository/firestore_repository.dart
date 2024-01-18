@@ -8,15 +8,23 @@ import 'package:uuid/uuid.dart';
 
 /// CloudFirestoreのRepositoryクラスです。
 class FirestoreRepository {
-  static late final String _schoolId;
-  static late final String _userId;
+  static String _schoolId = '';
+  static String _userId = '';
 
   static void initilezed({
     required String schoolId,
     required String userId,
   }) {
+    if (_schoolId.isNotEmpty && _userId.isNotEmpty) {
+      return;
+    }
     _schoolId = schoolId;
     _userId = userId;
+  }
+
+  static void reset() {
+    _schoolId = '';
+    _userId = '';
   }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> userSnapshots() {

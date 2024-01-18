@@ -14,4 +14,8 @@ class SignedInSchoolNotifier extends StateNotifier<School?> {
   void setSignedInSchool(School school) {
     state = school;
   }
+
+  void reset() {
+    state = null;
+  }
 }

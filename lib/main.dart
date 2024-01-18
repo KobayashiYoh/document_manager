@@ -1,5 +1,7 @@
 import 'package:document_manager/constants/app_colors.dart';
 import 'package:document_manager/firebase_options.dart';
+import 'package:document_manager/repository/secure_storage_repository.dart';
+import 'package:document_manager/views/home_page.dart';
 import 'package:document_manager/views/sign_in_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -12,15 +14,18 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  final bool isSignedIn = await SecureStorageRepository.isUserIdSaved();
   runApp(
-    const ProviderScope(
-      child: MyApp(),
+    ProviderScope(
+      child: MyApp(isSignedIn: isSignedIn),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, required this.isSignedIn});
+
+  final bool isSignedIn;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +54,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const SignInPage(),
+      home: isSignedIn ? const HomePage() : const SignInPage(),
     );
   }
 }

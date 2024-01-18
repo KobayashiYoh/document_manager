@@ -5,6 +5,7 @@ import 'package:document_manager/providers/signed_in_school_notifier.dart';
 import 'package:document_manager/providers/signed_in_user_notifier.dart';
 import 'package:document_manager/repository/firebase_auth_repository.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
+import 'package:document_manager/repository/secure_storage_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -63,5 +64,6 @@ class SignInNotifier extends StateNotifier<SignInState> {
       schoolId: user.schoolId,
       userId: user.id,
     );
+    await SecureStorageRepository.writeUserId(user.id);
   }
 }
