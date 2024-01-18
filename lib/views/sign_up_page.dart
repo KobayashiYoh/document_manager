@@ -1,3 +1,4 @@
+import 'package:document_manager/models/school.dart';
 import 'package:document_manager/models/user_type.dart';
 import 'package:document_manager/providers/sign_up_notifier.dart';
 import 'package:document_manager/widgets/form_item.dart';
@@ -106,7 +107,34 @@ class SignUpPageState extends ConsumerState<SignUpPage> {
             const SizedBox(height: 32.0),
             FormItem(
               label: '学校名',
-              child: TextFormField(),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  TextFormField(
+                    enabled: false,
+                    decoration: const InputDecoration(
+                      disabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                  ),
+                  DropdownButton(
+                    items: [
+                      for (School school in state.schools)
+                        DropdownMenuItem(
+                          value: school,
+                          child: Text(school.name),
+                        ),
+                    ],
+                    value: state.selectedSchool,
+                    isExpanded: true,
+                    padding: const EdgeInsets.all(16.0),
+                    onChanged: (value) => notifier.onChangedSchool(value),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 32.0),
             FormItem(
