@@ -4,6 +4,8 @@ enum UserType {
   student,
 }
 
+const UserType kDefaultUserType = UserType.parent;
+
 extension UserTypeExtension on UserType {
   String get text {
     switch (this) {

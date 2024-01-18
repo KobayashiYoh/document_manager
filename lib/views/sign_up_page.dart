@@ -1,3 +1,4 @@
+import 'package:document_manager/models/user_type.dart';
 import 'package:document_manager/providers/sign_up_notifier.dart';
 import 'package:document_manager/widgets/form_item.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,17 @@ class SignUpPage extends ConsumerStatefulWidget {
 class SignUpPageState extends ConsumerState<SignUpPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _lastNameKey = GlobalKey();
+
+  String get allUserTypeText {
+    String text = '';
+    for (UserType userType in UserType.values) {
+      text = text.isEmpty
+          ? userType.displayText
+          : '$text / ${userType.displayText}';
+    }
+    return text;
+  }
 
   Future<void> _onPressedSignUp() async {
     final notifier = ref.read(signUpProvider.notifier);
@@ -20,6 +32,15 @@ class SignUpPageState extends ConsumerState<SignUpPage> {
       email: _emailController.text,
       password: _passwordController.text,
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final notifier = ref.read(signUpProvider.notifier);
+      notifier.setUserTypeFieldWidth(_lastNameKey);
+    });
   }
 
   @override
@@ -31,6 +52,8 @@ class SignUpPageState extends ConsumerState<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(signUpProvider);
+    final notifier = ref.read(signUpProvider.notifier);
     final double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -61,6 +84,7 @@ class SignUpPageState extends ConsumerState<SignUpPage> {
             Row(
               children: [
                 Expanded(
+                  key: _lastNameKey,
                   child: FormItem(
                     label: '苗字',
                     child: TextFormField(
@@ -86,8 +110,38 @@ class SignUpPageState extends ConsumerState<SignUpPage> {
             ),
             const SizedBox(height: 32.0),
             FormItem(
-              label: '区分',
-              child: TextFormField(),
+              label: '区分（$allUserTypeText）',
+              child: SizedBox(
+                width: state.userTypeFieldWidth,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    TextFormField(
+                      enabled: false,
+                      decoration: const InputDecoration(
+                        disabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                    ),
+                    DropdownButton(
+                      items: [
+                        for (UserType userType in UserType.values)
+                          DropdownMenuItem(
+                            value: userType,
+                            child: Text(userType.displayText),
+                          ),
+                      ],
+                      value: state.userType,
+                      isExpanded: true,
+                      padding: const EdgeInsets.all(16.0),
+                      onChanged: (value) => notifier.onChangedUserType(value),
+                    ),
+                  ],
+                ),
+              ),
             ),
             const SizedBox(height: 64.0),
             ElevatedButton(
