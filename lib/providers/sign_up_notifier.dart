@@ -112,5 +112,9 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
       setLoading(false);
     }
     ref.read(signedInUserProvider.notifier).setSignedInUser(user);
+    FirestoreRepository.initilezed(
+      schoolId: user.schoolId,
+      userId: user.id,
+    );
   }
 }
