@@ -19,6 +19,20 @@ class FirestoreRepository {
         .snapshots();
   }
 
+  static Future<User> getUser(String userId) async {
+    User user;
+    try {
+      final response = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .get();
+      user = User.fromJson(response.data() as Map<String, dynamic>);
+    } catch (e) {
+      rethrow;
+    }
+    return user;
+  }
+
   static Future<void> setUser(User user) async {
     try {
       await FirebaseFirestore.instance

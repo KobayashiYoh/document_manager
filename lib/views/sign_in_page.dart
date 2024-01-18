@@ -1,5 +1,6 @@
 import 'package:document_manager/providers/sign_in_notifier.dart';
 import 'package:document_manager/views/sign_up_page.dart';
+import 'package:document_manager/views/timeline_page.dart';
 import 'package:document_manager/widgets/form_item.dart';
 import 'package:document_manager/widgets/password_suffix_icon_button.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,22 @@ class SignUpPageState extends ConsumerState<SignInPage> {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => const SignUpPage(),
+      ),
+    );
+  }
+
+  void _onPressedSignIn() async {
+    final notifier = ref.read(signInProvider.notifier);
+    await notifier.signIn(
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
+    _emailController.clear();
+    _passwordController.clear();
+    if (!mounted) return;
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const TimelinePage(),
       ),
     );
   }
@@ -86,7 +103,7 @@ class SignUpPageState extends ConsumerState<SignInPage> {
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
-              onPressed: _onPressedSignUp,
+              onPressed: _onPressedSignIn,
               child: const Text('ログインする'),
             ),
             SizedBox(height: keyboardHeight),
