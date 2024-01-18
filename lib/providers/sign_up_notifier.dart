@@ -4,7 +4,6 @@ import 'package:document_manager/models/user.dart' as custom_user;
 import 'package:document_manager/models/user_type.dart';
 import 'package:document_manager/repository/firebase_auth_repository.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -74,7 +73,6 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
     if (state.isLoading) {
       return;
     }
-    UserCredential result;
     setError(false);
     setLoading(true);
     final String uuid = const Uuid().v4();
@@ -89,7 +87,7 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
       lastName: lastName,
     );
     try {
-      result = await FirebaseAuthRepository.signUpWithEmailAndPassword(
+      await FirebaseAuthRepository.signUpWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -100,6 +98,5 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
     } finally {
       setLoading(false);
     }
-    print('result: $result');
   }
 }
