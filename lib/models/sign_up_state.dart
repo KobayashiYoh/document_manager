@@ -9,6 +9,7 @@ class SignUpState with _$SignUpState {
   const factory SignUpState({
     required bool isLoading,
     required bool hasError,
+    required bool obscureText,
     required List<School> schools,
     required School? selectedSchool,
     required double userTypeFieldWidth,
@@ -19,6 +20,7 @@ class SignUpState with _$SignUpState {
 const SignUpState kDefaultSignUpState = SignUpState(
   isLoading: false,
   hasError: false,
+  obscureText: true,
   schools: [],
   selectedSchool: null,
   userTypeFieldWidth: 0,

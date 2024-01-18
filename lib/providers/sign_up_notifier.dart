@@ -38,6 +38,10 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
     state = state.copyWith(hasError: value);
   }
 
+  void switchObscureText() {
+    state = state.copyWith(obscureText: !state.obscureText);
+  }
+
   void onChangedSchool(School? school) {
     if (school == null) {
       return;
