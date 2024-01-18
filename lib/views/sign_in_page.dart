@@ -1,6 +1,6 @@
 import 'package:document_manager/providers/sign_in_notifier.dart';
+import 'package:document_manager/views/home_page.dart';
 import 'package:document_manager/views/sign_up_page.dart';
-import 'package:document_manager/views/timeline_page.dart';
 import 'package:document_manager/widgets/form_item.dart';
 import 'package:document_manager/widgets/password_suffix_icon_button.dart';
 import 'package:flutter/material.dart';
@@ -36,10 +36,9 @@ class SignUpPageState extends ConsumerState<SignInPage> {
     _emailController.clear();
     _passwordController.clear();
     if (!mounted) return;
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const TimelinePage(),
-      ),
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => const HomePage()),
+      (route) => false,
     );
   }
 
