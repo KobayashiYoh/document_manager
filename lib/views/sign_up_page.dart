@@ -1,4 +1,5 @@
 import 'package:document_manager/providers/sign_up_notifier.dart';
+import 'package:document_manager/widgets/form_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -37,53 +38,56 @@ class SignUpPageState extends ConsumerState<SignUpPage> {
         title: const Text('新規ユーザー登録'),
       ),
       body: Container(
-        padding: const EdgeInsets.all(32.0),
         child: ListView(
+          padding: const EdgeInsets.all(32.0),
           children: [
-            TextFormField(
-              controller: _emailController,
-              decoration: const InputDecoration(
-                label: Text('メールアドレス'),
+            FormItem(
+              label: 'メールアドレス',
+              child: TextFormField(
+                controller: _emailController,
+                decoration: const InputDecoration(
+                  hintText: 'email@example.com',
+                ),
               ),
             ),
             const SizedBox(height: 32.0),
-            TextFormField(
-              controller: _passwordController,
-              decoration: const InputDecoration(
-                label: Text('パスワード'),
+            FormItem(
+              label: 'パスワード',
+              child: TextFormField(
+                controller: _passwordController,
               ),
             ),
             const SizedBox(height: 32.0),
             Row(
               children: [
                 Expanded(
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                      label: Text('苗字'),
+                  child: FormItem(
+                    label: '苗字',
+                    child: TextFormField(
+                      decoration: const InputDecoration(hintText: '山田'),
                     ),
                   ),
                 ),
                 const SizedBox(width: 32.0),
                 Expanded(
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                      label: Text('名前'),
+                  child: FormItem(
+                    label: '名前',
+                    child: TextFormField(
+                      decoration: const InputDecoration(hintText: '太郎'),
                     ),
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 32.0),
-            TextFormField(
-              decoration: const InputDecoration(
-                label: Text('学校'),
-              ),
+            FormItem(
+              label: '学校名',
+              child: TextFormField(),
             ),
             const SizedBox(height: 32.0),
-            TextFormField(
-              decoration: const InputDecoration(
-                label: Text('区分'),
-              ),
+            FormItem(
+              label: '区分',
+              child: TextFormField(),
             ),
             const SizedBox(height: 64.0),
             ElevatedButton(
