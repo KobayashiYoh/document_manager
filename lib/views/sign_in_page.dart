@@ -1,5 +1,8 @@
+import 'package:document_manager/providers/sign_in_notifier.dart';
+import 'package:document_manager/views/home_page.dart';
 import 'package:document_manager/views/sign_up_page.dart';
 import 'package:document_manager/widgets/form_item.dart';
+import 'package:document_manager/widgets/password_suffix_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -24,6 +27,21 @@ class SignUpPageState extends ConsumerState<SignInPage> {
     );
   }
 
+  void _onPressedSignIn() async {
+    final notifier = ref.read(signInProvider.notifier);
+    await notifier.signIn(
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
+    _emailController.clear();
+    _passwordController.clear();
+    if (!mounted) return;
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => const HomePage()),
+      (route) => false,
+    );
+  }
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -33,6 +51,8 @@ class SignUpPageState extends ConsumerState<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(signInProvider);
+    final notifier = ref.read(signInProvider.notifier);
     final double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
     return GestureDetector(
       onTap: () => primaryFocus?.unfocus(),
@@ -60,13 +80,13 @@ class SignUpPageState extends ConsumerState<SignInPage> {
               child: TextFormField(
                 controller: _passwordController,
                 keyboardType: TextInputType.visiblePassword,
-                // obscureText: state.obscureText,
-                // decoration: InputDecoration(
-                //   suffixIcon: PasswordSuffixIconButton(
-                //     onPressed: notifier.switchObscureText,
-                //     obscureText: state.obscureText,
-                //   ),
-                // ),
+                obscureText: state.obscureText,
+                decoration: InputDecoration(
+                  suffixIcon: PasswordSuffixIconButton(
+                    onPressed: notifier.switchObscureText,
+                    obscureText: state.obscureText,
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 64.0),
@@ -82,7 +102,7 @@ class SignUpPageState extends ConsumerState<SignInPage> {
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
-              onPressed: _onPressedSignUp,
+              onPressed: _onPressedSignIn,
               child: const Text('ログインする'),
             ),
             SizedBox(height: keyboardHeight),

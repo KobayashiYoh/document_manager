@@ -1,27 +1,31 @@
 import 'package:document_manager/models/school.dart';
 import 'package:document_manager/models/sign_up_state.dart';
-import 'package:document_manager/models/user.dart' as custom_user;
+import 'package:document_manager/models/user.dart' as custom;
 import 'package:document_manager/models/user_type.dart';
+import 'package:document_manager/providers/signed_in_school_notifier.dart';
+import 'package:document_manager/providers/signed_in_user_notifier.dart';
 import 'package:document_manager/repository/firebase_auth_repository.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:uuid/uuid.dart';
 
 final signUpProvider = StateNotifierProvider<SignUpNotifier, SignUpState>(
-  (ref) => SignUpNotifier(),
+  (ref) => SignUpNotifier(ref),
 );
 
 class SignUpNotifier extends StateNotifier<SignUpState> {
-  SignUpNotifier() : super(kDefaultSignUpState) {
+  SignUpNotifier(this.ref) : super(kDefaultSignUpState) {
     _initialize();
   }
+
+  final Ref ref;
 
   Future<void> _initialize() async {
     List<School> schools = [];
     setLoading(true);
     try {
-      schools = await FirestoreRepository.getSchool();
+      schools = await FirestoreRepository.getSchools();
     } catch (e) {
       setError(true);
       rethrow;
@@ -73,11 +77,25 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
     if (state.isLoading) {
       return;
     }
+    UserCredential userCredential;
+    custom.User user;
+    School school;
     setError(false);
     setLoading(true);
-    final String uuid = const Uuid().v4();
-    final user = custom_user.User(
-      id: uuid,
+    try {
+      userCredential = await FirebaseAuthRepository.signUpWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } catch (e) {
+      setError(true);
+      rethrow;
+    }
+    if (userCredential.user == null) {
+      return;
+    }
+    user = custom.User(
+      id: userCredential.user!.uid,
       schoolId: state.selectedSchool!.id,
       classId: '',
       channelIds: [],
@@ -85,18 +103,22 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
       iconImageUrl: '',
       firstName: firstName,
       lastName: lastName,
+      email: userCredential.user?.email,
     );
     try {
-      await FirebaseAuthRepository.signUpWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
       await FirestoreRepository.setUser(user);
+      school = await FirestoreRepository.getSchool(user.schoolId);
     } catch (e) {
       setError(true);
       rethrow;
     } finally {
       setLoading(false);
     }
+    ref.read(signedInUserProvider.notifier).setSignedInUser(user);
+    ref.read(signedInSchoolProvider.notifier).setSignedInSchool(school);
+    FirestoreRepository.initilezed(
+      schoolId: user.schoolId,
+      userId: user.id,
+    );
   }
 }

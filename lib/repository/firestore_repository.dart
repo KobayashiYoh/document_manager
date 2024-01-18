@@ -8,8 +8,16 @@ import 'package:uuid/uuid.dart';
 
 /// CloudFirestoreのRepositoryクラスです。
 class FirestoreRepository {
-  static final _schoolId = kExampleSchool.id;
-  static final _userId = kExampleParent.id;
+  static late final String _schoolId;
+  static late final String _userId;
+
+  static void initilezed({
+    required String schoolId,
+    required String userId,
+  }) {
+    _schoolId = schoolId;
+    _userId = userId;
+  }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> userSnapshots() {
     return FirebaseFirestore.instance
@@ -17,6 +25,20 @@ class FirestoreRepository {
         .where('schoolId', isEqualTo: _schoolId)
         .orderBy('lastName', descending: true)
         .snapshots();
+  }
+
+  static Future<User> getUser(String userId) async {
+    User user;
+    try {
+      final response = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .get();
+      user = User.fromJson(response.data() as Map<String, dynamic>);
+    } catch (e) {
+      rethrow;
+    }
+    return user;
   }
 
   static Future<void> setUser(User user) async {
@@ -136,7 +158,21 @@ class FirestoreRepository {
         .snapshots();
   }
 
-  static Future<List<School>> getSchool() async {
+  static Future<School> getSchool(String schoolId) async {
+    School school;
+    try {
+      final doc = await FirebaseFirestore.instance
+          .collection('schools')
+          .doc(schoolId)
+          .get();
+      school = School.fromJson(doc.data() as Map<String, dynamic>);
+    } catch (e) {
+      rethrow;
+    }
+    return school;
+  }
+
+  static Future<List<School>> getSchools() async {
     List<School> schools = [];
     try {
       final response = await FirebaseFirestore.instance

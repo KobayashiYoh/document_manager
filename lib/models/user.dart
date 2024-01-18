@@ -18,6 +18,7 @@ class User with _$User {
     required String iconImageUrl,
     required String firstName,
     required String lastName,
+    String? email,
     String? parentId1,
     String? parentId2,
   }) = _User;
