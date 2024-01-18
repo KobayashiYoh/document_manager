@@ -16,6 +16,8 @@ class SignUpPage extends ConsumerStatefulWidget {
 class SignUpPageState extends ConsumerState<SignUpPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _lastNameController = TextEditingController();
+  final _firstNameController = TextEditingController();
   final _lastNameKey = GlobalKey();
 
   String get allUserTypeText {
@@ -33,6 +35,8 @@ class SignUpPageState extends ConsumerState<SignUpPage> {
     await notifier.signUp(
       email: _emailController.text,
       password: _passwordController.text,
+      lastName: _lastNameController.text,
+      firstName: _firstNameController.text,
     );
   }
 
@@ -49,6 +53,8 @@ class SignUpPageState extends ConsumerState<SignUpPage> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _lastNameController.dispose();
+    _firstNameController.dispose();
     super.dispose();
   }
 
@@ -96,6 +102,7 @@ class SignUpPageState extends ConsumerState<SignUpPage> {
                 child: FormItem(
                   label: '苗字',
                   child: TextFormField(
+                    controller: _lastNameController,
                     decoration: const InputDecoration(hintText: '山田'),
                   ),
                 ),
@@ -105,6 +112,7 @@ class SignUpPageState extends ConsumerState<SignUpPage> {
                 child: FormItem(
                   label: '名前',
                   child: TextFormField(
+                    controller: _firstNameController,
                     decoration: const InputDecoration(hintText: '太郎'),
                   ),
                 ),
