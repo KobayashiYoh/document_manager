@@ -1,6 +1,6 @@
 import 'package:document_manager/constants/app_colors.dart';
 import 'package:document_manager/firebase_options.dart';
-import 'package:document_manager/views/home_page.dart';
+import 'package:document_manager/views/sign_up_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -37,8 +37,19 @@ class MyApp extends StatelessWidget {
           foregroundColor: Colors.white,
           backgroundColor: AppColors.main,
         ),
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.main,
+            foregroundColor: Colors.white,
+          ),
+        ),
       ),
-      home: const HomePage(),
+      home: const SignUpPage(),
     );
   }
 }
