@@ -158,7 +158,21 @@ class FirestoreRepository {
         .snapshots();
   }
 
-  static Future<List<School>> getSchool() async {
+  static Future<School> getSchool(String schoolId) async {
+    School school;
+    try {
+      final doc = await FirebaseFirestore.instance
+          .collection('schools')
+          .doc(schoolId)
+          .get();
+      school = School.fromJson(doc.data() as Map<String, dynamic>);
+    } catch (e) {
+      rethrow;
+    }
+    return school;
+  }
+
+  static Future<List<School>> getSchools() async {
     List<School> schools = [];
     try {
       final response = await FirebaseFirestore.instance

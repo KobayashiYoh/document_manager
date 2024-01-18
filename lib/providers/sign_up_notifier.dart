@@ -2,6 +2,7 @@ import 'package:document_manager/models/school.dart';
 import 'package:document_manager/models/sign_up_state.dart';
 import 'package:document_manager/models/user.dart' as custom;
 import 'package:document_manager/models/user_type.dart';
+import 'package:document_manager/providers/signed_in_school_notifier.dart';
 import 'package:document_manager/providers/signed_in_user_notifier.dart';
 import 'package:document_manager/repository/firebase_auth_repository.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
@@ -24,7 +25,7 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
     List<School> schools = [];
     setLoading(true);
     try {
-      schools = await FirestoreRepository.getSchool();
+      schools = await FirestoreRepository.getSchools();
     } catch (e) {
       setError(true);
       rethrow;
@@ -78,6 +79,7 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
     }
     UserCredential userCredential;
     custom.User user;
+    School school;
     setError(false);
     setLoading(true);
     try {
@@ -105,6 +107,7 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
     );
     try {
       await FirestoreRepository.setUser(user);
+      school = await FirestoreRepository.getSchool(user.schoolId);
     } catch (e) {
       setError(true);
       rethrow;
@@ -112,6 +115,7 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
       setLoading(false);
     }
     ref.read(signedInUserProvider.notifier).setSignedInUser(user);
+    ref.read(signedInSchoolProvider.notifier).setSignedInSchool(school);
     FirestoreRepository.initilezed(
       schoolId: user.schoolId,
       userId: user.id,

@@ -1,24 +1,26 @@
 import 'package:document_manager/debug/debug_page.dart';
 import 'package:document_manager/models/channel.dart';
-import 'package:document_manager/models/school.dart';
+import 'package:document_manager/providers/signed_in_school_notifier.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
 import 'package:document_manager/views/chat_page.dart';
 import 'package:document_manager/widgets/channel_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomePage extends ConsumerStatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  SignUpPageState createState() => SignUpPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class SignUpPageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
+    final String schoolName = ref.watch(signedInSchoolProvider)?.name ?? '';
     return Scaffold(
       appBar: AppBar(
-        title: Text(kExampleSchool.name),
+        title: Text(schoolName),
       ),
       body: SafeArea(
         child: Container(
