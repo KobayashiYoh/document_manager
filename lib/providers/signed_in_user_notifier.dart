@@ -13,4 +13,8 @@ class SignedInUserNotifier extends StateNotifier<User?> {
   void setSignedInUser(User user) {
     state = user;
   }
+
+  void reset() {
+    state = null;
+  }
 }
