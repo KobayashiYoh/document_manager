@@ -138,41 +138,45 @@ class HomeViewState extends ConsumerState<ChatPage> {
                   if (snapshot.data == null) {
                     return const SizedBox.shrink();
                   }
-                  return ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    controller: _scrollController,
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index) {
-                      final List<Post> posts = snapshot.data!.docs
-                          .map((doc) => Post.fromJson(doc.data()))
-                          .toList();
-                      final post = posts[index];
-                      final user = users.firstWhere(
-                        (user) => user.id == post.userId,
-                      );
-                      if (state.isNotMachPost(post, user)) {
-                        return const SizedBox.shrink();
-                      }
-                      final bool isLastIndex = index == posts.length - 1;
-                      final bool isFirstIndex = index == 0;
-                      final double firstMarginTop =
-                          32.0 + (state.showSearchBar ? _searchBarHeight : 0);
-                      return PostItem(
-                        post: post,
-                        user: user,
-                        signedInUserId: signedInUser!.id,
-                        margin: EdgeInsets.only(
-                          top: isFirstIndex ? firstMarginTop : 0,
-                          bottom: isLastIndex ? 120.0 : 32.0,
+                  final int itemCount = snapshot.data!.docs.length;
+                  print('itemCount: $itemCount');
+                  return ListView(
+                    children: [
+                      const SizedBox(height: 200.0),
+                      Expanded(
+                        child: ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          controller: _scrollController,
+                          itemCount: itemCount,
+                          itemBuilder: (context, index) {
+                            final List<Post> posts = snapshot.data!.docs
+                                .map((doc) => Post.fromJson(doc.data()))
+                                .toList();
+                            final post = posts[index];
+                            final user = users.firstWhere(
+                              (user) => user.id == post.userId,
+                            );
+                            if (state.isNotMachPost(post, user)) {
+                              return const SizedBox.shrink();
+                            }
+                            return PostItem(
+                              post: post,
+                              user: user,
+                              signedInUserId: signedInUser!.id,
+                              margin: const EdgeInsets.only(bottom: 32.0),
+                              onPressedCheck: () => notifier.onPressedCheck(
+                                post: post,
+                                signedInUserId: signedInUser.id,
+                              ),
+                              onLongPressCheck: () =>
+                                  _onLongPressCheck(post.readUserIds),
+                            );
+                          },
                         ),
-                        onPressedCheck: () => notifier.onPressedCheck(
-                          post: post,
-                          signedInUserId: signedInUser.id,
-                        ),
-                        onLongPressCheck: () =>
-                            _onLongPressCheck(post.readUserIds),
-                      );
-                    },
+                      ),
+                    ],
                   );
                 },
               ),
