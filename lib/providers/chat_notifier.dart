@@ -45,10 +45,11 @@ class ChatNotifier extends StateNotifier<ChatState> {
     if (post.readUserIds.contains(signedInUserId)) {
       return;
     }
-    post.readUserIds.add(signedInUserId);
+    List<String> newReadUserIds = List.from(post.readUserIds);
+    newReadUserIds.add(signedInUserId);
     await FirestoreRepository.updatePost(
       post: post.copyWith(
-        readUserIds: post.readUserIds,
+        readUserIds: newReadUserIds,
       ),
     );
   }
