@@ -11,14 +11,18 @@ class PostItem extends StatelessWidget {
     Key? key,
     required this.post,
     required this.user,
-    required this.isMyPost,
-    this.margin = EdgeInsets.zero,
+    required this.signedInUserId,
+    this.margin = const EdgeInsets.only(bottom: 16.0),
+    required this.onPressedCheck,
+    required this.onLongPressCheck,
   }) : super(key: key);
 
   final Post post;
   final User user;
-  final bool isMyPost;
+  final String signedInUserId;
   final EdgeInsetsGeometry? margin;
+  final void Function()? onPressedCheck;
+  final void Function()? onLongPressCheck;
 
   Widget _circleIconImage() {
     return CircleIconImage(
@@ -29,6 +33,8 @@ class PostItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isMyPost = signedInUserId == post.userId;
+    final bool hasRead = post.readUserIds.contains(signedInUserId);
     return Container(
       padding: const EdgeInsets.only(bottom: 16.0),
       margin: margin,
@@ -50,6 +56,7 @@ class PostItem extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                const SizedBox(height: 4.0),
                 if (post.message.isNotEmpty)
                   Container(
                     padding: const EdgeInsets.all(8.0),
@@ -69,11 +76,50 @@ class PostItem extends StatelessWidget {
                       child: CachedNetworkImage(imageUrl: post.imageUrl),
                     ),
                   ),
-                Text(
-                  post.createdAtText,
-                  style: const TextStyle(
-                    fontSize: 12.0,
-                    color: Colors.grey,
+                const SizedBox(height: 8.0),
+                SizedBox(
+                  height: 24.0,
+                  child: Row(
+                    mainAxisAlignment: isMyPost
+                        ? MainAxisAlignment.end
+                        : MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 40.0,
+                        child: ElevatedButton(
+                          onPressed: onPressedCheck,
+                          onLongPress: onLongPressCheck,
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            backgroundColor: hasRead
+                                ? Colors.blue.withOpacity(0.6)
+                                : Colors.grey,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text('✅'),
+                              const SizedBox(width: 4.0),
+                              Text(
+                                '${post.readCount}',
+                                style: const TextStyle(
+                                  fontSize: 12.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8.0),
+                      Text(
+                        post.createdAtText,
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          color: Colors.grey.shade500,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],

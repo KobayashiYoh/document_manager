@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:document_manager/models/chat_state.dart';
+import 'package:document_manager/models/post.dart';
 import 'package:document_manager/repository/firebase_storage_repository.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
 import 'package:document_manager/utils/image_util.dart';
@@ -9,11 +10,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
 final chatProvider = StateNotifierProvider.autoDispose<ChatNotifier, ChatState>(
-  (ref) => ChatNotifier(),
+  (ref) => ChatNotifier(ref),
 );
 
 class ChatNotifier extends StateNotifier<ChatState> {
-  ChatNotifier() : super(kDefaultChatState);
+  ChatNotifier(this.ref) : super(kDefaultChatState);
+
+  final Ref ref;
 
   void setLoading(bool value) {
     state = state.copyWith(isLoading: value);
@@ -33,6 +36,24 @@ class ChatNotifier extends StateNotifier<ChatState> {
 
   void setSearchWord(String value) {
     state = state.copyWith(searchWord: value);
+  }
+
+  Future<void> onPressedCheck({
+    required Post post,
+    required String signedInUserId,
+  }) async {
+    final bool hasRead = post.readUserIds.contains(signedInUserId);
+    List<String> newReadUserIds = List.from(post.readUserIds);
+    if (hasRead) {
+      newReadUserIds.remove(signedInUserId);
+    } else {
+      newReadUserIds.add(signedInUserId);
+    }
+    await FirestoreRepository.updatePost(
+      post: post.copyWith(
+        readUserIds: newReadUserIds,
+      ),
+    );
   }
 
   Future<void> onPressedImageButton() async {

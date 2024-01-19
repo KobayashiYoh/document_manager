@@ -69,23 +69,6 @@ class FirestoreRepository {
     return users;
   }
 
-  static Future<List<School>> getSchools2() async {
-    List<School> schools = [];
-    try {
-      final response = await FirebaseFirestore.instance
-          .collection('schools')
-          .orderBy('name')
-          .get();
-      schools = response.docs
-          .map((QueryDocumentSnapshot<Map<String, dynamic>> doc) =>
-              School.fromJson(doc.data()))
-          .toList();
-    } catch (e) {
-      rethrow;
-    }
-    return schools;
-  }
-
   static Future<void> setUser(User user) async {
     try {
       await FirebaseFirestore.instance
@@ -132,6 +115,17 @@ class FirestoreRepository {
           .set(post.toJson());
     } catch (e) {
       throw Exception('Failed to set post: $e');
+    }
+  }
+
+  static Future<void> updatePost({required Post post}) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('posts')
+          .doc(post.id)
+          .set(post.toJson());
+    } catch (e) {
+      throw Exception('Failed to update post: $e');
     }
   }
 
