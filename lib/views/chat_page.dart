@@ -147,7 +147,10 @@ class HomeViewState extends ConsumerState<ChatPage> {
                           .map((doc) => Post.fromJson(doc.data()))
                           .toList();
                       final post = posts[index];
-                      if (state.isNotMachPost(post)) {
+                      final user = users.firstWhere(
+                        (user) => user.id == post.userId,
+                      );
+                      if (state.isNotMachPost(post, user)) {
                         return const SizedBox.shrink();
                       }
                       final bool isLastIndex = index == posts.length - 1;
@@ -156,9 +159,7 @@ class HomeViewState extends ConsumerState<ChatPage> {
                           32.0 + (state.showSearchBar ? _searchBarHeight : 0);
                       return PostItem(
                         post: post,
-                        user: users.firstWhere(
-                          (user) => user.id == post.userId,
-                        ),
+                        user: user,
                         signedInUserId: signedInUser!.id,
                         margin: EdgeInsets.only(
                           top: isFirstIndex ? firstMarginTop : 0,
