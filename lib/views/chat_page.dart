@@ -272,27 +272,6 @@ class HomeViewState extends ConsumerState<ChatPage> {
             ],
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            final notifier = ref.read(chatProvider.notifier);
-            final signedInUser = ref.watch(signedInUserProvider);
-            final post = Post(
-              id: 'c68b763a-6d5f-4e36-9e2c-4af3baefc8df',
-              schoolId: signedInUser!.schoolId,
-              channelId: widget.channel.id,
-              userId: signedInUser.id,
-              createdAt: DateTime.now(),
-              message: 'よろしく',
-              imageUrl: '',
-              readUserIds: [],
-            );
-            await notifier.onPressedCheck(
-              post: post,
-              signedInUserId: signedInUser.id,
-            );
-          },
-          child: const Icon(Icons.remove_red_eye),
-        ),
       ),
     );
   }
