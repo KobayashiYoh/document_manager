@@ -101,32 +101,12 @@ class FirestoreRepository {
     required String channelId,
     String? searchWord,
   }) {
-    final query = FirebaseFirestore.instance
+    return FirebaseFirestore.instance
         .collection('posts')
         .where('schoolId', isEqualTo: _schoolId)
         .where('channelId', isEqualTo: channelId)
-        .orderBy('createdAt');
-    final stream = query.snapshots();
-    // FIXME: 既読機能だがバグがある。
-    stream.listen((snapshot) async {
-      for (final change in snapshot.docChanges) {
-        if (change.type == DocumentChangeType.added) {
-          Post post = Post.fromJson(change.doc.data()!);
-          print('post message: ${post.message}');
-          if (post.readUserIds.contains(_userId)) {
-            return;
-          }
-          List<String> newReadUserIds = List.from(post.readUserIds);
-          newReadUserIds.add(_userId);
-          await updatePost(
-            post: post.copyWith(
-              readUserIds: newReadUserIds,
-            ),
-          );
-        }
-      }
-    });
-    return stream;
+        .orderBy('createdAt')
+        .snapshots();
   }
 
   static Future<void> setPost({
