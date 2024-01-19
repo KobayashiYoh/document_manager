@@ -1,3 +1,4 @@
+import 'package:document_manager/models/post.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -21,3 +22,21 @@ const kDefaultChatState = ChatState(
   showSearchBar: true,
   searchWord: '',
 );
+
+extension ChatStateExtension on ChatState {
+  bool isNotMachPost(Post post) {
+    return searchWord.isNotEmpty && !isMachPost(post);
+  }
+
+  bool isMachPost(Post post) {
+    final bool isMachMessage = post.message.contains(searchWord);
+    bool isMachImageTexts = false;
+    for (final imageText in post.imageTexts) {
+      if (imageText.contains(searchWord)) {
+        isMachImageTexts = true;
+        break;
+      }
+    }
+    return searchWord.isNotEmpty && (isMachMessage || isMachImageTexts);
+  }
+}

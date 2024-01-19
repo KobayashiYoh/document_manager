@@ -5,7 +5,9 @@ import 'package:document_manager/models/post.dart';
 import 'package:document_manager/repository/firebase_storage_repository.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
 import 'package:document_manager/utils/image_util.dart';
+import 'package:document_manager/utils/ocr_util.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
@@ -61,50 +63,35 @@ class ChatNotifier extends StateNotifier<ChatState> {
     setImage(image);
   }
 
-  Future<void> _putImage(String postId) async {
-    final String storagePath = 'posts/$postId.png';
-    try {
-      await FirebaseStorageRepository.put(File(state.image!.path), storagePath);
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<void> _putPost({
-    required String postId,
-    required String channelId,
-    required String message,
-    required String imageUrl,
-  }) async {
-    try {
-      await FirestoreRepository.setPost(
-        postId: postId,
-        channelId: channelId,
-        message: message,
-        imageUrl: imageUrl,
-      );
-    } catch (e) {
-      rethrow;
-    }
-  }
-
   Future<void> sendPost({
     required String channelId,
     required String message,
   }) async {
     final String postId = const Uuid().v4();
-    if (state.image != null) {
-      await _putImage(postId);
+    List<String> imageTexts = [];
+    setError(false);
+    setLoading(true);
+    try {
+      if (state.image != null) {
+        final image = File(state.image!.path);
+        await FirebaseStorageRepository.put(image, 'posts/$postId.png');
+        imageTexts = await OCRUtil.imageToTextList(InputImage.fromFile(image));
+      }
+      await FirestoreRepository.setPost(
+        postId: postId,
+        channelId: channelId,
+        message: message,
+        imageUrl: state.image == null
+            ? ''
+            : 'https://firebasestorage.googleapis.com/v0/b/resukuru-mobile.appspot.com/o/posts%2F$postId.png?alt=media',
+        imageTexts: imageTexts,
+      );
+    } catch (e) {
+      setError(true);
+      throw Exception('Failed to send post: $e');
+    } finally {
+      setLoading(false);
     }
-    final String imageUrl = state.image == null
-        ? ''
-        : 'https://firebasestorage.googleapis.com/v0/b/resukuru-mobile.appspot.com/o/posts%2F$postId.png?alt=media';
-    await _putPost(
-      postId: postId,
-      channelId: channelId,
-      message: message,
-      imageUrl: imageUrl,
-    );
     setImage(null);
   }
 }

@@ -38,6 +38,7 @@ class _DebugPostsPageState extends State<DebugPostsPage> {
         channelId: kExampleChannel.id,
         message: _messageController.text,
         imageUrl: imageUrl,
+        imageTexts: [],
       );
     } catch (e) {
       rethrow;

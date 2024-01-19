@@ -17,6 +17,7 @@ class Post with _$Post {
     required DateTime createdAt,
     required String message,
     required String imageUrl,
+    required List<String> imageTexts,
     required List<String> readUserIds,
   }) = _Post;
 
@@ -31,6 +32,7 @@ final Post kDefaultPost = Post(
   createdAt: DateTime(0),
   message: '',
   imageUrl: '',
+  imageTexts: [],
   readUserIds: [],
 );
 
@@ -42,6 +44,7 @@ final Post kExamplePost = Post(
   createdAt: DateTime.now(),
   message: 'テスト投稿です。',
   imageUrl: '',
+  imageTexts: [],
   readUserIds: [kExampleParent.id, kExampleStudent.id],
 );
 
