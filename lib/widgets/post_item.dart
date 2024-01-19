@@ -20,32 +20,35 @@ class PostItem extends StatelessWidget {
   final bool isMyPost;
   final EdgeInsetsGeometry? margin;
 
+  Widget _circleIconImage() {
+    return CircleIconImage(
+      imageUrl: post.userId,
+      errorImagePath: 'assets/images/default_user.png',
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(bottom: 16.0),
       margin: margin,
       child: Row(
+        mainAxisAlignment:
+            isMyPost ? MainAxisAlignment.end : MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CircleIconImage(
-            imageUrl: post.userId,
-            errorImagePath: 'assets/images/default_user.png',
-          ),
-          const SizedBox(width: 8.0),
+          if (!isMyPost) _circleIconImage(),
+          if (!isMyPost) const SizedBox(width: 8.0),
           Flexible(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment:
+                  isMyPost ? CrossAxisAlignment.end : CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Text(
-                      '${user.lastName} ${user.firstName}（${user.userType.displayText}）',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+                Text(
+                  '${user.lastName} ${user.firstName}（${user.userType.displayText}）',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 if (post.message.isNotEmpty)
                   Container(
@@ -76,6 +79,8 @@ class PostItem extends StatelessWidget {
               ],
             ),
           ),
+          if (isMyPost) const SizedBox(width: 8.0),
+          if (isMyPost) _circleIconImage(),
         ],
       ),
     );
