@@ -5,6 +5,7 @@ import 'package:document_manager/constants/styles.dart';
 import 'package:document_manager/models/channel.dart';
 import 'package:document_manager/models/post.dart';
 import 'package:document_manager/providers/chat_notifier.dart';
+import 'package:document_manager/providers/signed_in_user_notifier.dart';
 import 'package:document_manager/providers/users_notifier.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
 import 'package:document_manager/widgets/post_item.dart';
@@ -89,6 +90,7 @@ class HomeViewState extends ConsumerState<ChatPage> {
   Widget build(BuildContext context) {
     final state = ref.watch(chatProvider);
     final notifier = ref.read(chatProvider.notifier);
+    final signedInUser = ref.watch(signedInUserProvider);
     final users = ref.watch(usersProvider);
     return GestureDetector(
       onTap: () => primaryFocus?.unfocus(),
@@ -147,7 +149,7 @@ class HomeViewState extends ConsumerState<ChatPage> {
                         user: users.firstWhere(
                           (user) => user.id == posts[index].userId,
                         ),
-                        isMyPost: true,
+                        isMyPost: signedInUser!.id == posts[index].userId,
                         margin: index == 0
                             ? EdgeInsets.only(
                                 top: state.showSearchBar

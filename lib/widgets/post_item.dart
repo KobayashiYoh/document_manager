@@ -45,14 +45,6 @@ class PostItem extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(width: 8.0),
-                    Text(
-                      post.createdAtText,
-                      style: const TextStyle(
-                        fontSize: 12.0,
-                        color: Colors.grey,
-                      ),
-                    ),
                   ],
                 ),
                 if (post.message.isNotEmpty)
@@ -64,7 +56,8 @@ class PostItem extends StatelessWidget {
                     ),
                     child: Text(post.message),
                   ),
-                const SizedBox(height: 8.0),
+                if (post.message.isEmpty && post.imageUrl.isNotEmpty)
+                  const SizedBox(height: 8.0),
                 if (post.imageUrl.isNotEmpty)
                   GestureDetector(
                     onTap: () => showImagePreview(context, post.imageUrl),
@@ -73,6 +66,13 @@ class PostItem extends StatelessWidget {
                       child: CachedNetworkImage(imageUrl: post.imageUrl),
                     ),
                   ),
+                Text(
+                  post.createdAtText,
+                  style: const TextStyle(
+                    fontSize: 12.0,
+                    color: Colors.grey,
+                  ),
+                ),
               ],
             ),
           ),
