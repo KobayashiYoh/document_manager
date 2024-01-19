@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:document_manager/models/post.dart';
 import 'package:document_manager/models/user.dart';
+import 'package:document_manager/models/user_type.dart';
 import 'package:document_manager/widgets/circle_icon_image.dart';
 import 'package:document_manager/widgets/image_preview.dart';
 import 'package:flutter/material.dart';
@@ -19,51 +20,47 @@ class PostItem extends StatelessWidget {
   final bool isMyPost;
   final EdgeInsetsGeometry? margin;
 
+  Widget _circleIconImage() {
+    return CircleIconImage(
+      imageUrl: post.userId,
+      errorImagePath: 'assets/images/default_user.png',
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(bottom: 16.0),
       margin: margin,
       child: Row(
+        mainAxisAlignment:
+            isMyPost ? MainAxisAlignment.end : MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CircleIconImage(
-            imageUrl: post.userId,
-            errorImagePath: 'assets/images/default_user.png',
-          ),
-          const SizedBox(width: 8.0),
+          if (!isMyPost) _circleIconImage(),
+          if (!isMyPost) const SizedBox(width: 8.0),
           Flexible(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment:
+                  isMyPost ? CrossAxisAlignment.end : CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Text(
-                      '${user.lastName} ${user.firstName}',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(width: 8.0),
-                    Text(
-                      post.createdAtText,
-                      style: const TextStyle(
-                        fontSize: 12.0,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ],
+                Text(
+                  '${user.lastName} ${user.firstName}（${user.userType.displayText}）',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 if (post.message.isNotEmpty)
                   Container(
                     padding: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
-                      color: Colors.green.shade100,
+                      color: isMyPost ? Colors.green.shade200 : Colors.white,
                       borderRadius: BorderRadius.circular(16.0),
                     ),
                     child: Text(post.message),
                   ),
-                const SizedBox(height: 8.0),
+                if (post.message.isEmpty && post.imageUrl.isNotEmpty)
+                  const SizedBox(height: 8.0),
                 if (post.imageUrl.isNotEmpty)
                   GestureDetector(
                     onTap: () => showImagePreview(context, post.imageUrl),
@@ -72,9 +69,18 @@ class PostItem extends StatelessWidget {
                       child: CachedNetworkImage(imageUrl: post.imageUrl),
                     ),
                   ),
+                Text(
+                  post.createdAtText,
+                  style: const TextStyle(
+                    fontSize: 12.0,
+                    color: Colors.grey,
+                  ),
+                ),
               ],
             ),
           ),
+          if (isMyPost) const SizedBox(width: 8.0),
+          if (isMyPost) _circleIconImage(),
         ],
       ),
     );
