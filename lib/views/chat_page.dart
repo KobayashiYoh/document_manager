@@ -8,7 +8,9 @@ import 'package:document_manager/providers/chat_notifier.dart';
 import 'package:document_manager/providers/signed_in_user_notifier.dart';
 import 'package:document_manager/providers/users_notifier.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
+import 'package:document_manager/widgets/check_status_user_view.dart';
 import 'package:document_manager/widgets/post_item.dart';
+import 'package:document_manager/widgets/scrollable_modal_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -58,6 +60,19 @@ class HomeViewState extends ConsumerState<ChatPage> {
       message: _messageController.text,
     );
     _messageController.clear();
+  }
+
+  void _onLongPressCheck(List<String> readUserIds) {
+    final sameSchoolUsers = ref.read(usersProvider);
+    showScrollableModalBottomSheet(
+      context: context,
+      headerText: '確認状況',
+      child: CheckStatusUserView(
+        sameSchoolUsers: sameSchoolUsers,
+        channelUserIds: widget.channel.userIds,
+        readUserIds: readUserIds,
+      ),
+    );
   }
 
   void _scrollMax() {
@@ -155,7 +170,8 @@ class HomeViewState extends ConsumerState<ChatPage> {
                           post: post,
                           signedInUserId: signedInUser.id,
                         ),
-                        onLongPressCheck: () {},
+                        onLongPressCheck: () =>
+                            _onLongPressCheck(post.readUserIds),
                       );
                     },
                   );

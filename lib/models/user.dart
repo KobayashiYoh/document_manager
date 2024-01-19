@@ -26,6 +26,10 @@ class User with _$User {
   factory User.fromJson(Map<String, Object?> json) => _$UserFromJson(json);
 }
 
+extension UserExtension on User {
+  String get fullName => '$lastName $firstName';
+}
+
 const User kDefaultUser = User(
   id: '',
   schoolId: '',
