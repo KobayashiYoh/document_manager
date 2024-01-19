@@ -51,7 +51,7 @@ class PostItem extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
-                      color: Colors.green.shade100,
+                      color: isMyPost ? Colors.green.shade200 : Colors.white,
                       borderRadius: BorderRadius.circular(16.0),
                     ),
                     child: Text(post.message),
