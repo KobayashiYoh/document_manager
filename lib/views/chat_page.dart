@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:document_manager/constants/app_colors.dart';
 import 'package:document_manager/constants/styles.dart';
 import 'package:document_manager/models/channel.dart';
+import 'package:document_manager/models/chat_state.dart';
 import 'package:document_manager/models/post.dart';
 import 'package:document_manager/providers/chat_notifier.dart';
 import 'package:document_manager/providers/signed_in_user_notifier.dart';
@@ -146,10 +147,7 @@ class HomeViewState extends ConsumerState<ChatPage> {
                           .map((doc) => Post.fromJson(doc.data()))
                           .toList();
                       final post = posts[index];
-                      final bool isNotMachSearchWord =
-                          state.searchWord.isNotEmpty &&
-                              !post.message.contains(state.searchWord);
-                      if (isNotMachSearchWord) {
+                      if (state.isNotMachPost(post)) {
                         return const SizedBox.shrink();
                       }
                       final bool isLastIndex = index == posts.length - 1;
