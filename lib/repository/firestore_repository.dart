@@ -135,6 +135,17 @@ class FirestoreRepository {
     }
   }
 
+  static Future<void> updatePost({required Post post}) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('posts')
+          .doc(post.id)
+          .set(post.toJson());
+    } catch (e) {
+      throw Exception('Failed to update post: $e');
+    }
+  }
+
   static Stream<QuerySnapshot<Map<String, dynamic>>> channelSnapshots() {
     return FirebaseFirestore.instance
         .collection('channels')
