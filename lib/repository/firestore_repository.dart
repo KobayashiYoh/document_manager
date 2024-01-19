@@ -97,6 +97,7 @@ class FirestoreRepository {
     required String channelId,
     required String message,
     required String imageUrl,
+    required List<String> imageTexts,
   }) async {
     final Post post = Post(
       id: postId,
@@ -106,6 +107,7 @@ class FirestoreRepository {
       createdAt: DateTime.now(),
       message: message,
       imageUrl: imageUrl,
+      imageTexts: imageTexts,
       readUserIds: [],
     );
     try {
