@@ -160,7 +160,7 @@ class HomeViewState extends ConsumerState<ChatPage> {
                                     bottom:
                                         _inputFieldHeight + _imagePreviewHeight)
                                 : EdgeInsets.zero,
-                        onPressedCheck: () => notifier.addPostReadId(
+                        onPressedCheck: () => notifier.onPressedCheck(
                           post: posts[index],
                           signedInUserId: signedInUser.id,
                         ),
@@ -286,7 +286,7 @@ class HomeViewState extends ConsumerState<ChatPage> {
               imageUrl: '',
               readUserIds: [],
             );
-            await notifier.addPostReadId(
+            await notifier.onPressedCheck(
               post: post,
               signedInUserId: signedInUser.id,
             );

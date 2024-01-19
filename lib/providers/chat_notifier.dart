@@ -38,15 +38,17 @@ class ChatNotifier extends StateNotifier<ChatState> {
     state = state.copyWith(searchWord: value);
   }
 
-  Future<void> addPostReadId({
+  Future<void> onPressedCheck({
     required Post post,
     required String signedInUserId,
   }) async {
-    if (post.readUserIds.contains(signedInUserId)) {
-      return;
-    }
+    final bool hasRead = post.readUserIds.contains(signedInUserId);
     List<String> newReadUserIds = List.from(post.readUserIds);
-    newReadUserIds.add(signedInUserId);
+    if (hasRead) {
+      newReadUserIds.remove(signedInUserId);
+    } else {
+      newReadUserIds.add(signedInUserId);
+    }
     await FirestoreRepository.updatePost(
       post: post.copyWith(
         readUserIds: newReadUserIds,
