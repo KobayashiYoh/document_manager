@@ -4,6 +4,7 @@ import 'package:document_manager/models/user.dart';
 import 'package:document_manager/models/user_type.dart';
 import 'package:document_manager/widgets/circle_icon_image.dart';
 import 'package:document_manager/widgets/image_preview.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class PostItem extends StatelessWidget {
@@ -69,12 +70,35 @@ class PostItem extends StatelessWidget {
                       child: CachedNetworkImage(imageUrl: post.imageUrl),
                     ),
                   ),
-                Text(
-                  post.createdAtText,
-                  style: const TextStyle(
-                    fontSize: 12.0,
-                    color: Colors.grey,
-                  ),
+                Row(
+                  mainAxisAlignment: isMyPost
+                      ? MainAxisAlignment.end
+                      : MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        text: '既読${post.readCount}',
+                        style: TextStyle(
+                          color: Colors.grey.shade500,
+                          fontSize: 12.0,
+                          decoration: TextDecoration.underline,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            // タップ時
+                          },
+                      ),
+                    ),
+                    const SizedBox(width: 8.0),
+                    Text(
+                      post.createdAtText,
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        color: Colors.grey.shade500,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
