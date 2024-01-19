@@ -1,5 +1,4 @@
 import 'package:document_manager/models/user.dart';
-import 'package:document_manager/models/user_type.dart';
 import 'package:document_manager/widgets/circle_icon_image.dart';
 import 'package:flutter/material.dart';
 
@@ -27,7 +26,7 @@ class UserItem extends StatelessWidget {
           ),
           const SizedBox(width: 8.0),
           Text(
-            '${user.fullName}（${user.userType.displayText}）',
+            user.fullNameWithUserType,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
             ),
