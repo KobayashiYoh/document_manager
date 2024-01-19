@@ -4,7 +4,6 @@ import 'package:document_manager/models/user.dart';
 import 'package:document_manager/models/user_type.dart';
 import 'package:document_manager/widgets/circle_icon_image.dart';
 import 'package:document_manager/widgets/image_preview.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class PostItem extends StatelessWidget {
@@ -12,14 +11,18 @@ class PostItem extends StatelessWidget {
     Key? key,
     required this.post,
     required this.user,
-    required this.isMyPost,
+    required this.signedInUserId,
     this.margin = EdgeInsets.zero,
+    required this.onPressedCheck,
+    required this.onLongPressCheck,
   }) : super(key: key);
 
   final Post post;
   final User user;
-  final bool isMyPost;
+  final String signedInUserId;
   final EdgeInsetsGeometry? margin;
+  final void Function()? onPressedCheck;
+  final void Function()? onLongPressCheck;
 
   Widget _circleIconImage() {
     return CircleIconImage(
@@ -30,6 +33,8 @@ class PostItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isMyPost = signedInUserId == post.userId;
+    final bool hasRead = post.readUserIds.contains(signedInUserId);
     return Container(
       padding: const EdgeInsets.only(bottom: 16.0),
       margin: margin,
@@ -51,6 +56,7 @@ class PostItem extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                const SizedBox(height: 4.0),
                 if (post.message.isNotEmpty)
                   Container(
                     padding: const EdgeInsets.all(8.0),
@@ -70,35 +76,51 @@ class PostItem extends StatelessWidget {
                       child: CachedNetworkImage(imageUrl: post.imageUrl),
                     ),
                   ),
-                Row(
-                  mainAxisAlignment: isMyPost
-                      ? MainAxisAlignment.end
-                      : MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    RichText(
-                      text: TextSpan(
-                        text: '既読${post.readCount}',
-                        style: TextStyle(
-                          color: Colors.grey.shade500,
-                          fontSize: 12.0,
-                          decoration: TextDecoration.underline,
+                const SizedBox(height: 4.0),
+                SizedBox(
+                  height: 24.0,
+                  child: Row(
+                    mainAxisAlignment: isMyPost
+                        ? MainAxisAlignment.end
+                        : MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 40.0,
+                        child: ElevatedButton(
+                          onPressed: onPressedCheck,
+                          onLongPress: onLongPressCheck,
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            backgroundColor: hasRead
+                                ? Colors.blue.withOpacity(0.6)
+                                : Colors.grey,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text('✅'),
+                              const SizedBox(width: 4.0),
+                              Text(
+                                '${post.readCount}',
+                                style: const TextStyle(
+                                  fontSize: 12.0,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            // タップ時
-                          },
                       ),
-                    ),
-                    const SizedBox(width: 8.0),
-                    Text(
-                      post.createdAtText,
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        color: Colors.grey.shade500,
+                      const SizedBox(width: 16.0),
+                      Text(
+                        post.createdAtText,
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          color: Colors.grey.shade500,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),

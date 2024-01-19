@@ -149,17 +149,22 @@ class HomeViewState extends ConsumerState<ChatPage> {
                         user: users.firstWhere(
                           (user) => user.id == posts[index].userId,
                         ),
-                        isMyPost: signedInUser!.id == posts[index].userId,
+                        signedInUserId: signedInUser!.id,
                         margin: index == 0
                             ? EdgeInsets.only(
                                 top: state.showSearchBar
-                                    ? _searchBarHeight + 16.0
-                                    : 16.0)
+                                    ? _searchBarHeight + 32.0
+                                    : 32.0)
                             : index == posts.length - 1
                                 ? EdgeInsets.only(
                                     bottom:
                                         _inputFieldHeight + _imagePreviewHeight)
                                 : EdgeInsets.zero,
+                        onPressedCheck: () => notifier.addPostReadId(
+                          post: posts[index],
+                          signedInUserId: signedInUser.id,
+                        ),
+                        onLongPressCheck: () {},
                       );
                     },
                   );
