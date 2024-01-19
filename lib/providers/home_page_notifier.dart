@@ -3,6 +3,7 @@ import 'package:document_manager/models/school.dart';
 import 'package:document_manager/models/user.dart';
 import 'package:document_manager/providers/signed_in_school_notifier.dart';
 import 'package:document_manager/providers/signed_in_user_notifier.dart';
+import 'package:document_manager/providers/users_notifier.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
 import 'package:document_manager/repository/secure_storage_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,24 +29,27 @@ class HomePageNotifier extends StateNotifier<HomePageState> {
 
   Future<void> initialize() async {
     setLoading(true);
-    String userId;
-    User user;
+    String signedInUserId;
+    User signedInUser;
+    List<User> users;
     School school;
     try {
-      userId = await SecureStorageRepository.readUserId() ?? '';
-      user = await FirestoreRepository.getUser(userId);
-      school = await FirestoreRepository.getSchool(user.schoolId);
+      signedInUserId = await SecureStorageRepository.readUserId() ?? '';
+      signedInUser = await FirestoreRepository.getUser(signedInUserId);
+      users = await FirestoreRepository.getUsers();
+      school = await FirestoreRepository.getSchool(signedInUser.schoolId);
     } catch (e) {
       setError(true);
       rethrow;
     } finally {
       setLoading(false);
     }
-    ref.read(signedInUserProvider.notifier).setSignedInUser(user);
+    ref.read(signedInUserProvider.notifier).setSignedInUser(signedInUser);
+    ref.read(usersProvider.notifier).setUsers(users);
     ref.read(signedInSchoolProvider.notifier).setSignedInSchool(school);
     FirestoreRepository.initilezed(
-      schoolId: user.schoolId,
-      userId: userId,
+      schoolId: signedInUser.schoolId,
+      userId: signedInUserId,
     );
   }
 
@@ -56,6 +60,7 @@ class HomePageNotifier extends StateNotifier<HomePageState> {
     try {
       await SecureStorageRepository.deleteUserId();
       ref.read(signedInUserProvider.notifier).reset();
+      ref.read(usersProvider.notifier).reset();
       ref.read(signedInSchoolProvider.notifier).reset();
       FirestoreRepository.reset();
     } catch (e) {

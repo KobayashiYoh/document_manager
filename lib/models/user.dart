@@ -37,6 +37,8 @@ const User kDefaultUser = User(
   lastName: '',
 );
 
+const List<User> kDefaultUsers = [];
+
 final User kExampleStudent = User(
   id: 'example-student',
   schoolId: kExampleSchool.id,
