@@ -12,7 +12,7 @@ class PostItem extends StatelessWidget {
     required this.post,
     required this.user,
     required this.signedInUserId,
-    this.margin = EdgeInsets.zero,
+    this.margin = const EdgeInsets.only(bottom: 16.0),
     required this.onPressedCheck,
     required this.onLongPressCheck,
   }) : super(key: key);
@@ -76,7 +76,7 @@ class PostItem extends StatelessWidget {
                       child: CachedNetworkImage(imageUrl: post.imageUrl),
                     ),
                   ),
-                const SizedBox(height: 4.0),
+                const SizedBox(height: 8.0),
                 SizedBox(
                   height: 24.0,
                   child: Row(
@@ -111,7 +111,7 @@ class PostItem extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 16.0),
+                      const SizedBox(width: 8.0),
                       Text(
                         post.createdAtText,
                         style: TextStyle(

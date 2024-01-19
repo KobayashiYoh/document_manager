@@ -73,8 +73,9 @@ class HomeViewState extends ConsumerState<ChatPage> {
   @override
   void initState() {
     super.initState();
-    Future.value(() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _resetSearchWord();
+      _scrollMax();
     });
   }
 
@@ -121,15 +122,6 @@ class HomeViewState extends ConsumerState<ChatPage> {
                   if (snapshot.data == null) {
                     return const SizedBox.shrink();
                   }
-
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    _scrollController.animateTo(
-                      _scrollController.position.maxScrollExtent,
-                      duration: const Duration(microseconds: 1),
-                      curve: Curves.easeInOut,
-                    );
-                  });
-
                   return ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     controller: _scrollController,
@@ -138,30 +130,29 @@ class HomeViewState extends ConsumerState<ChatPage> {
                       final List<Post> posts = snapshot.data!.docs
                           .map((doc) => Post.fromJson(doc.data()))
                           .toList();
+                      final post = posts[index];
                       final bool isNotMachSearchWord =
                           state.searchWord.isNotEmpty &&
-                              !posts[index].message.contains(state.searchWord);
+                              !post.message.contains(state.searchWord);
                       if (isNotMachSearchWord) {
                         return const SizedBox.shrink();
                       }
+                      final bool isLastIndex = index == posts.length - 1;
+                      final bool isFirstIndex = index == 0;
+                      final double firstMarginTop =
+                          32.0 + (state.showSearchBar ? _searchBarHeight : 0);
                       return PostItem(
-                        post: posts[index],
+                        post: post,
                         user: users.firstWhere(
-                          (user) => user.id == posts[index].userId,
+                          (user) => user.id == post.userId,
                         ),
                         signedInUserId: signedInUser!.id,
-                        margin: index == 0
-                            ? EdgeInsets.only(
-                                top: state.showSearchBar
-                                    ? _searchBarHeight + 32.0
-                                    : 32.0)
-                            : index == posts.length - 1
-                                ? EdgeInsets.only(
-                                    bottom:
-                                        _inputFieldHeight + _imagePreviewHeight)
-                                : EdgeInsets.zero,
+                        margin: EdgeInsets.only(
+                          top: isFirstIndex ? firstMarginTop : 0,
+                          bottom: isLastIndex ? 120.0 : 32.0,
+                        ),
                         onPressedCheck: () => notifier.onPressedCheck(
-                          post: posts[index],
+                          post: post,
                           signedInUserId: signedInUser.id,
                         ),
                         onLongPressCheck: () {},
