@@ -9,6 +9,8 @@ import 'package:document_manager/providers/signed_in_user_notifier.dart';
 import 'package:document_manager/providers/users_notifier.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
 import 'package:document_manager/widgets/post_item.dart';
+import 'package:document_manager/widgets/scrollable_modal_bottom_sheet.dart';
+import 'package:document_manager/widgets/user_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -58,6 +60,18 @@ class HomeViewState extends ConsumerState<ChatPage> {
       message: _messageController.text,
     );
     _messageController.clear();
+  }
+
+  void _onLongPressCheck() {
+    final users = ref.read(usersProvider);
+    showScrollableModalBottomSheet(
+      context: context,
+      headerText: 'hoge',
+      child: ListView.builder(
+        itemCount: users.length,
+        itemBuilder: (context, index) => UserItem(user: users[index]),
+      ),
+    );
   }
 
   void _scrollMax() {
@@ -155,7 +169,7 @@ class HomeViewState extends ConsumerState<ChatPage> {
                           post: post,
                           signedInUserId: signedInUser.id,
                         ),
-                        onLongPressCheck: () {},
+                        onLongPressCheck: _onLongPressCheck,
                       );
                     },
                   );
