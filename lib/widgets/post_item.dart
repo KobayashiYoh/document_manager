@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:document_manager/models/post.dart';
 import 'package:document_manager/models/user.dart';
+import 'package:document_manager/models/user_type.dart';
 import 'package:document_manager/widgets/circle_icon_image.dart';
 import 'package:document_manager/widgets/image_preview.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +40,7 @@ class PostItem extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      '${user.lastName} ${user.firstName}',
+                      '${user.lastName} ${user.firstName}（${user.userType.displayText}）',
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),

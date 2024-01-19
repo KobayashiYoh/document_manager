@@ -4,8 +4,8 @@ import 'package:document_manager/constants/app_colors.dart';
 import 'package:document_manager/constants/styles.dart';
 import 'package:document_manager/models/channel.dart';
 import 'package:document_manager/models/post.dart';
-import 'package:document_manager/models/user.dart';
 import 'package:document_manager/providers/chat_notifier.dart';
+import 'package:document_manager/providers/users_notifier.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
 import 'package:document_manager/widgets/post_item.dart';
 import 'package:flutter/material.dart';
@@ -89,6 +89,7 @@ class HomeViewState extends ConsumerState<ChatPage> {
   Widget build(BuildContext context) {
     final state = ref.watch(chatProvider);
     final notifier = ref.read(chatProvider.notifier);
+    final users = ref.watch(usersProvider);
     return GestureDetector(
       onTap: () => primaryFocus?.unfocus(),
       child: Scaffold(
@@ -143,7 +144,9 @@ class HomeViewState extends ConsumerState<ChatPage> {
                       }
                       return PostItem(
                         post: posts[index],
-                        user: kExampleStudent,
+                        user: users.firstWhere(
+                          (user) => user.id == posts[index].userId,
+                        ),
                         isMyPost: true,
                         margin: index == 0
                             ? EdgeInsets.only(

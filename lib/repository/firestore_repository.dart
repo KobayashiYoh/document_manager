@@ -64,7 +64,7 @@ class FirestoreRepository {
               User.fromJson(doc.data()))
           .toList();
     } catch (e) {
-      rethrow;
+      throw Exception(e);
     }
     return users;
   }

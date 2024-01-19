@@ -8,7 +8,8 @@ import 'package:document_manager/repository/firestore_repository.dart';
 import 'package:document_manager/repository/secure_storage_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final homePageProvider = StateNotifierProvider<HomePageNotifier, HomePageState>(
+final homePageProvider =
+    StateNotifierProvider.autoDispose<HomePageNotifier, HomePageState>(
   (ref) => HomePageNotifier(ref),
 );
 
