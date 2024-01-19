@@ -73,7 +73,7 @@ class HomeViewState extends ConsumerState<ChatPage> {
   @override
   void initState() {
     super.initState();
-    Future.value(() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _resetSearchWord();
     });
   }
@@ -118,10 +118,6 @@ class HomeViewState extends ConsumerState<ChatPage> {
                   channelId: widget.channel.id,
                 ),
                 builder: (context, snapshot) {
-                  if (snapshot.data == null) {
-                    return const SizedBox.shrink();
-                  }
-
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     _scrollController.animateTo(
                       _scrollController.position.maxScrollExtent,
