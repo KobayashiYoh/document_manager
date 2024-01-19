@@ -4,6 +4,7 @@ import 'package:document_manager/constants/app_colors.dart';
 import 'package:document_manager/constants/styles.dart';
 import 'package:document_manager/models/channel.dart';
 import 'package:document_manager/models/post.dart';
+import 'package:document_manager/models/user.dart';
 import 'package:document_manager/providers/chat_notifier.dart';
 import 'package:document_manager/providers/signed_in_user_notifier.dart';
 import 'package:document_manager/providers/users_notifier.dart';
@@ -62,14 +63,45 @@ class HomeViewState extends ConsumerState<ChatPage> {
     _messageController.clear();
   }
 
-  void _onLongPressCheck() {
-    final users = ref.read(usersProvider);
+  void _onLongPressCheck(List<String> readUserIds) {
+    final sameSchoolUsers = ref.read(usersProvider);
+    final sameChannelUsers = sameSchoolUsers
+        .where((user) => widget.channel.userIds.contains(user.id));
+    List<User> readUsers = [];
+    List<User> unreadUsers = [];
+    for (final sameChannelUser in sameChannelUsers) {
+      final bool isReadUser = readUserIds.contains(sameChannelUser.id);
+      if (isReadUser) {
+        readUsers.add(sameChannelUser);
+      } else {
+        unreadUsers.add(sameChannelUser);
+      }
+    }
+    final int itemCount = readUsers.length + unreadUsers.length + 2;
     showScrollableModalBottomSheet(
       context: context,
-      headerText: 'hoge',
+      headerText: '確認状況',
       child: ListView.builder(
-        itemCount: users.length,
-        itemBuilder: (context, index) => UserItem(user: users[index]),
+        itemCount: itemCount,
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        itemBuilder: (context, index) {
+          if (index == 0) {
+            return readUsers.isEmpty
+                ? const SizedBox.shrink()
+                : const Text('チェック済');
+          } else if (index < readUsers.length + 1) {
+            return UserItem(user: readUsers[index - 1]);
+          } else if (index == readUsers.length + 1) {
+            return unreadUsers.isEmpty
+                ? const SizedBox.shrink()
+                : Padding(
+                    padding: EdgeInsets.only(top: readUsers.isEmpty ? 0 : 32.0),
+                    child: const Text('未チェック'),
+                  );
+          } else {
+            return UserItem(user: unreadUsers[index - readUsers.length - 2]);
+          }
+        },
       ),
     );
   }
@@ -169,7 +201,8 @@ class HomeViewState extends ConsumerState<ChatPage> {
                           post: post,
                           signedInUserId: signedInUser.id,
                         ),
-                        onLongPressCheck: _onLongPressCheck,
+                        onLongPressCheck: () =>
+                            _onLongPressCheck(post.readUserIds),
                       );
                     },
                   );

@@ -12,7 +12,6 @@ class UserItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
-      margin: const EdgeInsets.symmetric(horizontal: 16.0),
       decoration: const BoxDecoration(
         border: Border(
           bottom: BorderSide(
@@ -28,7 +27,7 @@ class UserItem extends StatelessWidget {
           ),
           const SizedBox(width: 8.0),
           Text(
-            '${user.lastName} ${user.firstName}（${user.userType.displayText}）',
+            '${user.fullName}（${user.userType.displayText}）',
             style: const TextStyle(
               fontWeight: FontWeight.bold,
             ),
