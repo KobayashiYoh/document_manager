@@ -64,52 +64,56 @@ class SignUpPageState extends ConsumerState<SignInPage> {
             appBar: AppBar(
               title: const Text('ログイン'),
             ),
-            body: ListView(
-              padding: const EdgeInsets.all(32.0),
-              children: [
-                FormItem(
-                  label: 'メールアドレス',
-                  child: TextFormField(
-                    controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(
-                      hintText: 'email@example.com',
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 32.0),
-                FormItem(
-                  label: 'パスワード',
-                  child: TextFormField(
-                    controller: _passwordController,
-                    keyboardType: TextInputType.visiblePassword,
-                    obscureText: state.obscureText,
-                    decoration: InputDecoration(
-                      suffixIcon: PasswordSuffixIconButton(
-                        onPressed: notifier.switchObscureText,
-                        obscureText: state.obscureText,
+            body: AutofillGroup(
+              child: ListView(
+                padding: const EdgeInsets.all(32.0),
+                children: [
+                  FormItem(
+                    label: 'メールアドレス',
+                    child: TextFormField(
+                      controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      autofillHints: const <String>[AutofillHints.email],
+                      decoration: const InputDecoration(
+                        hintText: 'email@example.com',
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 64.0),
-                Row(
-                  children: [
-                    const Spacer(),
-                    TextButton(
-                      onPressed: _onPressedSignUp,
-                      child: const Text('新規登録'),
+                  const SizedBox(height: 32.0),
+                  FormItem(
+                    label: 'パスワード',
+                    child: TextFormField(
+                      controller: _passwordController,
+                      keyboardType: TextInputType.visiblePassword,
+                      autofillHints: const <String>[AutofillHints.password],
+                      obscureText: state.obscureText,
+                      decoration: InputDecoration(
+                        suffixIcon: PasswordSuffixIconButton(
+                          onPressed: notifier.switchObscureText,
+                          obscureText: state.obscureText,
+                        ),
+                      ),
                     ),
-                    const Spacer(),
-                  ],
-                ),
-                const SizedBox(height: 16.0),
-                ElevatedButton(
-                  onPressed: _onPressedSignIn,
-                  child: const Text('ログインする'),
-                ),
-                SizedBox(height: keyboardHeight),
-              ],
+                  ),
+                  const SizedBox(height: 64.0),
+                  Row(
+                    children: [
+                      const Spacer(),
+                      TextButton(
+                        onPressed: _onPressedSignUp,
+                        child: const Text('新規登録'),
+                      ),
+                      const Spacer(),
+                    ],
+                  ),
+                  const SizedBox(height: 16.0),
+                  ElevatedButton(
+                    onPressed: _onPressedSignIn,
+                    child: const Text('ログインする'),
+                  ),
+                  SizedBox(height: keyboardHeight),
+                ],
+              ),
             ),
           ),
           if (state.isLoading) const LoadingView(),
