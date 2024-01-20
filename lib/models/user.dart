@@ -28,6 +28,7 @@ class User with _$User {
 
 extension UserExtension on User {
   String get fullName => '$lastName $firstName';
+  String get fullNameWithUserType => '$fullName（${userType.displayText}）';
 }
 
 const User kDefaultUser = User(
