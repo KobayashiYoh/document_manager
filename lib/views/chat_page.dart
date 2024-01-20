@@ -225,13 +225,11 @@ class HomeViewState extends ConsumerState<ChatPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 IconButton(
-                                  onPressed: () async {
-                                    // TODO: カメラから画像を選択する。
-                                  },
+                                  onPressed: notifier.onPressedCamera,
                                   icon: const Icon(Icons.camera_alt_outlined),
                                 ),
                                 IconButton(
-                                  onPressed: notifier.onPressedImageButton,
+                                  onPressed: notifier.onPressedImageGallery,
                                   icon: const Icon(Icons.photo_outlined),
                                 ),
                                 const SizedBox(width: 8.0),
