@@ -62,7 +62,7 @@ class ChatNotifier extends StateNotifier<ChatState> {
     if (state.isLoading) {
       return;
     }
-    final image = await ImageUtil.pickImageFromGallery();
+    final image = await ImageUtil.pickCroppedImage(source: ImageSource.gallery);
     setImage(image);
   }
 
@@ -70,7 +70,7 @@ class ChatNotifier extends StateNotifier<ChatState> {
     if (state.isLoading) {
       return;
     }
-    final image = await ImageUtil.pickImageFromCamera();
+    final image = await ImageUtil.pickCroppedImage(source: ImageSource.camera);
     setImage(image);
   }
 
