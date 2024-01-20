@@ -58,8 +58,19 @@ class ChatNotifier extends StateNotifier<ChatState> {
     );
   }
 
-  Future<void> onPressedImageButton() async {
+  Future<void> onPressedImageGallery() async {
+    if (state.isLoading) {
+      return;
+    }
     final image = await ImageUtil.pickImageFromGallery();
+    setImage(image);
+  }
+
+  Future<void> onPressedCamera() async {
+    if (state.isLoading) {
+      return;
+    }
+    final image = await ImageUtil.pickImageFromCamera();
     setImage(image);
   }
 
