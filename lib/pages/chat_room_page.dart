@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:document_manager/constants/app_colors.dart';
 import 'package:document_manager/constants/styles.dart';
 import 'package:document_manager/models/channel.dart';
-import 'package:document_manager/models/chat_state.dart';
+import 'package:document_manager/models/chat_room_state.dart';
 import 'package:document_manager/models/post.dart';
-import 'package:document_manager/providers/chat_notifier.dart';
+import 'package:document_manager/providers/chat_room_notifier.dart';
 import 'package:document_manager/providers/signed_in_user_notifier.dart';
 import 'package:document_manager/providers/users_notifier.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
@@ -15,8 +15,8 @@ import 'package:document_manager/widgets/scrollable_modal_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ChatPage extends ConsumerStatefulWidget {
-  const ChatPage({super.key, required this.channel});
+class ChatRoomPage extends ConsumerStatefulWidget {
+  const ChatRoomPage({super.key, required this.channel});
 
   final Channel channel;
 
@@ -24,7 +24,7 @@ class ChatPage extends ConsumerStatefulWidget {
   HomeViewState createState() => HomeViewState();
 }
 
-class HomeViewState extends ConsumerState<ChatPage> {
+class HomeViewState extends ConsumerState<ChatRoomPage> {
   final TextEditingController _messageController = TextEditingController();
   final TextEditingController _searchTextController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
@@ -34,17 +34,17 @@ class HomeViewState extends ConsumerState<ChatPage> {
   final double _imagePreviewHeight = 64.0;
 
   bool get disableSendButton {
-    final image = ref.read(chatProvider).image;
+    final image = ref.read(chatRoomProvider).image;
     return _messageController.text.isEmpty && image == null;
   }
 
   void _onSubmittedSearchField(String value) {
-    final notifier = ref.read(chatProvider.notifier);
+    final notifier = ref.read(chatRoomProvider.notifier);
     notifier.setSearchWord(value);
   }
 
   void _resetSearchWord() {
-    final notifier = ref.read(chatProvider.notifier);
+    final notifier = ref.read(chatRoomProvider.notifier);
     _searchTextController.clear();
     notifier.setSearchWord('');
     _onSubmittedSearchField('');
@@ -55,7 +55,7 @@ class HomeViewState extends ConsumerState<ChatPage> {
     if (disableSendButton) {
       return;
     }
-    final notifier = ref.read(chatProvider.notifier);
+    final notifier = ref.read(chatRoomProvider.notifier);
     await notifier.sendPost(
       channelId: widget.channel.id,
       message: _messageController.text,
@@ -105,8 +105,8 @@ class HomeViewState extends ConsumerState<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(chatProvider);
-    final notifier = ref.read(chatProvider.notifier);
+    final state = ref.watch(chatRoomProvider);
+    final notifier = ref.read(chatRoomProvider.notifier);
     final signedInUser = ref.watch(signedInUserProvider);
     final users = ref.watch(usersProvider);
     return GestureDetector(

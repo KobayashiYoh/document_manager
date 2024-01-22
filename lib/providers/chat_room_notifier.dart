@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:document_manager/models/chat_state.dart';
+import 'package:document_manager/models/chat_room_state.dart';
 import 'package:document_manager/models/post.dart';
 import 'package:document_manager/repository/firebase_storage_repository.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
@@ -11,12 +11,13 @@ import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
-final chatProvider = StateNotifierProvider.autoDispose<ChatNotifier, ChatState>(
-  (ref) => ChatNotifier(ref),
+final chatRoomProvider =
+    StateNotifierProvider.autoDispose<ChatRoomNotifier, ChatRoomState>(
+  (ref) => ChatRoomNotifier(ref),
 );
 
-class ChatNotifier extends StateNotifier<ChatState> {
-  ChatNotifier(this.ref) : super(kDefaultChatState);
+class ChatRoomNotifier extends StateNotifier<ChatRoomState> {
+  ChatRoomNotifier(this.ref) : super(kDefaultChatRoomState);
 
   final Ref ref;
 
