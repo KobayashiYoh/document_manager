@@ -2,6 +2,7 @@ import 'package:document_manager/constants/app_colors.dart';
 import 'package:document_manager/pages/chat_page.dart';
 import 'package:document_manager/pages/document_page.dart';
 import 'package:document_manager/pages/home_page.dart';
+import 'package:document_manager/pages/loading_view.dart';
 import 'package:document_manager/pages/my_page.dart';
 import 'package:document_manager/providers/bottom_navigation_notifier.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,9 +29,11 @@ class HomeViewState extends ConsumerState<BottomNavigation> {
     final state = ref.watch(bottomNavigationProvider);
     final notifier = ref.read(bottomNavigationProvider.notifier);
     return Scaffold(
-      body: Center(
-        child: _widgetOptions.elementAt(state.selectedIndex),
-      ),
+      body: state.isLoading
+          ? const LoadingView()
+          : Center(
+              child: _widgetOptions.elementAt(state.selectedIndex),
+            ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
