@@ -1,6 +1,6 @@
 import 'package:document_manager/models/school.dart';
 import 'package:document_manager/models/user_type.dart';
-import 'package:document_manager/pages/home_page.dart';
+import 'package:document_manager/pages/chat_page.dart';
 import 'package:document_manager/pages/loading_view.dart';
 import 'package:document_manager/providers/sign_up_notifier.dart';
 import 'package:document_manager/widgets/form_item.dart';
@@ -42,7 +42,7 @@ class SignUpPageState extends ConsumerState<SignUpPage> {
     );
     if (!mounted) return;
     Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => const HomePage()),
+      MaterialPageRoute(builder: (context) => const ChatPage()),
       (route) => false,
     );
   }

@@ -9,16 +9,16 @@ import 'package:document_manager/widgets/channel_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomePage extends ConsumerStatefulWidget {
-  const HomePage({super.key});
+class ChatPage extends ConsumerStatefulWidget {
+  const ChatPage({super.key});
 
   @override
   SignUpPageState createState() => SignUpPageState();
 }
 
-class SignUpPageState extends ConsumerState<HomePage> {
+class SignUpPageState extends ConsumerState<ChatPage> {
   Future<void> _onPressedSignOut() async {
-    final notifier = ref.read(homePageProvider.notifier);
+    final notifier = ref.read(chatProvider.notifier);
     await notifier.signOut();
     if (!mounted) return;
     Navigator.of(context).pushAndRemoveUntil(
@@ -29,7 +29,7 @@ class SignUpPageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(homePageProvider);
+    final state = ref.watch(chatProvider);
     final String schoolName = ref.watch(signedInSchoolProvider)?.name ?? '';
     if (state.isLoading) {
       return const Scaffold(

@@ -1,4 +1,4 @@
-import 'package:document_manager/models/home_page_state.dart';
+import 'package:document_manager/models/chat_state.dart';
 import 'package:document_manager/models/school.dart';
 import 'package:document_manager/models/user.dart';
 import 'package:document_manager/providers/signed_in_school_notifier.dart';
@@ -8,13 +8,12 @@ import 'package:document_manager/repository/firestore_repository.dart';
 import 'package:document_manager/repository/secure_storage_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final homePageProvider =
-    StateNotifierProvider.autoDispose<HomePageNotifier, HomePageState>(
-  (ref) => HomePageNotifier(ref),
+final chatProvider = StateNotifierProvider.autoDispose<ChatNotifier, ChatState>(
+  (ref) => ChatNotifier(ref),
 );
 
-class HomePageNotifier extends StateNotifier<HomePageState> {
-  HomePageNotifier(this.ref) : super(kDefaultHomePageState) {
+class ChatNotifier extends StateNotifier<ChatState> {
+  ChatNotifier(this.ref) : super(kDefaultChatState) {
     initialize();
   }
 

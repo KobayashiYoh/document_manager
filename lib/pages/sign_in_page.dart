@@ -1,4 +1,4 @@
-import 'package:document_manager/pages/home_page.dart';
+import 'package:document_manager/pages/chat_page.dart';
 import 'package:document_manager/pages/loading_view.dart';
 import 'package:document_manager/pages/sign_up_page.dart';
 import 'package:document_manager/providers/sign_in_notifier.dart';
@@ -38,7 +38,7 @@ class SignUpPageState extends ConsumerState<SignInPage> {
     _passwordController.clear();
     if (!mounted) return;
     Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => const HomePage()),
+      MaterialPageRoute(builder: (context) => const ChatPage()),
       (route) => false,
     );
   }

@@ -1,6 +1,6 @@
 import 'package:document_manager/constants/app_colors.dart';
+import 'package:document_manager/pages/chat_page.dart';
 import 'package:document_manager/pages/document_page.dart';
-import 'package:document_manager/pages/home_page.dart';
 import 'package:document_manager/pages/my_page.dart';
 import 'package:document_manager/providers/bottom_navigation_notifier.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,8 +16,8 @@ class BottomNavigation extends ConsumerStatefulWidget {
 
 class HomeViewState extends ConsumerState<BottomNavigation> {
   static const List<Widget> _widgetOptions = <Widget>[
-    HomePage(),
-    HomePage(),
+    ChatPage(),
+    ChatPage(),
     DocumentPage(),
     MyPage(),
   ];
