@@ -1,8 +1,8 @@
 import 'package:document_manager/models/school.dart';
 import 'package:document_manager/models/user_type.dart';
+import 'package:document_manager/pages/home_page.dart';
+import 'package:document_manager/pages/loading_view.dart';
 import 'package:document_manager/providers/sign_up_notifier.dart';
-import 'package:document_manager/views/home_page.dart';
-import 'package:document_manager/views/loading_view.dart';
 import 'package:document_manager/widgets/form_item.dart';
 import 'package:document_manager/widgets/password_suffix_icon_button.dart';
 import 'package:flutter/material.dart';

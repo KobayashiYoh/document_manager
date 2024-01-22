@@ -1,8 +1,8 @@
 import 'package:document_manager/constants/app_colors.dart';
 import 'package:document_manager/firebase_options.dart';
+import 'package:document_manager/pages/home_page.dart';
+import 'package:document_manager/pages/sign_in_page.dart';
 import 'package:document_manager/repository/secure_storage_repository.dart';
-import 'package:document_manager/views/home_page.dart';
-import 'package:document_manager/views/sign_in_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
