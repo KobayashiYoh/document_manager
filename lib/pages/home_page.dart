@@ -1,6 +1,6 @@
 import 'package:document_manager/debug/debug_page.dart';
 import 'package:document_manager/models/channel.dart';
-import 'package:document_manager/pages/chat_page.dart';
+import 'package:document_manager/pages/chat_room_page.dart';
 import 'package:document_manager/pages/sign_in_page.dart';
 import 'package:document_manager/providers/home_page_notifier.dart';
 import 'package:document_manager/providers/signed_in_school_notifier.dart';
@@ -72,7 +72,7 @@ class SignUpPageState extends ConsumerState<HomePage> {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) =>
-                                  ChatPage(channel: channels[index]),
+                                  ChatRoomPage(channel: channels[index]),
                             ),
                           );
                         },

@@ -3,20 +3,20 @@ import 'package:document_manager/models/user.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_picker/image_picker.dart';
 
-part 'chat_state.freezed.dart';
+part 'chat_room_state.freezed.dart';
 
 @freezed
-class ChatState with _$ChatState {
-  const factory ChatState({
+class ChatRoomState with _$ChatRoomState {
+  const factory ChatRoomState({
     required bool isLoading,
     required bool hasError,
     required XFile? image,
     required bool showSearchBar,
     required String searchWord,
-  }) = _ChatState;
+  }) = _ChatRoomState;
 }
 
-const kDefaultChatState = ChatState(
+const kDefaultChatRoomState = ChatRoomState(
   isLoading: false,
   hasError: false,
   image: null,
@@ -24,7 +24,7 @@ const kDefaultChatState = ChatState(
   searchWord: '',
 );
 
-extension ChatStateExtension on ChatState {
+extension ChatRoomStateExtension on ChatRoomState {
   bool isNotMachPost(Post post, User user) {
     return searchWord.isNotEmpty && !isMachPost(post, user);
   }
