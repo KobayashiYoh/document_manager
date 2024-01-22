@@ -42,10 +42,11 @@ class ImageUtil {
         sourcePath: image.path,
         aspectRatio:
             isIcon ? const CropAspectRatio(ratioX: 1.0, ratioY: 1.0) : null,
-        aspectRatioPresets: isIcon ? [CropAspectRatioPreset.square] : [],
+        aspectRatioPresets: isIcon
+            ? [CropAspectRatioPreset.square]
+            : [CropAspectRatioPreset.original],
         uiSettings: [
           AndroidUiSettings(
-            initAspectRatio: isIcon ? CropAspectRatioPreset.square : null,
             lockAspectRatio: isIcon ? true : false,
           ),
           IOSUiSettings(
