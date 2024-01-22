@@ -113,7 +113,9 @@ class _DebugPostsPageState extends State<DebugPostsPage> {
                     ),
                     IconButton(
                       onPressed: () async {
-                        final image = await ImageUtil.pickImageFromGallery();
+                        final image = await ImageUtil.pickCroppedImage(
+                          source: ImageSource.gallery,
+                        );
                         setState(() {
                           _image = image;
                         });
