@@ -1,3 +1,5 @@
+import 'package:document_manager/constants/app_colors.dart';
+import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -48,6 +50,9 @@ class ImageUtil {
         uiSettings: [
           AndroidUiSettings(
             lockAspectRatio: isIcon ? true : false,
+            toolbarColor: AppColors.main,
+            toolbarWidgetColor: Colors.white,
+            activeControlsWidgetColor: Colors.lightGreen,
           ),
           IOSUiSettings(
             minimumAspectRatio: isIcon ? 1.0 : null,
