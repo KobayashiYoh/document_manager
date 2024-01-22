@@ -64,6 +64,9 @@ class SignInNotifier extends StateNotifier<SignInState> {
       schoolId: user.schoolId,
       userId: user.id,
     );
-    await SecureStorageRepository.writeUserId(user.id);
+    await SecureStorageRepository.writeSignInInfo(
+      userId: user.id,
+      schoolId: school.id,
+    );
   }
 }

@@ -28,7 +28,7 @@ class ChatNotifier extends StateNotifier<ChatState> {
       return;
     }
     try {
-      await SecureStorageRepository.deleteUserId();
+      await SecureStorageRepository.deleteSignInInfo();
       ref.read(signedInUserProvider.notifier).reset();
       ref.read(usersProvider.notifier).reset();
       ref.read(signedInSchoolProvider.notifier).reset();
