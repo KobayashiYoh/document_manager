@@ -2,7 +2,7 @@ import 'package:document_manager/debug/debug_page.dart';
 import 'package:document_manager/models/channel.dart';
 import 'package:document_manager/pages/chat_room_page.dart';
 import 'package:document_manager/pages/sign_in_page.dart';
-import 'package:document_manager/providers/home_page_notifier.dart';
+import 'package:document_manager/providers/chat_notifier.dart';
 import 'package:document_manager/providers/signed_in_school_notifier.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
 import 'package:document_manager/widgets/channel_item.dart';
