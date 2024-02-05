@@ -2,22 +2,33 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SecureStorageRepository {
   static const _storage = FlutterSecureStorage();
-  static const _key = 'user_id';
+  static const _userIdKey = 'user_id';
+  static const _schoolIdKey = 'school_id';
 
   static Future<String?> readUserId() async {
-    return await _storage.read(key: _key);
+    return await _storage.read(key: _userIdKey);
   }
 
-  static Future<void> deleteUserId() async {
-    await _storage.delete(key: _key);
+  static Future<String?> readSchoolId() async {
+    return await _storage.read(key: _schoolIdKey);
   }
 
-  static Future<void> writeUserId(String? value) async {
-    await _storage.write(key: _key, value: value);
+  static Future<void> deleteSignInInfo() async {
+    await _storage.delete(key: _userIdKey);
+    await _storage.delete(key: _schoolIdKey);
+  }
+
+  static Future<void> writeSignInInfo({
+    required String? userId,
+    required String? schoolId,
+  }) async {
+    await _storage.write(key: _userIdKey, value: userId);
+    await _storage.write(key: _schoolIdKey, value: schoolId);
   }
 
   static Future<bool> isUserIdSaved() async {
     final String? userId = await readUserId();
-    return userId != null;
+    final String? schoolId = await readSchoolId();
+    return userId != null && schoolId != null;
   }
 }

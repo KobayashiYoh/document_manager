@@ -1,8 +1,8 @@
 import 'package:document_manager/models/school.dart';
 import 'package:document_manager/models/user_type.dart';
-import 'package:document_manager/pages/chat_page.dart';
 import 'package:document_manager/pages/loading_view.dart';
 import 'package:document_manager/providers/sign_up_notifier.dart';
+import 'package:document_manager/widgets/bottom_navigation.dart';
 import 'package:document_manager/widgets/form_item.dart';
 import 'package:document_manager/widgets/password_suffix_icon_button.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +42,7 @@ class SignUpPageState extends ConsumerState<SignUpPage> {
     );
     if (!mounted) return;
     Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => const ChatPage()),
+      MaterialPageRoute(builder: (context) => const BottomNavigation()),
       (route) => false,
     );
   }
