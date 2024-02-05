@@ -52,7 +52,6 @@ class FirestoreRepository {
   static Future<List<User>> getUsers() async {
     List<User> users = [];
     try {
-      print('school id: $_schoolId');
       final doc = await FirebaseFirestore.instance
           .collection('users')
           .where('schoolId', isEqualTo: _schoolId)

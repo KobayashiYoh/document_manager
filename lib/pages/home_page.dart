@@ -14,7 +14,6 @@ class SignUpPageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     final users = ref.watch(usersProvider);
-    print('users: ${users.length}');
     return Scaffold(
       appBar: AppBar(
         title: const Text('ホームページ'),
