@@ -1,4 +1,5 @@
 import 'package:document_manager/constants/app_colors.dart';
+import 'package:document_manager/pages/admin_page.dart';
 import 'package:document_manager/pages/chat_page.dart';
 import 'package:document_manager/pages/document_page.dart';
 import 'package:document_manager/pages/home_page.dart';
@@ -22,6 +23,7 @@ class HomeViewState extends ConsumerState<BottomNavigation> {
     ChatPage(),
     DocumentPage(),
     MyPage(),
+    AdminPage(),
   ];
 
   @override
@@ -51,6 +53,10 @@ class HomeViewState extends ConsumerState<BottomNavigation> {
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline),
             label: 'マイページ',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.admin_panel_settings_outlined),
+            label: '管理者',
           ),
         ],
         currentIndex: state.selectedIndex,
