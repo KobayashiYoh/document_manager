@@ -29,6 +29,8 @@ class User with _$User {
 extension UserExtension on User {
   String get fullName => '$lastName $firstName';
   String get fullNameWithUserType => '$fullName（${userType.displayText}）';
+
+  bool get isAdmin => userType == UserType.teacher;
 }
 
 const User kDefaultUser = User(
