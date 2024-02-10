@@ -12,7 +12,7 @@ class NavigatorUtil {
     required void Function()? onPressedOK,
     bool hideCancel = false,
   }) {
-    if (Theme.of(context).platform != TargetPlatform.iOS) {
+    if (Theme.of(context).platform == TargetPlatform.iOS) {
       showCupertinoModalPopup<void>(
         context: context,
         builder: (BuildContext context) => CommonCupertinoAlertDialog(
