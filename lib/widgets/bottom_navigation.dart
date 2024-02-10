@@ -16,10 +16,10 @@ class BottomNavigation extends ConsumerStatefulWidget {
   const BottomNavigation({super.key});
 
   @override
-  HomeViewState createState() => HomeViewState();
+  BottomNavigationState createState() => BottomNavigationState();
 }
 
-class HomeViewState extends ConsumerState<BottomNavigation> {
+class BottomNavigationState extends ConsumerState<BottomNavigation> {
   static const List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     ChatPage(),
