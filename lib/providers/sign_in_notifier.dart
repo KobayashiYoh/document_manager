@@ -30,6 +30,19 @@ class SignInNotifier extends StateNotifier<SignInState> {
     state = state.copyWith(obscureText: !state.obscureText);
   }
 
+  Future<void> setSignInInfo(custom.User user, School school) async {
+    ref.read(signedInUserProvider.notifier).setSignedInUser(user);
+    ref.read(signedInSchoolProvider.notifier).setSignedInSchool(school);
+    FirestoreRepository.initilezed(
+      schoolId: user.schoolId,
+      userId: user.id,
+    );
+    await SecureStorageRepository.writeSignInInfo(
+      userId: user.id,
+      schoolId: school.id,
+    );
+  }
+
   Future<void> signIn({
     required String email,
     required String password,
@@ -58,15 +71,6 @@ class SignInNotifier extends StateNotifier<SignInState> {
     } finally {
       setLoading(false);
     }
-    ref.read(signedInUserProvider.notifier).setSignedInUser(user);
-    ref.read(signedInSchoolProvider.notifier).setSignedInSchool(school);
-    FirestoreRepository.initilezed(
-      schoolId: user.schoolId,
-      userId: user.id,
-    );
-    await SecureStorageRepository.writeSignInInfo(
-      userId: user.id,
-      schoolId: school.id,
-    );
+    setSignInInfo(user, school);
   }
 }
