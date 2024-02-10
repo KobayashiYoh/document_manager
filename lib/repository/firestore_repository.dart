@@ -129,7 +129,18 @@ class FirestoreRepository {
           .doc(user.id)
           .set(user.toJson());
     } catch (e) {
-      throw Exception('Failed to set user: $e');
+      throw Exception('Failed to set unapproved user: $e');
+    }
+  }
+
+  static Future<void> deleteUnapprovedUser(String userId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('unapprovedUser')
+          .doc(userId)
+          .delete();
+    } catch (e) {
+      throw Exception('Failed to delete unapproved user: $e');
     }
   }
 

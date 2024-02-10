@@ -1,6 +1,7 @@
 import 'package:document_manager/models/user.dart';
+import 'package:document_manager/pages/admin_page/unapproved_user_item.dart';
+import 'package:document_manager/providers/admin_notifier.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
-import 'package:document_manager/widgets/unapproved_user_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -14,6 +15,7 @@ class AdminPage extends ConsumerStatefulWidget {
 class AdminPageState extends ConsumerState<AdminPage> {
   @override
   Widget build(BuildContext context) {
+    final notifier = ref.read(adminProvider.notifier);
     return Scaffold(
       appBar: AppBar(
         title: const Text('管理者'),
@@ -48,6 +50,10 @@ class AdminPageState extends ConsumerState<AdminPage> {
                             .toList();
                         return UnapprovedUserItem(
                           user: users[index],
+                          onPressedRejection: () =>
+                              notifier.reject(users[index]),
+                          onPressedApproval: () =>
+                              notifier.approve(users[index]),
                         );
                       },
                     ),
