@@ -32,6 +32,7 @@ extension UserExtension on User {
   String get fullNameWithUserType => '$fullName（${userType.displayText}）';
 
   bool get isAdmin => userType == UserType.teacher;
+  bool get isNotApproved => !isApproved;
 }
 
 const User kDefaultUser = User(

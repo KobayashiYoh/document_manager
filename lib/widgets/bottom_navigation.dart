@@ -6,7 +6,9 @@ import 'package:document_manager/pages/document_page.dart';
 import 'package:document_manager/pages/home_page.dart';
 import 'package:document_manager/pages/loading_view.dart';
 import 'package:document_manager/pages/my_page.dart';
+import 'package:document_manager/pages/unapproved_page/unapproved_page.dart';
 import 'package:document_manager/providers/bottom_navigation_notifier.dart';
+import 'package:document_manager/providers/signed_in_school_notifier.dart';
 import 'package:document_manager/providers/signed_in_user_notifier.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +35,13 @@ class BottomNavigationState extends ConsumerState<BottomNavigation> {
     final state = ref.watch(bottomNavigationProvider);
     final notifier = ref.read(bottomNavigationProvider.notifier);
     final signInUser = ref.watch(signedInUserProvider);
+    final school = ref.watch(signedInSchoolProvider);
+    if (signInUser != null && signInUser.isNotApproved) {
+      return UnapprovedPage(
+        userName: signInUser.fullName,
+        schoolName: school?.name ?? '',
+      );
+    }
     return Scaffold(
       body: state.isLoading
           ? const LoadingView()
