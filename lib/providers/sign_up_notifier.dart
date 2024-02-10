@@ -113,6 +113,7 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
       schoolId: state.selectedSchool!.id,
       classId: '',
       channelIds: [],
+      isApproved: false,
       userType: state.userType,
       iconImageUrl: '',
       firstName: firstName,

@@ -114,6 +114,7 @@ class _DebugUsersPageState extends State<DebugUsersPage> {
             id: _idController.text,
             schoolId: kExampleSchool.id,
             classId: kExampleClass.id,
+            isApproved: false,
             channelIds: [kExampleChannel.id],
             userType: UserType.parent,
             iconImageUrl: '',
