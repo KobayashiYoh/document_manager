@@ -26,7 +26,7 @@ class AdminNotifier extends StateNotifier<AdminState> {
     }
     setLoading(true);
     try {
-      await FirestoreRepository.deleteUnapprovedUser(user.id);
+      await FirestoreRepository.deleteUser(user.id);
     } catch (e) {
       setError(true);
       rethrow;
@@ -41,8 +41,9 @@ class AdminNotifier extends StateNotifier<AdminState> {
     }
     setLoading(true);
     try {
-      await FirestoreRepository.setUser(user);
-      await FirestoreRepository.deleteUnapprovedUser(user.id);
+      await FirestoreRepository.setUser(
+        user.copyWith(isApproved: true),
+      );
     } catch (e) {
       setError(true);
       rethrow;

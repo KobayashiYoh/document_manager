@@ -121,7 +121,7 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
       email: userCredential.user?.email,
     );
     try {
-      await FirestoreRepository.setUnapprovedUser(user);
+      await FirestoreRepository.setUser(user);
       school = await FirestoreRepository.getSchool(user.schoolId);
       await _setSignInInfo(user, school);
     } catch (e) {
