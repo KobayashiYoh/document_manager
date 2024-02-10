@@ -1,6 +1,6 @@
 import 'package:document_manager/constants/app_colors.dart';
 import 'package:document_manager/models/user.dart';
-import 'package:document_manager/pages/admin_page.dart';
+import 'package:document_manager/pages/admin_page/admin_page.dart';
 import 'package:document_manager/pages/chat_page.dart';
 import 'package:document_manager/pages/document_page.dart';
 import 'package:document_manager/pages/home_page.dart';

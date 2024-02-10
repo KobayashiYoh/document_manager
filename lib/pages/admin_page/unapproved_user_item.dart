@@ -6,9 +6,13 @@ class UnapprovedUserItem extends StatelessWidget {
   const UnapprovedUserItem({
     Key? key,
     required this.user,
+    required this.onPressedRejection,
+    required this.onPressedApproval,
   }) : super(key: key);
 
   final User user;
+  final void Function()? onPressedRejection;
+  final void Function()? onPressedApproval;
 
   final _buttonSize = const Size(80.0, 32.0);
 
@@ -43,7 +47,7 @@ class UnapprovedUserItem extends StatelessWidget {
             width: _buttonSize.width,
             height: _buttonSize.height,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: onPressedRejection,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red[700],
               ),
@@ -60,7 +64,7 @@ class UnapprovedUserItem extends StatelessWidget {
             width: _buttonSize.width,
             height: _buttonSize.height,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: onPressedApproval,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
               ),

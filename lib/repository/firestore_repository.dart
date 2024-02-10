@@ -80,6 +80,70 @@ class FirestoreRepository {
     }
   }
 
+  static Stream<QuerySnapshot<Map<String, dynamic>>> unapprovedUserSnapshots() {
+    return FirebaseFirestore.instance
+        .collection('unapprovedUser')
+        .where('schoolId', isEqualTo: _schoolId)
+        .orderBy('lastName', descending: true)
+        .snapshots();
+  }
+
+  static Future<User> getUnapprovedUser(String userId) async {
+    User user;
+    try {
+      final response = await FirebaseFirestore.instance
+          .collection('unapprovedUser')
+          .doc(userId)
+          .get();
+      user = User.fromJson(response.data() as Map<String, dynamic>);
+    } catch (e) {
+      rethrow;
+    }
+    return user;
+  }
+
+  static Future<List<User>> getUnapprovedUsers() async {
+    List<User> users = [];
+    try {
+      final doc = await FirebaseFirestore.instance
+          .collection('unapprovedUser')
+          .where('schoolId', isEqualTo: _schoolId)
+          .orderBy('userType')
+          .orderBy('lastName')
+          .orderBy('firstName')
+          .get();
+      users = doc.docs
+          .map((QueryDocumentSnapshot<Map<String, dynamic>> doc) =>
+              User.fromJson(doc.data()))
+          .toList();
+    } catch (e) {
+      throw Exception(e);
+    }
+    return users;
+  }
+
+  static Future<void> setUnapprovedUser(User user) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('unapprovedUser')
+          .doc(user.id)
+          .set(user.toJson());
+    } catch (e) {
+      throw Exception('Failed to set unapproved user: $e');
+    }
+  }
+
+  static Future<void> deleteUnapprovedUser(String userId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('unapprovedUser')
+          .doc(userId)
+          .delete();
+    } catch (e) {
+      throw Exception('Failed to delete unapproved user: $e');
+    }
+  }
+
   static Stream<QuerySnapshot<Map<String, dynamic>>> postSnapshots({
     required String channelId,
     String? searchWord,

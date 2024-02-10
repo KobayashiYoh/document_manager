@@ -1,8 +1,7 @@
 import 'package:document_manager/models/user.dart';
-import 'package:document_manager/providers/chat_notifier.dart';
-import 'package:document_manager/providers/signed_in_school_notifier.dart';
+import 'package:document_manager/pages/admin_page/unapproved_user_item.dart';
+import 'package:document_manager/providers/admin_notifier.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
-import 'package:document_manager/widgets/unapproved_user_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -16,24 +15,16 @@ class AdminPage extends ConsumerStatefulWidget {
 class AdminPageState extends ConsumerState<AdminPage> {
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(chatProvider);
-    final String schoolName = ref.watch(signedInSchoolProvider)?.name ?? '';
-    if (state.isLoading) {
-      return const Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-    }
+    final notifier = ref.read(adminProvider.notifier);
     return Scaffold(
       appBar: AppBar(
-        title: Text(schoolName),
+        title: const Text('管理者'),
       ),
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: StreamBuilder(
-            stream: FirestoreRepository.userSnapshots(),
+            stream: FirestoreRepository.unapprovedUserSnapshots(),
             builder: (context, snapshot) {
               if (snapshot.data == null) {
                 return const SizedBox.shrink();
@@ -59,6 +50,10 @@ class AdminPageState extends ConsumerState<AdminPage> {
                             .toList();
                         return UnapprovedUserItem(
                           user: users[index],
+                          onPressedRejection: () =>
+                              notifier.reject(users[index]),
+                          onPressedApproval: () =>
+                              notifier.approve(users[index]),
                         );
                       },
                     ),
