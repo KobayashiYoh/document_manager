@@ -69,6 +69,19 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
     );
   }
 
+  Future<void> _setSignInInfo(custom.User user, School school) async {
+    ref.read(signedInUserProvider.notifier).setSignedInUser(user);
+    ref.read(signedInSchoolProvider.notifier).setSignedInSchool(school);
+    FirestoreRepository.initilezed(
+      schoolId: user.schoolId,
+      userId: user.id,
+    );
+    await SecureStorageRepository.writeSignInInfo(
+      userId: user.id,
+      schoolId: school.id,
+    );
+  }
+
   Future<void> signUp({
     required String email,
     required String password,
@@ -107,23 +120,14 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
       email: userCredential.user?.email,
     );
     try {
-      await FirestoreRepository.setUser(user);
+      await FirestoreRepository.setUnapprovedUser(user);
       school = await FirestoreRepository.getSchool(user.schoolId);
+      await _setSignInInfo(user, school);
     } catch (e) {
       setError(true);
       rethrow;
     } finally {
       setLoading(false);
     }
-    ref.read(signedInUserProvider.notifier).setSignedInUser(user);
-    ref.read(signedInSchoolProvider.notifier).setSignedInSchool(school);
-    FirestoreRepository.initilezed(
-      schoolId: user.schoolId,
-      userId: user.id,
-    );
-    await SecureStorageRepository.writeSignInInfo(
-      userId: user.id,
-      schoolId: school.id,
-    );
   }
 }
