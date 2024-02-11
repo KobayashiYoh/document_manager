@@ -36,7 +36,6 @@ class UnapprovedPageState extends ConsumerState<UnapprovedPage> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(unapprovedProvider);
-    print('state.userIsDeleted: ${state.userIsDeleted}');
     if (state.isLoading) {
       return const Scaffold(
         body: Center(
