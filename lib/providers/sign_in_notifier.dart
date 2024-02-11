@@ -3,6 +3,7 @@ import 'package:document_manager/models/sign_in_state.dart';
 import 'package:document_manager/models/user.dart' as custom;
 import 'package:document_manager/providers/signed_in_school_notifier.dart';
 import 'package:document_manager/providers/signed_in_user_notifier.dart';
+import 'package:document_manager/providers/users_notifier.dart';
 import 'package:document_manager/repository/firebase_auth_repository.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
 import 'package:document_manager/repository/secure_storage_repository.dart';
@@ -72,5 +73,23 @@ class SignInNotifier extends StateNotifier<SignInState> {
       setLoading(false);
     }
     setSignInInfo(user, school);
+  }
+
+  Future<void> signOut() async {
+    if (state.isLoading) {
+      return;
+    }
+    try {
+      await SecureStorageRepository.deleteSignInInfo();
+      ref.read(signedInUserProvider.notifier).reset();
+      ref.read(usersProvider.notifier).reset();
+      ref.read(signedInSchoolProvider.notifier).reset();
+      FirestoreRepository.reset();
+    } catch (e) {
+      setError(true);
+      rethrow;
+    } finally {
+      setLoading(false);
+    }
   }
 }

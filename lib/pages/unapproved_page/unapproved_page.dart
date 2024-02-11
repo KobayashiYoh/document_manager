@@ -1,6 +1,9 @@
+import 'package:document_manager/pages/sign_in_page.dart';
+import 'package:document_manager/providers/sign_in_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class UnapprovedPage extends StatelessWidget {
+class UnapprovedPage extends ConsumerStatefulWidget {
   const UnapprovedPage({
     Key? key,
     required this.userName,
@@ -9,6 +12,21 @@ class UnapprovedPage extends StatelessWidget {
 
   final String userName;
   final String schoolName;
+
+  @override
+  UnapprovedPageState createState() => UnapprovedPageState();
+}
+
+class UnapprovedPageState extends ConsumerState<UnapprovedPage> {
+  Future<void> _onPressedSignOut() async {
+    final notifier = ref.read(signInProvider.notifier);
+    await notifier.signOut();
+    if (!mounted) return;
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => const SignInPage()),
+      (route) => false,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +40,7 @@ class UnapprovedPage extends StatelessWidget {
             children: [
               const SizedBox(height: 128.0),
               Text(
-                '$userName さん\n$schoolName へようこそ',
+                '${widget.userName} さん\n${widget.schoolName} へようこそ',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 20.0,
@@ -35,7 +53,7 @@ class UnapprovedPage extends StatelessWidget {
               ),
               const Spacer(),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: _onPressedSignOut,
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

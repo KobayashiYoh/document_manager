@@ -3,6 +3,7 @@ import 'package:document_manager/models/channel.dart';
 import 'package:document_manager/pages/chat_room_page.dart';
 import 'package:document_manager/pages/sign_in_page.dart';
 import 'package:document_manager/providers/chat_notifier.dart';
+import 'package:document_manager/providers/sign_in_notifier.dart';
 import 'package:document_manager/providers/signed_in_school_notifier.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
 import 'package:document_manager/widgets/channel_item.dart';
@@ -18,7 +19,7 @@ class ChatPage extends ConsumerStatefulWidget {
 
 class SignUpPageState extends ConsumerState<ChatPage> {
   Future<void> _onPressedSignOut() async {
-    final notifier = ref.read(chatProvider.notifier);
+    final notifier = ref.read(signInProvider.notifier);
     await notifier.signOut();
     if (!mounted) return;
     Navigator.of(context).pushAndRemoveUntil(
