@@ -36,6 +36,7 @@ class UnapprovedPageState extends ConsumerState<UnapprovedPage> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(unapprovedProvider);
+    print('state.userIsDeleted: ${state.userIsDeleted}');
     if (state.isLoading) {
       return const Scaffold(
         body: Center(
@@ -48,7 +49,11 @@ class UnapprovedPageState extends ConsumerState<UnapprovedPage> {
         titleText: 'ユーザーが削除されました',
         contentText: '教員からの承認を得ることができませんでした。',
         onPressedOK: () {
-          Navigator.pop(context);
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const SignInPage()),
+            (route) => false,
+          );
         },
         hideCancel: true,
       );
