@@ -1,7 +1,6 @@
 import 'package:document_manager/models/post.dart';
-import 'package:document_manager/models/user.dart';
+import 'package:document_manager/pages/document_page/document_item.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
-import 'package:document_manager/widgets/post_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -25,18 +24,20 @@ class DocumentPageState extends ConsumerState<DocumentPage> {
           if (snapshot.data == null) {
             return const SizedBox.shrink();
           }
-          return ListView.builder(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          return GridView.builder(
             itemCount: snapshot.data!.docs.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              mainAxisSpacing: 4.0,
+              crossAxisSpacing: 4.0,
+            ),
             itemBuilder: (context, index) {
               final List<Post> posts = snapshot.data!.docs
                   .map((doc) => Post.fromJson(doc.data()))
                   .toList();
               final post = posts[index];
-              return PostItem(
+              return DocumentItem(
                 post: post,
-                user: kDefaultUser,
-                signedInUserId: kDefaultUser.id,
                 onLongPressCheck: () {},
                 onPressedCheck: () {},
               );
