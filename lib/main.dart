@@ -7,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,32 +30,38 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.main),
-        useMaterial3: true,
-        appBarTheme: const AppBarTheme(
-          foregroundColor: Colors.white,
-          backgroundColor: AppColors.main,
-        ),
-        floatingActionButtonTheme: const FloatingActionButtonThemeData(
-          foregroundColor: Colors.white,
-          backgroundColor: AppColors.main,
-        ),
-        inputDecorationTheme: InputDecorationTheme(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8.0),
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      builder: (_, child) {
+        return MaterialApp(
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: AppColors.main),
+            useMaterial3: true,
+            appBarTheme: const AppBarTheme(
+              foregroundColor: Colors.white,
+              backgroundColor: AppColors.main,
+            ),
+            floatingActionButtonTheme: const FloatingActionButtonThemeData(
+              foregroundColor: Colors.white,
+              backgroundColor: AppColors.main,
+            ),
+            inputDecorationTheme: InputDecorationTheme(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+            ),
+            elevatedButtonTheme: ElevatedButtonThemeData(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.main,
+                foregroundColor: Colors.white,
+              ),
+            ),
           ),
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.main,
-            foregroundColor: Colors.white,
-          ),
-        ),
-      ),
-      home: isSignedIn ? const BottomNavigation() : const SignInPage(),
+          home: child,
+        );
+      },
+      child: isSignedIn ? const BottomNavigation() : const SignInPage(),
     );
   }
 }

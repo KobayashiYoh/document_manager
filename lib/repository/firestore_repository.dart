@@ -123,6 +123,16 @@ class FirestoreRepository {
         .snapshots();
   }
 
+  static Stream<QuerySnapshot<Map<String, dynamic>>> documentsSnapshots({
+    String? searchWord,
+  }) {
+    return FirebaseFirestore.instance
+        .collection('posts')
+        .where('schoolId', isEqualTo: _schoolId)
+        .where('imageUrl', isNotEqualTo: '')
+        .snapshots();
+  }
+
   static Future<void> setPost({
     required String postId,
     required String channelId,
