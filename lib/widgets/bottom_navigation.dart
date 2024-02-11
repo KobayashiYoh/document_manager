@@ -36,18 +36,22 @@ class BottomNavigationState extends ConsumerState<BottomNavigation> {
     final notifier = ref.read(bottomNavigationProvider.notifier);
     final signInUser = ref.watch(signedInUserProvider);
     final school = ref.watch(signedInSchoolProvider);
-    if (signInUser != null && signInUser.isNotApproved) {
+    if (state.isLoading) {
+      return const Scaffold(
+        body: Center(
+          child: LoadingView(),
+        ),
+      );
+    } else if (signInUser != null && signInUser.isNotApproved) {
       return UnapprovedPage(
-        userName: signInUser.fullName,
+        signedInUser: signInUser,
         schoolName: school?.name ?? '',
       );
     }
     return Scaffold(
-      body: state.isLoading
-          ? const LoadingView()
-          : Center(
-              child: _widgetOptions.elementAt(state.selectedIndex),
-            ),
+      body: Center(
+        child: _widgetOptions.elementAt(state.selectedIndex),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           const BottomNavigationBarItem(

@@ -1,16 +1,21 @@
+import 'dart:async';
+
+import 'package:document_manager/models/user.dart';
 import 'package:document_manager/pages/sign_in_page.dart';
 import 'package:document_manager/providers/sign_in_notifier.dart';
+import 'package:document_manager/providers/unapproved_notifier.dart';
+import 'package:document_manager/utils/navigator_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class UnapprovedPage extends ConsumerStatefulWidget {
   const UnapprovedPage({
     Key? key,
-    required this.userName,
+    required this.signedInUser,
     required this.schoolName,
   }) : super(key: key);
 
-  final String userName;
+  final User signedInUser;
   final String schoolName;
 
   @override
@@ -30,6 +35,24 @@ class UnapprovedPageState extends ConsumerState<UnapprovedPage> {
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(unapprovedProvider);
+    if (state.isLoading) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    } else if (state.userIsDeleted) {
+      NavigatorUtil.showCommonAlertDialog(
+        context,
+        titleText: 'ユーザーが削除されました',
+        contentText: '教員からの承認を得ることができませんでした。',
+        onPressedOK: () {
+          Navigator.pop(context);
+        },
+        hideCancel: true,
+      );
+    }
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -40,7 +63,7 @@ class UnapprovedPageState extends ConsumerState<UnapprovedPage> {
             children: [
               const SizedBox(height: 128.0),
               Text(
-                '${widget.userName} さん\n${widget.schoolName} へようこそ',
+                '${widget.signedInUser.fullName} さん\n${widget.schoolName} へようこそ',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 20.0,
