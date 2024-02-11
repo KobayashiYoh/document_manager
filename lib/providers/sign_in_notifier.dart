@@ -3,6 +3,7 @@ import 'package:document_manager/models/sign_in_state.dart';
 import 'package:document_manager/models/user.dart' as custom;
 import 'package:document_manager/providers/signed_in_school_notifier.dart';
 import 'package:document_manager/providers/signed_in_user_notifier.dart';
+import 'package:document_manager/providers/users_notifier.dart';
 import 'package:document_manager/repository/firebase_auth_repository.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
 import 'package:document_manager/repository/secure_storage_repository.dart';
@@ -28,6 +29,19 @@ class SignInNotifier extends StateNotifier<SignInState> {
 
   void switchObscureText() {
     state = state.copyWith(obscureText: !state.obscureText);
+  }
+
+  Future<void> setSignInInfo(custom.User user, School school) async {
+    ref.read(signedInUserProvider.notifier).setSignedInUser(user);
+    ref.read(signedInSchoolProvider.notifier).setSignedInSchool(school);
+    FirestoreRepository.initilezed(
+      schoolId: user.schoolId,
+      userId: user.id,
+    );
+    await SecureStorageRepository.writeSignInInfo(
+      userId: user.id,
+      schoolId: school.id,
+    );
   }
 
   Future<void> signIn({
@@ -58,15 +72,24 @@ class SignInNotifier extends StateNotifier<SignInState> {
     } finally {
       setLoading(false);
     }
-    ref.read(signedInUserProvider.notifier).setSignedInUser(user);
-    ref.read(signedInSchoolProvider.notifier).setSignedInSchool(school);
-    FirestoreRepository.initilezed(
-      schoolId: user.schoolId,
-      userId: user.id,
-    );
-    await SecureStorageRepository.writeSignInInfo(
-      userId: user.id,
-      schoolId: school.id,
-    );
+    setSignInInfo(user, school);
+  }
+
+  Future<void> signOut() async {
+    if (state.isLoading) {
+      return;
+    }
+    try {
+      await SecureStorageRepository.deleteSignInInfo();
+      ref.read(signedInUserProvider.notifier).reset();
+      ref.read(usersProvider.notifier).reset();
+      ref.read(signedInSchoolProvider.notifier).reset();
+      FirestoreRepository.reset();
+    } catch (e) {
+      setError(true);
+      rethrow;
+    } finally {
+      setLoading(false);
+    }
   }
 }

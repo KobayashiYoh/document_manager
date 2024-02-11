@@ -10,7 +10,7 @@ class SignedInUserNotifier extends StateNotifier<User?> {
 
   bool get isSignedIn => state != null;
 
-  void setSignedInUser(User user) {
+  void setSignedInUser(User? user) {
     state = user;
   }
 

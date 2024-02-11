@@ -24,7 +24,7 @@ class AdminPageState extends ConsumerState<AdminPage> {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: StreamBuilder(
-            stream: FirestoreRepository.unapprovedUserSnapshots(),
+            stream: FirestoreRepository.userSnapshots(isApproved: false),
             builder: (context, snapshot) {
               if (snapshot.data == null) {
                 return const SizedBox.shrink();

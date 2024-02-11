@@ -8,7 +8,7 @@ class NavigatorUtil {
     BuildContext context, {
     required String titleText,
     required String contentText,
-    required void Function()? onPressedCancel,
+    void Function()? onPressedCancel,
     required void Function()? onPressedOK,
     bool hideCancel = false,
   }) {

@@ -14,6 +14,7 @@ class User with _$User {
     required String schoolId,
     required String classId,
     required List<String> channelIds,
+    required bool isApproved,
     required UserType userType,
     required String iconImageUrl,
     required String firstName,
@@ -31,6 +32,7 @@ extension UserExtension on User {
   String get fullNameWithUserType => '$fullName（${userType.displayText}）';
 
   bool get isAdmin => userType == UserType.teacher;
+  bool get isNotApproved => !isApproved;
 }
 
 const User kDefaultUser = User(
@@ -38,6 +40,7 @@ const User kDefaultUser = User(
   schoolId: '',
   classId: '',
   channelIds: [],
+  isApproved: false,
   userType: UserType.student,
   iconImageUrl: '',
   firstName: '',
@@ -51,6 +54,7 @@ final User kExampleStudent = User(
   schoolId: kExampleSchool.id,
   classId: kDefaultClass.id,
   channelIds: [kDefaultChannel.id],
+  isApproved: false,
   userType: UserType.student,
   iconImageUrl: '',
   firstName: '学生',
@@ -64,6 +68,7 @@ final User kExampleParent = User(
   schoolId: kExampleSchool.id,
   classId: kDefaultClass.id,
   channelIds: [kDefaultChannel.id],
+  isApproved: false,
   userType: UserType.parent,
   iconImageUrl: '',
   firstName: '保護者',
@@ -75,6 +80,7 @@ final User kExampleTeacher = User(
   schoolId: kExampleSchool.id,
   classId: kDefaultClass.id,
   channelIds: [kDefaultChannel.id],
+  isApproved: false,
   userType: UserType.teacher,
   iconImageUrl: '',
   firstName: '先生',
