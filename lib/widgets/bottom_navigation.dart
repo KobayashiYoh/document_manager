@@ -6,8 +6,10 @@ import 'package:document_manager/pages/document_page.dart';
 import 'package:document_manager/pages/home_page.dart';
 import 'package:document_manager/pages/loading_view.dart';
 import 'package:document_manager/pages/my_page.dart';
+import 'package:document_manager/pages/sign_in_failure_page/sign_in_failure_page.dart';
 import 'package:document_manager/pages/unapproved_page/unapproved_page.dart';
 import 'package:document_manager/providers/bottom_navigation_notifier.dart';
+import 'package:document_manager/providers/sign_in_notifier.dart';
 import 'package:document_manager/providers/signed_in_school_notifier.dart';
 import 'package:document_manager/providers/signed_in_user_notifier.dart';
 import 'package:flutter/cupertino.dart';
@@ -35,6 +37,7 @@ class BottomNavigationState extends ConsumerState<BottomNavigation> {
     final state = ref.watch(bottomNavigationProvider);
     final notifier = ref.read(bottomNavigationProvider.notifier);
     final signInUser = ref.watch(signedInUserProvider);
+    final signInNotifier = ref.read(signInProvider.notifier);
     final school = ref.watch(signedInSchoolProvider);
     if (state.isLoading) {
       return const Scaffold(
@@ -42,7 +45,11 @@ class BottomNavigationState extends ConsumerState<BottomNavigation> {
           child: LoadingView(),
         ),
       );
-    } else if (signInUser != null && signInUser.isNotApproved) {
+    } else if (signInUser == null) {
+      return SignInFailurePage(
+        onPressedSignOut: signInNotifier.signOut,
+      );
+    } else if (signInUser.isNotApproved) {
       return UnapprovedPage(
         signedInUser: signInUser,
         schoolName: school?.name ?? '',
@@ -70,7 +77,7 @@ class BottomNavigationState extends ConsumerState<BottomNavigation> {
             icon: Icon(Icons.person_outline),
             label: 'マイページ',
           ),
-          if (signInUser != null && signInUser.isAdmin)
+          if (signInUser.isAdmin)
             const BottomNavigationBarItem(
               icon: Icon(Icons.admin_panel_settings_outlined),
               label: '管理者',
