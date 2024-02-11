@@ -38,6 +38,25 @@ class FirestoreRepository {
         .snapshots();
   }
 
+  static Stream<List<User>> getUsersStream() async* {
+    try {
+      final querySnapshot = FirebaseFirestore.instance
+          .collection('users')
+          .where('schoolId', isEqualTo: _schoolId)
+          .orderBy('userType')
+          .orderBy('lastName')
+          .orderBy('firstName')
+          .snapshots();
+      await for (var snapshot in querySnapshot) {
+        final List<User> users =
+            snapshot.docs.map((doc) => User.fromJson(doc.data())).toList();
+        yield users;
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
   static Future<User> getUser(String userId) async {
     User user;
     try {
