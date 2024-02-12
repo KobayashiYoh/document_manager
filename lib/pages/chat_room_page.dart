@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:document_manager/constants/app_colors.dart';
 import 'package:document_manager/constants/styles.dart';
 import 'package:document_manager/models/channel.dart';
 import 'package:document_manager/models/chat_room_state.dart';
@@ -11,6 +10,7 @@ import 'package:document_manager/providers/users_notifier.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
 import 'package:document_manager/widgets/check_status_user_view.dart';
 import 'package:document_manager/widgets/post_item.dart';
+import 'package:document_manager/widgets/post_search_bar.dart';
 import 'package:document_manager/widgets/scrollable_modal_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,7 +30,6 @@ class HomeViewState extends ConsumerState<ChatRoomPage> {
   final ScrollController _scrollController = ScrollController();
 
   final double _inputFieldHeight = 88.0;
-  final double _searchBarHeight = 80.0;
   final double _imagePreviewHeight = 64.0;
 
   bool get disableSendButton {
@@ -39,8 +38,12 @@ class HomeViewState extends ConsumerState<ChatRoomPage> {
   }
 
   void _onSubmittedSearchField(String value) {
-    final notifier = ref.read(chatRoomProvider.notifier);
-    notifier.setSearchWord(value);
+    ref.read(chatRoomProvider.notifier).setSearchWord(value);
+  }
+
+  void _onPressedClear() {
+    ref.read(chatRoomProvider.notifier).setSearchWord('');
+    _searchTextController.clear();
   }
 
   void _resetSearchWord() {
@@ -77,13 +80,11 @@ class HomeViewState extends ConsumerState<ChatRoomPage> {
   }
 
   void _scrollMax() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _scrollController.animateTo(
-        _scrollController.position.maxScrollExtent,
-        duration: const Duration(microseconds: 1),
-        curve: Curves.easeInOut,
-      );
-    });
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: const Duration(microseconds: 1),
+      curve: Curves.easeInOut,
+    );
   }
 
   @override
@@ -155,8 +156,8 @@ class HomeViewState extends ConsumerState<ChatRoomPage> {
                       }
                       final bool isLastIndex = index == posts.length - 1;
                       final bool isFirstIndex = index == 0;
-                      final double firstMarginTop =
-                          32.0 + (state.showSearchBar ? _searchBarHeight : 0);
+                      final double firstMarginTop = 32.0 +
+                          (state.showSearchBar ? PostSearchBar.height : 0);
                       return PostItem(
                         post: post,
                         user: user,
@@ -179,32 +180,10 @@ class HomeViewState extends ConsumerState<ChatRoomPage> {
               Column(
                 children: [
                   if (state.showSearchBar)
-                    Container(
-                      padding: const EdgeInsets.all(16.0),
-                      height: _searchBarHeight,
-                      color: AppColors.main,
-                      child: TextField(
-                        controller: _searchTextController,
-                        onSubmitted: _onSubmittedSearchField,
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.only(top: 8.0),
-                          prefixIcon: IconButton(
-                            onPressed: () => _onSubmittedSearchField,
-                            icon: const Icon(Icons.search),
-                          ),
-                          suffix: IconButton(
-                            onPressed: () {
-                              notifier.setSearchWord('');
-                              _searchTextController.clear();
-                            },
-                            icon: const Icon(Icons.close),
-                          ),
-                          fillColor: Colors.white,
-                          filled: true,
-                          border: Styles.chatOutlineInputBorder,
-                          focusedBorder: Styles.chatOutlineInputBorder,
-                        ),
-                      ),
+                    PostSearchBar(
+                      searchTextController: _searchTextController,
+                      onSubmitted: _onSubmittedSearchField,
+                      onPressedClear: _onPressedClear,
                     ),
                   const Spacer(),
                   Container(
