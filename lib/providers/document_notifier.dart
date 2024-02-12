@@ -28,7 +28,6 @@ class DocumentNotifier extends StateNotifier<DocumentState> {
 
   void onSubmittedSearch(String searchWord) {
     state = state.copyWith(searchWord: searchWord);
-    print('searchWord: ${state.searchWord}');
   }
 
   @override
