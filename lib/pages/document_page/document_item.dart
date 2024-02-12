@@ -4,16 +4,9 @@ import 'package:document_manager/widgets/image_preview.dart';
 import 'package:flutter/material.dart';
 
 class DocumentItem extends StatelessWidget {
-  const DocumentItem({
-    Key? key,
-    required this.post,
-    required this.onPressedCheck,
-    required this.onLongPressCheck,
-  }) : super(key: key);
+  const DocumentItem({Key? key, required this.post}) : super(key: key);
 
   final Post post;
-  final void Function()? onPressedCheck;
-  final void Function()? onLongPressCheck;
 
   @override
   Widget build(BuildContext context) {

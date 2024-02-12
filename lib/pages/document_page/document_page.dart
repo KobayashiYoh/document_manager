@@ -2,6 +2,7 @@ import 'package:document_manager/models/post.dart';
 import 'package:document_manager/pages/document_page/document_item.dart';
 import 'package:document_manager/providers/document_notifier.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
+import 'package:document_manager/utils/post_util.dart';
 import 'package:document_manager/widgets/post_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,15 +44,10 @@ class DocumentPageState extends ConsumerState<DocumentPage> {
                 final List<Post> posts = snapshot.data!.docs
                     .map((doc) => Post.fromJson(doc.data()))
                     .toList();
-                final matchedPosts = [];
-                for (Post post in posts) {
-                  for (final imageText in post.imageTexts) {
-                    if (imageText.contains(state.searchWord)) {
-                      matchedPosts.add(post);
-                      break;
-                    }
-                  }
-                }
+                final matchedPosts = PostUtil.searchPostFromImageText(
+                  posts,
+                  state.searchWord,
+                );
                 return GridView.builder(
                   itemCount: matchedPosts.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -60,11 +56,7 @@ class DocumentPageState extends ConsumerState<DocumentPage> {
                     crossAxisSpacing: 4.0,
                   ),
                   itemBuilder: (context, index) {
-                    return DocumentItem(
-                      post: matchedPosts[index],
-                      onLongPressCheck: () {},
-                      onPressedCheck: () {},
-                    );
+                    return DocumentItem(post: matchedPosts[index]);
                   },
                 );
               },
