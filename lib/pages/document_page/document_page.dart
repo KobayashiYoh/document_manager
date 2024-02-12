@@ -1,5 +1,6 @@
 import 'package:document_manager/models/post.dart';
 import 'package:document_manager/pages/document_page/document_item.dart';
+import 'package:document_manager/providers/document_notifier.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
 import 'package:document_manager/widgets/post_search_bar.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,8 @@ class DocumentPage extends ConsumerStatefulWidget {
 class DocumentPageState extends ConsumerState<DocumentPage> {
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(documentProvider);
+    final notifier = ref.read(documentProvider.notifier);
     return Scaffold(
       appBar: AppBar(
         title: const Text('プリント'),
@@ -22,31 +25,43 @@ class DocumentPageState extends ConsumerState<DocumentPage> {
       body: Column(
         children: [
           PostSearchBar(
-            searchTextController: TextEditingController(),
-            onSubmitted: (value) {},
-            onPressedClear: () {},
+            searchTextController: notifier.searchTextController,
+            onSubmitted: (value) => notifier.onSubmittedSearch(
+              notifier.searchTextController.text,
+            ),
+            onPressedClear: notifier.clearSearchText,
           ),
           Expanded(
             child: StreamBuilder(
-              stream: FirestoreRepository.documentsSnapshots(),
+              stream: FirestoreRepository.documentsSnapshots(
+                searchWord: state.searchWord,
+              ),
               builder: (context, snapshot) {
                 if (snapshot.data == null) {
                   return const SizedBox.shrink();
                 }
+                final List<Post> posts = snapshot.data!.docs
+                    .map((doc) => Post.fromJson(doc.data()))
+                    .toList();
+                final matchedPosts = [];
+                for (Post post in posts) {
+                  for (final imageText in post.imageTexts) {
+                    if (imageText.contains(state.searchWord)) {
+                      matchedPosts.add(post);
+                      break;
+                    }
+                  }
+                }
                 return GridView.builder(
-                  itemCount: snapshot.data!.docs.length,
+                  itemCount: matchedPosts.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     mainAxisSpacing: 4.0,
                     crossAxisSpacing: 4.0,
                   ),
                   itemBuilder: (context, index) {
-                    final List<Post> posts = snapshot.data!.docs
-                        .map((doc) => Post.fromJson(doc.data()))
-                        .toList();
-                    final post = posts[index];
                     return DocumentItem(
-                      post: post,
+                      post: matchedPosts[index],
                       onLongPressCheck: () {},
                       onPressedCheck: () {},
                     );
