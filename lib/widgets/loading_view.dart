@@ -9,15 +9,18 @@ class LoadingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const double sigma = 5.0;
-    return BackdropFilter(
-      filter: ImageFilter.blur(
-        sigmaX: sigma,
-        sigmaY: sigma,
-      ),
-      child: Center(
-        child: Theme.of(context).platform == TargetPlatform.iOS
-            ? const CupertinoActivityIndicator()
-            : const CircularProgressIndicator(),
+    return Container(
+      color: Colors.transparent,
+      child: BackdropFilter(
+        filter: ImageFilter.blur(
+          sigmaX: sigma,
+          sigmaY: sigma,
+        ),
+        child: Center(
+          child: Theme.of(context).platform == TargetPlatform.iOS
+              ? const CupertinoActivityIndicator()
+              : const CircularProgressIndicator(),
+        ),
       ),
     );
   }
