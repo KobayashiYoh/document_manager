@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:document_manager/debug/debug_user_item.dart';
 import 'package:document_manager/models/channel.dart';
 import 'package:document_manager/models/class.dart';
+import 'package:document_manager/models/gender.dart';
 import 'package:document_manager/models/school.dart';
 import 'package:document_manager/models/user.dart';
 import 'package:document_manager/models/user_type.dart';
@@ -117,6 +118,7 @@ class _DebugUsersPageState extends State<DebugUsersPage> {
             isApproved: false,
             channelIds: [kExampleChannel.id],
             userType: UserType.parent,
+            gender: Gender.none,
             iconImageUrl: '',
             firstName: _firstNameController.text,
             lastName: _lastNameController.text,
