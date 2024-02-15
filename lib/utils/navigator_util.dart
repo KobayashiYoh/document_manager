@@ -48,6 +48,17 @@ class NavigatorUtil {
     );
   }
 
+  static void pushAndRemoveUtil(
+    BuildContext context,
+    Widget page, {
+    bool Function(Route)? predicate,
+  }) {
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => page),
+      predicate ?? (route) => false,
+    );
+  }
+
   static void goToUserPage(BuildContext context, {required User user}) {
     push(context, UserPage(user: user));
   }
