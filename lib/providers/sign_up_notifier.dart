@@ -52,7 +52,7 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
     if (school == null) {
       return;
     }
-    state = state.copyWith(selectedSchool: school);
+    state = state.copyWith(school: school);
   }
 
   void onChangedUserType(UserType? userType) {
@@ -91,6 +91,14 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
     if (state.isLoading) {
       return;
     }
+    final bool isNotCompleteForm = lastName.isEmpty ||
+        firstName.isEmpty ||
+        state.school == null ||
+        state.userType == null ||
+        state.gender == null;
+    if (isNotCompleteForm) {
+      return;
+    }
     UserCredential userCredential;
     custom.User user;
     School school;
@@ -110,11 +118,11 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
     }
     user = custom.User(
       id: userCredential.user!.uid,
-      schoolId: state.selectedSchool!.id,
+      schoolId: state.school!.id,
       classId: '',
       channelIds: [],
       isApproved: false,
-      userType: state.userType,
+      userType: state.userType!,
       iconImageUrl: '',
       firstName: firstName,
       lastName: lastName,

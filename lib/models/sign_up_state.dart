@@ -12,9 +12,9 @@ class SignUpState with _$SignUpState {
     required bool hasError,
     required bool obscureText,
     required List<School> schools,
-    required School? selectedSchool,
-    required UserType userType,
-    required Gender gender,
+    required School? school,
+    required UserType? userType,
+    required Gender? gender,
   }) = _SignUpState;
 }
 
@@ -23,7 +23,7 @@ const SignUpState kDefaultSignUpState = SignUpState(
   hasError: false,
   obscureText: true,
   schools: [],
-  selectedSchool: null,
-  userType: kDefaultUserType,
-  gender: Gender.female,
+  school: null,
+  userType: null,
+  gender: null,
 );
