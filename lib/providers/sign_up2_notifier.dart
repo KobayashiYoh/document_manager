@@ -145,6 +145,8 @@ class SignUp2Notifier extends StateNotifier<SignUp2State> {
       setError(true);
       throw Exception('Failed to sign up: $e');
     } finally {
+      reset();
+      ref.read(signUp2Provider.notifier).reset();
       setLoading(false);
     }
   }
