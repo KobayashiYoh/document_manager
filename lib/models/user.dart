@@ -1,5 +1,6 @@
 import 'package:document_manager/models/channel.dart';
 import 'package:document_manager/models/class.dart';
+import 'package:document_manager/models/gender.dart';
 import 'package:document_manager/models/school.dart';
 import 'package:document_manager/models/user_type.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -16,6 +17,7 @@ class User with _$User {
     required List<String> channelIds,
     required bool isApproved,
     required UserType userType,
+    required Gender gender,
     required String iconImageUrl,
     required String firstName,
     required String lastName,
@@ -42,6 +44,7 @@ const User kDefaultUser = User(
   channelIds: [],
   isApproved: false,
   userType: UserType.student,
+  gender: Gender.none,
   iconImageUrl: '',
   firstName: '',
   lastName: '',
@@ -49,40 +52,40 @@ const User kDefaultUser = User(
 
 const List<User> kDefaultUsers = [];
 
-final User kExampleStudent = User(
-  id: 'example-student',
-  schoolId: kExampleSchool.id,
-  classId: kDefaultClass.id,
-  channelIds: [kDefaultChannel.id],
-  isApproved: false,
-  userType: UserType.student,
-  iconImageUrl: '',
-  firstName: '学生',
-  lastName: '佐藤',
-  parentId1: 'example-mother',
-  parentId2: 'example-father',
-);
-
-final User kExampleParent = User(
+final User _kExampleUser = User(
   id: 'example-parent',
   schoolId: kExampleSchool.id,
   classId: kDefaultClass.id,
   channelIds: [kDefaultChannel.id],
   isApproved: false,
   userType: UserType.parent,
+  gender: Gender.none,
   iconImageUrl: '',
-  firstName: '保護者',
-  lastName: '佐藤',
+  firstName: '苗字',
+  lastName: '名前',
 );
 
-final User kExampleTeacher = User(
+final User kExampleParent = _kExampleUser.copyWith(
+  id: 'example-parent',
+  userType: UserType.parent,
+  gender: Gender.female,
+  firstName: '山田',
+  lastName: 'ホゴシャコ',
+);
+
+final User kExampleStudent = _kExampleUser.copyWith(
+  id: 'example-student',
+  userType: UserType.student,
+  gender: Gender.male,
+  firstName: '山田',
+  lastName: '学',
+  parentId1: 'example-parent',
+);
+
+final User kExampleTeacher = _kExampleUser.copyWith(
   id: 'example-teacher',
-  schoolId: kExampleSchool.id,
-  classId: kDefaultClass.id,
-  channelIds: [kDefaultChannel.id],
-  isApproved: false,
   userType: UserType.teacher,
-  iconImageUrl: '',
-  firstName: '先生',
-  lastName: '田中',
+  gender: Gender.male,
+  firstName: '谷山',
+  lastName: '教授郎',
 );

@@ -1,3 +1,4 @@
+import 'package:document_manager/models/gender.dart';
 import 'package:document_manager/models/school.dart';
 import 'package:document_manager/models/sign_up_state.dart';
 import 'package:document_manager/models/user.dart' as custom;
@@ -8,7 +9,6 @@ import 'package:document_manager/repository/firebase_auth_repository.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
 import 'package:document_manager/repository/secure_storage_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final signUpProvider = StateNotifierProvider<SignUpNotifier, SignUpState>(
@@ -52,7 +52,7 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
     if (school == null) {
       return;
     }
-    state = state.copyWith(selectedSchool: school);
+    state = state.copyWith(school: school);
   }
 
   void onChangedUserType(UserType? userType) {
@@ -62,11 +62,11 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
     state = state.copyWith(userType: userType);
   }
 
-  void setUserTypeFieldWidth(GlobalKey key) {
-    final renderBox = key.currentContext?.findRenderObject() as RenderBox?;
-    state = state.copyWith(
-      userTypeFieldWidth: renderBox!.size.width,
-    );
+  void onChangedGender(Gender? gender) {
+    if (gender == null) {
+      return;
+    }
+    state = state.copyWith(gender: gender);
   }
 
   Future<void> _setSignInInfo(custom.User user, School school) async {
@@ -91,6 +91,14 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
     if (state.isLoading) {
       return;
     }
+    final bool isNotCompleteForm = lastName.isEmpty ||
+        firstName.isEmpty ||
+        state.school == null ||
+        state.userType == null ||
+        state.gender == null;
+    if (isNotCompleteForm) {
+      return;
+    }
     UserCredential userCredential;
     custom.User user;
     School school;
@@ -110,11 +118,12 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
     }
     user = custom.User(
       id: userCredential.user!.uid,
-      schoolId: state.selectedSchool!.id,
+      schoolId: state.school!.id,
       classId: '',
       channelIds: [],
       isApproved: false,
-      userType: state.userType,
+      userType: state.userType!,
+      gender: state.gender!,
       iconImageUrl: '',
       firstName: firstName,
       lastName: lastName,

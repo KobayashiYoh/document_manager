@@ -30,10 +30,10 @@ const Channel kDefaultChannel = Channel(
 );
 
 final Channel kExampleChannel = Channel(
-  id: 'example-channel',
+  id: '5e1c342a-6e8f-4baf-81f4-9bc68968392d',
   schoolId: kExampleSchool.id,
-  iconImageUrl: '',
+  iconImageUrl: '1-1',
   name: 'デバッグ用チャンネル',
-  description: 'デバッグ用のチャンネルです。',
+  description: '1年1組のグループです。',
   userIds: [kExampleTeacher.id, kExampleStudent.id, kExampleParent.id],
 );
