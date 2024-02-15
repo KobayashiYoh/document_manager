@@ -1,12 +1,12 @@
 import 'package:document_manager/debug/debug_page.dart';
 import 'package:document_manager/models/channel.dart';
+import 'package:document_manager/pages/chat_room_page/channel_item.dart';
 import 'package:document_manager/pages/chat_room_page/chat_room_page.dart';
 import 'package:document_manager/pages/sign_in_page/sign_in_page.dart';
 import 'package:document_manager/providers/chat_notifier.dart';
 import 'package:document_manager/providers/sign_in_notifier.dart';
 import 'package:document_manager/providers/signed_in_school_notifier.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
-import 'package:document_manager/widgets/channel_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
