@@ -1,7 +1,7 @@
 import 'package:document_manager/models/gender.dart';
 import 'package:document_manager/models/school.dart';
 import 'package:document_manager/models/user_type.dart';
-import 'package:document_manager/providers/sign_up_notifier.dart';
+import 'package:document_manager/providers/sign_up1_notifier.dart';
 import 'package:document_manager/widgets/bottom_navigation.dart';
 import 'package:document_manager/widgets/form_item.dart';
 import 'package:document_manager/widgets/loading_view.dart';
@@ -9,14 +9,14 @@ import 'package:document_manager/widgets/password_suffix_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SignUpPage extends ConsumerStatefulWidget {
-  const SignUpPage({super.key});
+class SignUp1Page extends ConsumerStatefulWidget {
+  const SignUp1Page({super.key});
 
   @override
-  SignUpPageState createState() => SignUpPageState();
+  SignUp1PageState createState() => SignUp1PageState();
 }
 
-class SignUpPageState extends ConsumerState<SignUpPage> {
+class SignUp1PageState extends ConsumerState<SignUp1Page> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _lastNameController = TextEditingController();
@@ -24,7 +24,7 @@ class SignUpPageState extends ConsumerState<SignUpPage> {
   final _lastNameKey = GlobalKey();
 
   Future<void> _onPressedSignUp() async {
-    final notifier = ref.read(signUpProvider.notifier);
+    final notifier = ref.read(signUp1Provider.notifier);
     await notifier.signUp(
       email: _emailController.text,
       password: _passwordController.text,
@@ -49,8 +49,8 @@ class SignUpPageState extends ConsumerState<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(signUpProvider);
-    final notifier = ref.read(signUpProvider.notifier);
+    final state = ref.watch(signUp1Provider);
+    final notifier = ref.read(signUp1Provider.notifier);
     final double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
     return GestureDetector(
       onTap: () => primaryFocus?.unfocus(),
