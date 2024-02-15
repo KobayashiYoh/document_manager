@@ -58,6 +58,7 @@ class LaunchPageState extends ConsumerState<LaunchPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.main,
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 64.0),
         height: double.infinity,
