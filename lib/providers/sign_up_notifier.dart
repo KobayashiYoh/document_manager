@@ -129,6 +129,7 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
       lastName: lastName,
       email: userCredential.user?.email,
     );
+    user = user.copyWith(iconImageUrl: user.defaultIconImageUrl);
     try {
       await FirestoreRepository.setUser(user);
       school = await FirestoreRepository.getSchool(user.schoolId);

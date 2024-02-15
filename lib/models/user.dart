@@ -3,6 +3,7 @@ import 'package:document_manager/models/class.dart';
 import 'package:document_manager/models/gender.dart';
 import 'package:document_manager/models/school.dart';
 import 'package:document_manager/models/user_type.dart';
+import 'package:document_manager/utils/image_urls.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'user.freezed.dart';
@@ -35,6 +36,35 @@ extension UserExtension on User {
 
   bool get isAdmin => userType == UserType.teacher;
   bool get isNotApproved => !isApproved;
+
+  bool get isFemaleParent =>
+      gender == Gender.female && userType == UserType.parent;
+  bool get isMaleParent => gender == Gender.male && userType == UserType.parent;
+  bool get isFemaleTeacher =>
+      gender == Gender.female && userType == UserType.teacher;
+  bool get isMaleTeacher =>
+      gender == Gender.male && userType == UserType.teacher;
+  bool get isFemaleStudent =>
+      gender == Gender.female && userType == UserType.teacher;
+  bool get isMaleStudent =>
+      gender == Gender.male && userType == UserType.student;
+
+  String get defaultIconImageUrl {
+    if (isFemaleParent) {
+      return ImageUrls.defaultFemaleParent;
+    } else if (isMaleParent) {
+      return ImageUrls.defaultMaleParent;
+    } else if (isFemaleTeacher) {
+      return ImageUrls.defaultFemaleTeacher;
+    } else if (isMaleTeacher) {
+      return ImageUrls.defaultMaleTeacher;
+    } else if (isFemaleStudent) {
+      return ImageUrls.defaultFemaleStudent;
+    } else if (isMaleStudent) {
+      return ImageUrls.defaultMaleStudent;
+    }
+    return ImageUrls.defaultUser;
+  }
 }
 
 const User kDefaultUser = User(
