@@ -1,6 +1,6 @@
 import 'package:document_manager/providers/signed_in_school_notifier.dart';
 import 'package:document_manager/providers/users_notifier.dart';
-import 'package:document_manager/widgets/user_item.dart';
+import 'package:document_manager/widgets/user_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -41,7 +41,7 @@ class HomePageState extends ConsumerState<HomePage> {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: users.length,
-              itemBuilder: (context, index) => UserItem(user: users[index]),
+              itemBuilder: (context, index) => UserListItem(user: users[index]),
             ),
           ],
         ),
