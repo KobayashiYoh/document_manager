@@ -23,13 +23,16 @@ class UnapprovedPage extends ConsumerStatefulWidget {
 }
 
 class UnapprovedPageState extends ConsumerState<UnapprovedPage> {
-  Future<void> _onPressedSignOut() async {
-    final notifier = ref.read(signInProvider.notifier);
-    await notifier.signOut();
+  Future<void> _signOut() async {
+    await ref.read(signInProvider.notifier).signOut();
     if (!mounted) return;
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => const SignInPage()),
-      (route) => false,
+    NavigatorUtil.backToSignInPage(context);
+  }
+
+  Future<void> _onTapSignOut(BuildContext context) async {
+    NavigatorUtil.showSignOutAlertDialog(
+      context,
+      onPressedOK: _signOut,
     );
   }
 
@@ -80,7 +83,7 @@ class UnapprovedPageState extends ConsumerState<UnapprovedPage> {
               ),
               const Spacer(),
               ElevatedButton(
-                onPressed: _onPressedSignOut,
+                onPressed: () => _onTapSignOut(context),
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

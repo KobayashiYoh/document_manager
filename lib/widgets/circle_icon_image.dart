@@ -5,7 +5,7 @@ class CircleIconImage extends StatelessWidget {
   const CircleIconImage({
     Key? key,
     required this.imageUrl,
-    this.diameter = 40.0,
+    required this.diameter,
     required this.errorImagePath,
   }) : super(key: key);
 
