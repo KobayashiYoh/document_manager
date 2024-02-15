@@ -107,7 +107,7 @@ class SignUpPageState extends ConsumerState<SignUpPage> {
                       Expanded(
                         key: _lastNameKey,
                         child: FormItem(
-                          label: '苗字',
+                          label: '姓',
                           child: TextFormField(
                             controller: _lastNameController,
                             autofillHints: const <String>[
@@ -120,7 +120,7 @@ class SignUpPageState extends ConsumerState<SignUpPage> {
                       const SizedBox(width: 32.0),
                       Expanded(
                         child: FormItem(
-                          label: '名前',
+                          label: '名',
                           child: TextFormField(
                             controller: _firstNameController,
                             autofillHints: const <String>[
