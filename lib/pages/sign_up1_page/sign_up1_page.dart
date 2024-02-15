@@ -1,5 +1,6 @@
+import 'package:document_manager/pages/sign_up2_page/sign_up2_page.dart';
 import 'package:document_manager/providers/sign_up1_notifier.dart';
-import 'package:document_manager/widgets/bottom_navigation.dart';
+import 'package:document_manager/utils/navigator_util.dart';
 import 'package:document_manager/widgets/form_item.dart';
 import 'package:document_manager/widgets/loading_view.dart';
 import 'package:document_manager/widgets/password_suffix_icon_button.dart';
@@ -29,10 +30,7 @@ class SignUp1PageState extends ConsumerState<SignUp1Page> {
       firstName: _firstNameController.text,
     );
     if (!mounted) return;
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => const BottomNavigation()),
-      (route) => false,
-    );
+    NavigatorUtil.push(context, const SignUp2Page());
   }
 
   @override
