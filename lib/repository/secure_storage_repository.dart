@@ -25,10 +25,4 @@ class SecureStorageRepository {
     await _storage.write(key: _userIdKey, value: userId);
     await _storage.write(key: _schoolIdKey, value: schoolId);
   }
-
-  static Future<bool> isUserIdSaved() async {
-    final String? userId = await readUserId();
-    final String? schoolId = await readSchoolId();
-    return userId != null && schoolId != null;
-  }
 }
