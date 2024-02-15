@@ -1,4 +1,6 @@
+import 'package:document_manager/models/user.dart';
 import 'package:document_manager/pages/sign_in_page/sign_in_page.dart';
+import 'package:document_manager/pages/user_page/user_page.dart';
 import 'package:document_manager/widgets/common_cupertino_alert_dialog.dart';
 import 'package:document_manager/widgets/common_material_alert_dialog.dart';
 import 'package:flutter/cupertino.dart';
@@ -38,6 +40,17 @@ class NavigatorUtil {
         },
       );
     }
+  }
+
+  static void goToUserPage(
+    BuildContext context, {
+    required User user,
+  }) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => UserPage(user: user),
+      ),
+    );
   }
 
   static void backToSignInPage(BuildContext context) {

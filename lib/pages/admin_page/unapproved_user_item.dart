@@ -1,5 +1,5 @@
 import 'package:document_manager/models/user.dart';
-import 'package:document_manager/pages/user_page/user_page.dart';
+import 'package:document_manager/utils/navigator_util.dart';
 import 'package:document_manager/widgets/circle_user_icon_image.dart';
 import 'package:flutter/material.dart';
 
@@ -17,18 +17,10 @@ class UnapprovedUserItem extends StatelessWidget {
 
   final _buttonSize = const Size(80.0, 32.0);
 
-  void _onTapItem(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (BuildContext context) => UserPage(user: user),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _onTapItem(context),
+      onTap: () => NavigatorUtil.goToUserPage(context, user: user),
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16.0),
         decoration: const BoxDecoration(

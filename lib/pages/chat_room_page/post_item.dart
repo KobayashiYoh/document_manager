@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:document_manager/models/post.dart';
 import 'package:document_manager/models/user.dart';
-import 'package:document_manager/pages/user_page/user_page.dart';
+import 'package:document_manager/utils/navigator_util.dart';
 import 'package:document_manager/widgets/circle_user_icon_image.dart';
 import 'package:document_manager/widgets/image_preview.dart';
 import 'package:flutter/material.dart';
@@ -24,17 +24,9 @@ class PostItem extends StatelessWidget {
   final void Function()? onPressedCheck;
   final void Function()? onLongPressCheck;
 
-  void _onTapUserIcon(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (BuildContext context) => UserPage(user: user),
-      ),
-    );
-  }
-
   Widget _circleUserIconImage(BuildContext context) {
     return GestureDetector(
-      onTap: () => _onTapUserIcon(context),
+      onTap: () => NavigatorUtil.goToUserPage(context, user: user),
       child: CircleUserIconImage(user: user),
     );
   }
