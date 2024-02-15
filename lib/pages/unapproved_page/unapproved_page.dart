@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:document_manager/models/user.dart';
-import 'package:document_manager/pages/sign_in_page.dart';
+import 'package:document_manager/pages/sign_in_page/sign_in_page.dart';
 import 'package:document_manager/providers/sign_in_notifier.dart';
 import 'package:document_manager/providers/unapproved_notifier.dart';
 import 'package:document_manager/utils/navigator_util.dart';

@@ -1,6 +1,6 @@
 import 'package:document_manager/constants/app_colors.dart';
 import 'package:document_manager/firebase_options.dart';
-import 'package:document_manager/pages/sign_in_page.dart';
+import 'package:document_manager/pages/sign_in_page/sign_in_page.dart';
 import 'package:document_manager/repository/secure_storage_repository.dart';
 import 'package:document_manager/widgets/bottom_navigation.dart';
 import 'package:firebase_core/firebase_core.dart';
