@@ -19,8 +19,8 @@ class ImageUrls {
   static String get defaultMaleTeacher =>
       _generateUserImageUrl('teacher_man.jpeg');
   static String get defaultFemaleStudent =>
-      _generateUserImageUrl('parent_woman.png');
+      _generateUserImageUrl('student_woman.png');
   static String get defaultMaleStudent =>
-      _generateUserImageUrl('parent_man.png');
+      _generateUserImageUrl('student_man.png');
   static String get defaultUser => _generateUserImageUrl('default_user.png');
 }

@@ -1,9 +1,9 @@
-import 'package:document_manager/constants/image_urls.dart';
 import 'package:document_manager/models/channel.dart';
 import 'package:document_manager/models/class.dart';
 import 'package:document_manager/models/gender.dart';
 import 'package:document_manager/models/school.dart';
 import 'package:document_manager/models/user_type.dart';
+import 'package:document_manager/utils/image_urls.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'user.freezed.dart';
@@ -51,17 +51,17 @@ extension UserExtension on User {
 
   String get defaultIconImageUrl {
     if (isFemaleParent) {
-      return ImageUrls.femaleParent;
+      return ImageUrls.defaultFemaleParent;
     } else if (isMaleParent) {
-      return ImageUrls.maleParent;
+      return ImageUrls.defaultMaleParent;
     } else if (isFemaleTeacher) {
-      return ImageUrls.femaleTeacher;
+      return ImageUrls.defaultFemaleTeacher;
     } else if (isMaleTeacher) {
-      return ImageUrls.maleTeacher;
+      return ImageUrls.defaultMaleTeacher;
     } else if (isFemaleStudent) {
-      return ImageUrls.femaleStudent;
+      return ImageUrls.defaultFemaleStudent;
     } else if (isMaleStudent) {
-      return ImageUrls.maleStudent;
+      return ImageUrls.defaultMaleStudent;
     }
     return ImageUrls.defaultUser;
   }

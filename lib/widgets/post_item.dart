@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:document_manager/models/post.dart';
 import 'package:document_manager/models/user.dart';
-import 'package:document_manager/widgets/circle_icon_image.dart';
+import 'package:document_manager/widgets/circle_user_icon_image.dart';
 import 'package:document_manager/widgets/image_preview.dart';
 import 'package:flutter/material.dart';
 
@@ -23,13 +23,6 @@ class PostItem extends StatelessWidget {
   final void Function()? onPressedCheck;
   final void Function()? onLongPressCheck;
 
-  Widget _circleIconImage() {
-    return CircleIconImage(
-      imageUrl: post.userId,
-      errorImagePath: 'assets/images/default_user.png',
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final bool isMyPost = signedInUserId == post.userId;
@@ -42,7 +35,7 @@ class PostItem extends StatelessWidget {
             isMyPost ? MainAxisAlignment.end : MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (!isMyPost) _circleIconImage(),
+          if (!isMyPost) CircleUserIconImage(user: user),
           if (!isMyPost) const SizedBox(width: 8.0),
           Flexible(
             child: Column(
@@ -125,7 +118,7 @@ class PostItem extends StatelessWidget {
             ),
           ),
           if (isMyPost) const SizedBox(width: 8.0),
-          if (isMyPost) _circleIconImage(),
+          if (isMyPost) CircleUserIconImage(user: user),
         ],
       ),
     );
