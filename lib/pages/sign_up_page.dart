@@ -39,15 +39,6 @@ class SignUpPageState extends ConsumerState<SignUpPage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final notifier = ref.read(signUpProvider.notifier);
-      notifier.setUserTypeFieldWidth(_lastNameKey);
-    });
-  }
-
-  @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
@@ -170,37 +161,34 @@ class SignUpPageState extends ConsumerState<SignUpPage> {
                       Expanded(
                         child: FormItem(
                           label: 'ユーザーの種類',
-                          child: SizedBox(
-                            width: state.userTypeFieldWidth,
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                TextFormField(
-                                  enabled: false,
-                                  decoration: const InputDecoration(
-                                    disabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.grey,
-                                      ),
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              TextFormField(
+                                enabled: false,
+                                decoration: const InputDecoration(
+                                  disabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.grey,
                                     ),
                                   ),
                                 ),
-                                DropdownButton(
-                                  items: [
-                                    for (UserType userType in UserType.values)
-                                      DropdownMenuItem(
-                                        value: userType,
-                                        child: Text(userType.displayText),
-                                      ),
-                                  ],
-                                  value: state.userType,
-                                  isExpanded: true,
-                                  padding: const EdgeInsets.all(16.0),
-                                  onChanged: (value) =>
-                                      notifier.onChangedUserType(value),
-                                ),
-                              ],
-                            ),
+                              ),
+                              DropdownButton(
+                                items: [
+                                  for (UserType userType in UserType.values)
+                                    DropdownMenuItem(
+                                      value: userType,
+                                      child: Text(userType.displayText),
+                                    ),
+                                ],
+                                value: state.userType,
+                                isExpanded: true,
+                                padding: const EdgeInsets.all(16.0),
+                                onChanged: (value) =>
+                                    notifier.onChangedUserType(value),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -208,36 +196,33 @@ class SignUpPageState extends ConsumerState<SignUpPage> {
                       Expanded(
                         child: FormItem(
                           label: '性別',
-                          child: SizedBox(
-                            width: state.userTypeFieldWidth,
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                TextFormField(
-                                  enabled: false,
-                                  decoration: const InputDecoration(
-                                    disabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.grey,
-                                      ),
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              TextFormField(
+                                enabled: false,
+                                decoration: const InputDecoration(
+                                  disabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.grey,
                                     ),
                                   ),
                                 ),
-                                DropdownButton(
-                                  items: [
-                                    for (Gender gender in Gender.values)
-                                      DropdownMenuItem(
-                                        value: gender,
-                                        child: Text(gender.displayText),
-                                      ),
-                                  ],
-                                  value: state.gender,
-                                  isExpanded: true,
-                                  padding: const EdgeInsets.all(16.0),
-                                  onChanged: notifier.onChangedGender,
-                                ),
-                              ],
-                            ),
+                              ),
+                              DropdownButton(
+                                items: [
+                                  for (Gender gender in Gender.values)
+                                    DropdownMenuItem(
+                                      value: gender,
+                                      child: Text(gender.displayText),
+                                    ),
+                                ],
+                                value: state.gender,
+                                isExpanded: true,
+                                padding: const EdgeInsets.all(16.0),
+                                onChanged: notifier.onChangedGender,
+                              ),
+                            ],
                           ),
                         ),
                       ),

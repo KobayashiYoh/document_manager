@@ -9,7 +9,6 @@ import 'package:document_manager/repository/firebase_auth_repository.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
 import 'package:document_manager/repository/secure_storage_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final signUpProvider = StateNotifierProvider<SignUpNotifier, SignUpState>(
@@ -68,13 +67,6 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
       return;
     }
     state = state.copyWith(gender: gender);
-  }
-
-  void setUserTypeFieldWidth(GlobalKey key) {
-    final renderBox = key.currentContext?.findRenderObject() as RenderBox?;
-    state = state.copyWith(
-      userTypeFieldWidth: renderBox!.size.width,
-    );
   }
 
   Future<void> _setSignInInfo(custom.User user, School school) async {

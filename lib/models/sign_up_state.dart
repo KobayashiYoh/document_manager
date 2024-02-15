@@ -13,7 +13,6 @@ class SignUpState with _$SignUpState {
     required bool obscureText,
     required List<School> schools,
     required School? selectedSchool,
-    required double userTypeFieldWidth,
     required UserType userType,
     required Gender gender,
   }) = _SignUpState;
@@ -25,7 +24,6 @@ const SignUpState kDefaultSignUpState = SignUpState(
   obscureText: true,
   schools: [],
   selectedSchool: null,
-  userTypeFieldWidth: 0,
   userType: kDefaultUserType,
   gender: Gender.female,
 );
