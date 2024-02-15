@@ -1,5 +1,5 @@
 import 'package:document_manager/models/user.dart';
-import 'package:document_manager/widgets/user_item.dart';
+import 'package:document_manager/widgets/user_list_item.dart';
 import 'package:flutter/material.dart';
 
 class CheckStatusUserView extends StatefulWidget {
@@ -49,7 +49,7 @@ class _CheckStatusUserViewState extends State<CheckStatusUserView> {
               ? const SizedBox.shrink()
               : const Text('チェック済');
         } else if (index < _readUsers.length + 1) {
-          return UserItem(user: _readUsers[index - 1]);
+          return UserListItem(user: _readUsers[index - 1]);
         } else if (index == _readUsers.length + 1) {
           return _unreadUsers.isEmpty
               ? const SizedBox.shrink()
@@ -58,7 +58,8 @@ class _CheckStatusUserViewState extends State<CheckStatusUserView> {
                   child: const Text('未チェック'),
                 );
         } else {
-          return UserItem(user: _unreadUsers[index - _readUsers.length - 2]);
+          return UserListItem(
+              user: _unreadUsers[index - _readUsers.length - 2]);
         }
       },
     );
