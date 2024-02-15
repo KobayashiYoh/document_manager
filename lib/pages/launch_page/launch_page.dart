@@ -36,7 +36,7 @@ class LaunchPageState extends ConsumerState<LaunchPage>
       await Future.delayed(const Duration(seconds: 1));
       _controller.reverse();
       if (!mounted) return;
-      NavigatorUtil.push(
+      NavigatorUtil.pushAndRemoveUtil(
         context,
         isSignedIn ? const BottomNavigation() : const SignInPage(),
       );
