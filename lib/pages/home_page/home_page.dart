@@ -8,10 +8,10 @@ class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
   @override
-  SignUpPageState createState() => SignUpPageState();
+  HomePageState createState() => HomePageState();
 }
 
-class SignUpPageState extends ConsumerState<HomePage> {
+class HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     final users = ref.watch(usersProvider);
