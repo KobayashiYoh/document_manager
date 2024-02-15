@@ -3,25 +3,23 @@ import 'package:document_manager/models/school.dart';
 import 'package:document_manager/models/user_type.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'sign_up_state.freezed.dart';
+part 'sign_up2_state.freezed.dart';
 
 @freezed
-class SignUpState with _$SignUpState {
-  const factory SignUpState({
+class SignUp2State with _$SignUp2State {
+  const factory SignUp2State({
     required bool isLoading,
     required bool hasError,
-    required bool obscureText,
     required List<School> schools,
     required School? school,
     required UserType? userType,
     required Gender? gender,
-  }) = _SignUpState;
+  }) = _SignUp2State;
 }
 
-const SignUpState kDefaultSignUpState = SignUpState(
+const SignUp2State kDefaultSignUp2State = SignUp2State(
   isLoading: false,
   hasError: false,
-  obscureText: true,
   schools: [],
   school: null,
   userType: null,

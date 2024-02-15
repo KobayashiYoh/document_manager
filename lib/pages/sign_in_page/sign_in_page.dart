@@ -1,4 +1,4 @@
-import 'package:document_manager/pages/sign_up_page/sign_up_page.dart';
+import 'package:document_manager/pages/sign_up1_page/sign_up1_page.dart';
 import 'package:document_manager/providers/sign_in_notifier.dart';
 import 'package:document_manager/widgets/bottom_navigation.dart';
 import 'package:document_manager/widgets/form_item.dart';
@@ -23,7 +23,7 @@ class SignInPageState extends ConsumerState<SignInPage> {
     _passwordController.clear();
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const SignUpPage(),
+        builder: (context) => const SignUp1Page(),
       ),
     );
   }
