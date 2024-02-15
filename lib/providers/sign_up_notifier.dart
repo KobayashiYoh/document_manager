@@ -1,3 +1,4 @@
+import 'package:document_manager/models/gender.dart';
 import 'package:document_manager/models/school.dart';
 import 'package:document_manager/models/sign_up_state.dart';
 import 'package:document_manager/models/user.dart' as custom;
@@ -60,6 +61,13 @@ class SignUpNotifier extends StateNotifier<SignUpState> {
       return;
     }
     state = state.copyWith(userType: userType);
+  }
+
+  void onChangedGender(Gender? gender) {
+    if (gender == null) {
+      return;
+    }
+    state = state.copyWith(gender: gender);
   }
 
   void setUserTypeFieldWidth(GlobalKey key) {

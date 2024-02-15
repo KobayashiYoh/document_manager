@@ -1,3 +1,4 @@
+import 'package:document_manager/models/gender.dart';
 import 'package:document_manager/models/school.dart';
 import 'package:document_manager/models/user_type.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -14,6 +15,7 @@ class SignUpState with _$SignUpState {
     required School? selectedSchool,
     required double userTypeFieldWidth,
     required UserType userType,
+    required Gender gender,
   }) = _SignUpState;
 }
 
@@ -25,4 +27,5 @@ const SignUpState kDefaultSignUpState = SignUpState(
   selectedSchool: null,
   userTypeFieldWidth: 0,
   userType: kDefaultUserType,
+  gender: Gender.female,
 );
