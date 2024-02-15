@@ -1,8 +1,7 @@
 import 'package:document_manager/constants/app_colors.dart';
 import 'package:document_manager/firebase_options.dart';
-import 'package:document_manager/pages/sign_in_page/sign_in_page.dart';
+import 'package:document_manager/pages/launch_page/launch_page.dart';
 import 'package:document_manager/repository/secure_storage_repository.dart';
-import 'package:document_manager/widgets/bottom_navigation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -63,7 +62,8 @@ class MyApp extends StatelessWidget {
           home: child,
         );
       },
-      child: isSignedIn ? const BottomNavigation() : const SignInPage(),
+      // child: isSignedIn ? const BottomNavigation() : const SignInPage(),
+      child: const LaunchPage(),
     );
   }
 }
