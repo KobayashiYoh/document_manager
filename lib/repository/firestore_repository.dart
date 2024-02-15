@@ -57,6 +57,28 @@ class FirestoreRepository {
     }
   }
 
+  static Future<List<User>> getUsers({bool isApproved = true}) async {
+    List<User> users = [];
+    try {
+      final doc = await FirebaseFirestore.instance
+          .collection('users')
+          .where('schoolId', isEqualTo: _schoolId)
+          .where('isApproved', isEqualTo: isApproved)
+          .orderBy('userType')
+          .orderBy('gender')
+          .orderBy('lastName')
+          .orderBy('firstName')
+          .get();
+      users = doc.docs
+          .map((QueryDocumentSnapshot<Map<String, dynamic>> doc) =>
+              User.fromJson(doc.data()))
+          .toList();
+    } catch (e) {
+      throw Exception(e);
+    }
+    return users;
+  }
+
   static Future<User> getUser(String userId) async {
     User user;
     try {
@@ -69,27 +91,6 @@ class FirestoreRepository {
       rethrow;
     }
     return user;
-  }
-
-  static Future<List<User>> getUsers({bool isApproved = true}) async {
-    List<User> users = [];
-    try {
-      final doc = await FirebaseFirestore.instance
-          .collection('users')
-          .where('schoolId', isEqualTo: _schoolId)
-          .where('isApproved', isEqualTo: isApproved)
-          .orderBy('userType')
-          .orderBy('lastName')
-          .orderBy('firstName')
-          .get();
-      users = doc.docs
-          .map((QueryDocumentSnapshot<Map<String, dynamic>> doc) =>
-              User.fromJson(doc.data()))
-          .toList();
-    } catch (e) {
-      throw Exception(e);
-    }
-    return users;
   }
 
   static Future<void> setUser(User user) async {
