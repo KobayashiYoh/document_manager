@@ -1,8 +1,8 @@
-import 'package:document_manager/pages/loading_view.dart';
-import 'package:document_manager/pages/sign_up_page.dart';
+import 'package:document_manager/pages/sign_up_page/sign_up_page.dart';
 import 'package:document_manager/providers/sign_in_notifier.dart';
 import 'package:document_manager/widgets/bottom_navigation.dart';
 import 'package:document_manager/widgets/form_item.dart';
+import 'package:document_manager/widgets/loading_view.dart';
 import 'package:document_manager/widgets/password_suffix_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

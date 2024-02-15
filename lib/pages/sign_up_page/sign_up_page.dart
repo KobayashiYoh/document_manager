@@ -1,10 +1,10 @@
 import 'package:document_manager/models/gender.dart';
 import 'package:document_manager/models/school.dart';
 import 'package:document_manager/models/user_type.dart';
-import 'package:document_manager/pages/loading_view.dart';
 import 'package:document_manager/providers/sign_up_notifier.dart';
 import 'package:document_manager/widgets/bottom_navigation.dart';
 import 'package:document_manager/widgets/form_item.dart';
+import 'package:document_manager/widgets/loading_view.dart';
 import 'package:document_manager/widgets/password_suffix_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
