@@ -1,7 +1,7 @@
 import 'package:document_manager/models/gender.dart';
 import 'package:document_manager/models/school.dart';
 import 'package:document_manager/models/user_type.dart';
-import 'package:document_manager/providers/sign_up1_notifier.dart';
+import 'package:document_manager/providers/sign_up2_notifier.dart';
 import 'package:document_manager/widgets/bottom_navigation.dart';
 import 'package:document_manager/widgets/form_item.dart';
 import 'package:document_manager/widgets/loading_view.dart';
@@ -17,15 +17,8 @@ class SignUp2Page extends ConsumerStatefulWidget {
 }
 
 class SignUp2PageState extends ConsumerState<SignUp2Page> {
-  final _lastNameController = TextEditingController();
-  final _firstNameController = TextEditingController();
-
   Future<void> _onPressedSignUp() async {
-    // final notifier = ref.read(signUp1Provider.notifier);
-    // await notifier.signUp(
-    //   lastName: _lastNameController.text,
-    //   firstName: _firstNameController.text,
-    // );
+    await ref.read(signUp2Provider.notifier).signUp();
     if (!mounted) return;
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(builder: (context) => const BottomNavigation()),
@@ -34,16 +27,9 @@ class SignUp2PageState extends ConsumerState<SignUp2Page> {
   }
 
   @override
-  void dispose() {
-    _lastNameController.dispose();
-    _firstNameController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final state = ref.watch(signUp1Provider);
-    final notifier = ref.read(signUp1Provider.notifier);
+    final state = ref.watch(signUp2Provider);
+    final notifier = ref.read(signUp2Provider.notifier);
     final double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
     return GestureDetector(
       onTap: () => primaryFocus?.unfocus(),
@@ -66,7 +52,7 @@ class SignUp2PageState extends ConsumerState<SignUp2Page> {
                           child: FormItem(
                             label: '姓',
                             child: TextFormField(
-                              controller: _lastNameController,
+                              controller: notifier.lastNameController,
                               autofillHints: const <String>[
                                 AutofillHints.familyName,
                               ],
@@ -79,7 +65,7 @@ class SignUp2PageState extends ConsumerState<SignUp2Page> {
                           child: FormItem(
                             label: '名',
                             child: TextFormField(
-                              controller: _firstNameController,
+                              controller: notifier.firstNameController,
                               autofillHints: const <String>[
                                 AutofillHints.givenName,
                               ],

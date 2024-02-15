@@ -3,12 +3,14 @@ import 'package:document_manager/models/school.dart';
 import 'package:document_manager/models/sign_up2_state.dart';
 import 'package:document_manager/models/user.dart' as custom;
 import 'package:document_manager/models/user_type.dart';
+import 'package:document_manager/providers/sign_up1_notifier.dart';
 import 'package:document_manager/providers/signed_in_school_notifier.dart';
 import 'package:document_manager/providers/signed_in_user_notifier.dart';
 import 'package:document_manager/repository/firebase_auth_repository.dart';
 import 'package:document_manager/repository/firestore_repository.dart';
 import 'package:document_manager/repository/secure_storage_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final signUp2Provider = StateNotifierProvider<SignUp2Notifier, SignUp2State>(
@@ -17,12 +19,15 @@ final signUp2Provider = StateNotifierProvider<SignUp2Notifier, SignUp2State>(
 
 class SignUp2Notifier extends StateNotifier<SignUp2State> {
   SignUp2Notifier(this.ref) : super(kDefaultSignUp2State) {
-    _initialize();
+    _fetchSchools();
   }
 
   final Ref ref;
 
-  Future<void> _initialize() async {
+  final lastNameController = TextEditingController();
+  final firstNameController = TextEditingController();
+
+  Future<void> _fetchSchools() async {
     List<School> schools = [];
     setLoading(true);
     try {
@@ -65,6 +70,12 @@ class SignUp2Notifier extends StateNotifier<SignUp2State> {
     state = state.copyWith(gender: gender);
   }
 
+  void reset() {
+    state = kDefaultSignUp2State;
+    lastNameController.clear();
+    firstNameController.clear();
+  }
+
   Future<void> _setSignInInfo(custom.User user, School school) async {
     ref.read(signedInUserProvider.notifier).setSignedInUser(user);
     ref.read(signedInSchoolProvider.notifier).setSignedInSchool(school);
@@ -78,23 +89,19 @@ class SignUp2Notifier extends StateNotifier<SignUp2State> {
     );
   }
 
-  Future<void> signUp({
-    required String email,
-    required String password,
-    required String lastName,
-    required String firstName,
-  }) async {
+  Future<void> signUp() async {
     if (state.isLoading) {
       return;
     }
-    final bool isNotCompleteForm = lastName.isEmpty ||
-        firstName.isEmpty ||
+    final bool isNotCompleteForm = lastNameController.text.isEmpty ||
+        firstNameController.text.isEmpty ||
         state.school == null ||
         state.userType == null ||
         state.gender == null;
     if (isNotCompleteForm) {
       return;
     }
+    final signUp1Notifier = ref.read(signUp1Provider.notifier);
     UserCredential userCredential;
     custom.User user;
     School school;
@@ -102,8 +109,8 @@ class SignUp2Notifier extends StateNotifier<SignUp2State> {
     setLoading(true);
     try {
       userCredential = await FirebaseAuthRepository.signUpWithEmailAndPassword(
-        email: email,
-        password: password,
+        email: signUp1Notifier.emailController.text,
+        password: signUp1Notifier.passwordController.text,
       );
     } catch (e) {
       setError(true);
@@ -121,9 +128,9 @@ class SignUp2Notifier extends StateNotifier<SignUp2State> {
       userType: state.userType!,
       gender: state.gender!,
       iconImageUrl: '',
-      firstName: firstName,
-      lastName: lastName,
-      email: userCredential.user?.email,
+      firstName: firstNameController.text,
+      lastName: lastNameController.text,
+      email: signUp1Notifier.emailController.text,
     );
     user = user.copyWith(iconImageUrl: user.defaultIconImageUrl);
     try {
@@ -136,5 +143,12 @@ class SignUp2Notifier extends StateNotifier<SignUp2State> {
     } finally {
       setLoading(false);
     }
+  }
+
+  @override
+  void dispose() {
+    lastNameController.dispose();
+    firstNameController.dispose();
+    super.dispose();
   }
 }

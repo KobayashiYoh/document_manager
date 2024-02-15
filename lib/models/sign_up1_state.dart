@@ -11,10 +11,6 @@ class SignUp1State with _$SignUp1State {
     required bool isLoading,
     required bool hasError,
     required bool obscureText,
-    required List<School> schools,
-    required School? school,
-    required UserType? userType,
-    required Gender? gender,
   }) = _SignUp1State;
 }
 
@@ -22,8 +18,4 @@ const SignUp1State kDefaultSignUp1State = SignUp1State(
   isLoading: false,
   hasError: false,
   obscureText: true,
-  schools: [],
-  school: null,
-  userType: null,
-  gender: null,
 );

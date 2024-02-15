@@ -16,30 +16,8 @@ class SignUp1Page extends ConsumerStatefulWidget {
 }
 
 class SignUp1PageState extends ConsumerState<SignUp1Page> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _lastNameController = TextEditingController();
-  final _firstNameController = TextEditingController();
-
-  Future<void> _onPressedSignUp() async {
-    final notifier = ref.read(signUp1Provider.notifier);
-    await notifier.signUp(
-      email: _emailController.text,
-      password: _passwordController.text,
-      lastName: _lastNameController.text,
-      firstName: _firstNameController.text,
-    );
-    if (!mounted) return;
+  void _onPressedNext() {
     NavigatorUtil.push(context, const SignUp2Page());
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    _lastNameController.dispose();
-    _firstNameController.dispose();
-    super.dispose();
   }
 
   @override
@@ -66,7 +44,7 @@ class SignUp1PageState extends ConsumerState<SignUp1Page> {
                       FormItem(
                         label: 'メールアドレス',
                         child: TextFormField(
-                          controller: _emailController,
+                          controller: notifier.emailController,
                           keyboardType: TextInputType.emailAddress,
                           autofillHints: const <String>[AutofillHints.email],
                           decoration: const InputDecoration(
@@ -78,7 +56,7 @@ class SignUp1PageState extends ConsumerState<SignUp1Page> {
                       FormItem(
                         label: 'パスワード',
                         child: TextFormField(
-                          controller: _passwordController,
+                          controller: notifier.passwordController,
                           keyboardType: TextInputType.visiblePassword,
                           autofillHints: const <String>[AutofillHints.password],
                           obscureText: state.obscureText,
@@ -92,7 +70,7 @@ class SignUp1PageState extends ConsumerState<SignUp1Page> {
                       ),
                       SizedBox(height: 320.h),
                       ElevatedButton(
-                        onPressed: _onPressedSignUp,
+                        onPressed: _onPressedNext,
                         child: const Text('次へ'),
                       ),
                       SizedBox(height: keyboardHeight),
