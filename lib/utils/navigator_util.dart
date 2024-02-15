@@ -42,15 +42,14 @@ class NavigatorUtil {
     }
   }
 
-  static void goToUserPage(
-    BuildContext context, {
-    required User user,
-  }) {
+  static void push(BuildContext context, Widget page) {
     Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => UserPage(user: user),
-      ),
+      MaterialPageRoute(builder: (context) => page),
     );
+  }
+
+  static void goToUserPage(BuildContext context, {required User user}) {
+    push(context, UserPage(user: user));
   }
 
   static void backToSignInPage(BuildContext context) {
