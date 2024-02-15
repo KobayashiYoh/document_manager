@@ -1,9 +1,15 @@
 import 'package:document_manager/constants/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LaunchPage extends StatelessWidget {
-  const LaunchPage({Key? key}) : super(key: key);
+class LaunchPage extends ConsumerStatefulWidget {
+  const LaunchPage({super.key});
 
+  @override
+  LaunchPageState createState() => LaunchPageState();
+}
+
+class LaunchPageState extends ConsumerState<LaunchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
