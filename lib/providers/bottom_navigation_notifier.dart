@@ -29,6 +29,10 @@ class BottomNavigationNotifier extends StateNotifier<BottomNavigationState> {
     try {
       signedInUserId = await SecureStorageRepository.readUserId() ?? '';
       signedInUser = await FirestoreRepository.getUser(signedInUserId);
+      FirestoreRepository.initilezed(
+        schoolId: signedInUser.schoolId,
+        userId: signedInUserId,
+      );
       users = await FirestoreRepository.getUsers();
       school = await FirestoreRepository.getSchool(signedInUser.schoolId);
     } catch (e) {
@@ -40,10 +44,6 @@ class BottomNavigationNotifier extends StateNotifier<BottomNavigationState> {
     ref.read(signedInUserProvider.notifier).setSignedInUser(signedInUser);
     ref.read(usersProvider.notifier).setUsers(users);
     ref.read(signedInSchoolProvider.notifier).setSignedInSchool(school);
-    FirestoreRepository.initilezed(
-      schoolId: signedInUser.schoolId,
-      userId: signedInUserId,
-    );
   }
 
   void setLoading(bool value) {
