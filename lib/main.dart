@@ -38,6 +38,8 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: AppColors.main),
             useMaterial3: true,
+            scaffoldBackgroundColor: Colors.grey[200],
+            dividerColor: Colors.grey[250],
             appBarTheme: const AppBarTheme(
               foregroundColor: Colors.white,
               backgroundColor: AppColors.main,

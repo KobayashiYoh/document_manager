@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 enum UserType {
   teacher,
   parent,
@@ -26,6 +28,17 @@ extension UserTypeExtension on UserType {
         return '保護者';
       case (UserType.student):
         return '学生';
+    }
+  }
+
+  IconData get iconData {
+    switch (this) {
+      case (UserType.teacher):
+        return Icons.admin_panel_settings_sharp;
+      case (UserType.parent):
+        return Icons.family_restroom;
+      case (UserType.student):
+        return Icons.school;
     }
   }
 }

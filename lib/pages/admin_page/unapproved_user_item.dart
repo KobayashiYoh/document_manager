@@ -1,5 +1,5 @@
 import 'package:document_manager/models/user.dart';
-import 'package:document_manager/widgets/circle_icon_image.dart';
+import 'package:document_manager/widgets/circle_user_icon_image.dart';
 import 'package:flutter/material.dart';
 
 class UnapprovedUserItem extends StatelessWidget {
@@ -29,9 +29,8 @@ class UnapprovedUserItem extends StatelessWidget {
       ),
       child: Row(
         children: [
-          CircleIconImage(
-            imageUrl: user.iconImageUrl,
-            errorImagePath: 'assets/images/default_user.png',
+          CircleUserIconImage(
+            user: user,
           ),
           const SizedBox(width: 8.0),
           Text(
