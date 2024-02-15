@@ -11,10 +11,14 @@ class UserView extends StatelessWidget {
     Key? key,
     required this.user,
     required this.schoolName,
+    this.isMyPage = false,
+    this.onTapSignOut,
   }) : super(key: key);
 
   final User user;
   final String schoolName;
+  final bool isMyPage;
+  final void Function()? onTapSignOut;
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +56,19 @@ class UserView extends StatelessWidget {
               text: schoolName,
             ),
             SizedBox(height: 16.h),
+            if (isMyPage && user.email != null)
+              UserViewItem(
+                icon: const Icon(Icons.email),
+                text: user.email!,
+              ),
+            SizedBox(height: 16.h),
+            if (isMyPage)
+              UserViewItem(
+                icon: const Icon(Icons.logout),
+                text: 'ログアウト',
+                onTap: () {},
+              ),
+            SizedBox(height: 32.h),
           ],
         ),
       ),
