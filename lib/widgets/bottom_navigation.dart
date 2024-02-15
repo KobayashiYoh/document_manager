@@ -3,7 +3,7 @@ import 'package:document_manager/models/user.dart';
 import 'package:document_manager/pages/admin_page/admin_page.dart';
 import 'package:document_manager/pages/chat_page.dart';
 import 'package:document_manager/pages/document_page/document_page.dart';
-import 'package:document_manager/pages/home_page/home_page.dart';
+import 'package:document_manager/pages/home_page.dart';
 import 'package:document_manager/pages/loading_view.dart';
 import 'package:document_manager/pages/my_page.dart';
 import 'package:document_manager/pages/sign_in_failure_page/sign_in_failure_page.dart';
