@@ -66,7 +66,7 @@ class UserView extends StatelessWidget {
               UserViewItem(
                 icon: const Icon(Icons.logout),
                 text: 'ログアウト',
-                onTap: () {},
+                onTap: onTapSignOut,
               ),
             SizedBox(height: 32.h),
           ],

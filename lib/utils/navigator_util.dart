@@ -1,3 +1,4 @@
+import 'package:document_manager/pages/sign_in_page/sign_in_page.dart';
 import 'package:document_manager/widgets/common_cupertino_alert_dialog.dart';
 import 'package:document_manager/widgets/common_material_alert_dialog.dart';
 import 'package:flutter/cupertino.dart';
@@ -37,5 +38,24 @@ class NavigatorUtil {
         },
       );
     }
+  }
+
+  static void backToSignInPage(BuildContext context) {
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => const SignInPage()),
+      (route) => false,
+    );
+  }
+
+  static void showSignOutAlertDialog(
+    BuildContext context, {
+    void Function()? onPressedOK,
+  }) {
+    showCommonAlertDialog(
+      context,
+      titleText: 'ログアウトしますか？',
+      contentText: '再度ログインするにはメールアドレスをパスワード入力する必要があります。',
+      onPressedOK: onPressedOK,
+    );
   }
 }
